@@ -6,5 +6,5 @@ package com.example.suythea.hrms;
 
 public class hello {
     int i;
-
+    int z;
 }
