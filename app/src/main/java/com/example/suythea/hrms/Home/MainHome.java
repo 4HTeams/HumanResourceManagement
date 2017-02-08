@@ -8,12 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.suythea.hrms.R;
+import com.example.suythea.hrms.Main_Interface;
 
 
 public class MainHome extends Fragment {
 
 
-    public MainHome() {
+    public MainHome(Main_Interface main_interface) {
+        main_interface.runListener("I am from MainHome !");
     }
 
 

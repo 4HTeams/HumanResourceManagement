@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.example.suythea.hrms.Main_Interface;
+
 
 import com.example.suythea.hrms.R;
 
@@ -13,7 +15,8 @@ import com.example.suythea.hrms.R;
 public class MainSetting extends Fragment {
 
 
-    public MainSetting() {
+    public MainSetting(Main_Interface main_interface) {
+        main_interface.runListener("I am from MainSetting !");
     }
 
 

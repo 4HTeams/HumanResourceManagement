@@ -5,11 +5,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.example.suythea.hrms.Home.MainHome;
 import com.example.suythea.hrms.Setting.MainSetting;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Main_Interface {
 
     Toolbar toolbar;
     TabLayout tabLayout;
@@ -42,13 +43,16 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // To Add SubFragments
-        viewPagerAdapter.addFragmentAndTitle(new MainHome(), "Home");
-        viewPagerAdapter.addFragmentAndTitle(new MainSetting(), "Setting");
+        viewPagerAdapter.addFragmentAndTitle(new MainHome(this), "Home");
+        viewPagerAdapter.addFragmentAndTitle(new MainSetting(this), "Setting");
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
 
 
-
+    @Override
+    public void runListener(String stringTest) {
+        Toast.makeText(this,stringTest,Toast.LENGTH_SHORT).show();
+    }
 }
