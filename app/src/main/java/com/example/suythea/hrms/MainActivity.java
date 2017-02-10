@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.suythea.hrms.Home.MainHome;
 import com.example.suythea.hrms.Setting.MainSetting;
+import com.example.suythea.hrms.Supporting_Files.Main_Interface;
 
 public class MainActivity extends AppCompatActivity implements Main_Interface {
 
