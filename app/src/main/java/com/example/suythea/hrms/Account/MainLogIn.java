@@ -48,6 +48,8 @@ public class MainLogIn extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dataVolley();
+                finish();
+                setting_interface.changeToProfile("SEEKERPROFILE");
             }
         });
     }

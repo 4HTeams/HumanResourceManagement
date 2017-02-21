@@ -5,5 +5,5 @@ package com.example.suythea.hrms.Supporting_Files;
  */
 
 public interface Main_Interface {
-    void runListener(String stringTest);
+    void changeFragment(String fragmentName);
 }

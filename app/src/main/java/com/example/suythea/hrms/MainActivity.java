@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.example.suythea.hrms.Home.MainHome;
+import com.example.suythea.hrms.Profile.MainSeekerProfile;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Supporting_Files.Main_Interface;
 
@@ -33,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements Main_Interface {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-
     }
 
     void setEvents(){
@@ -44,17 +44,14 @@ public class MainActivity extends AppCompatActivity implements Main_Interface {
         setTitle("Welcome To HRMS !");
         setSupportActionBar(toolbar);
 
-        // To Add SubFragments
-        viewPagerAdapter.addFragmentAndTitle(new MainHome(this), "Home");
+        viewPagerAdapter.addFragmentAndTitle(new MainHome(this),"Home");
         viewPagerAdapter.addFragmentAndTitle(new MainSetting(this), "Setting");
-
-        viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+        viewPager.setAdapter(viewPagerAdapter);
     }
 
 
     @Override
-    public void runListener(String stringTest) {
-        Toast.makeText(this,stringTest,Toast.LENGTH_SHORT).show();
+    public void changeFragment(String fragmentName) {
     }
 }

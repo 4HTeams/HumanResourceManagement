@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.suythea.hrms.R;
+import com.example.suythea.hrms.Supporting_Files.Main_Interface;
 
 
 /**
@@ -16,7 +17,7 @@ import com.example.suythea.hrms.R;
 public class MainSeekerProfile extends Fragment {
 
 
-    public MainSeekerProfile() {
+    public MainSeekerProfile(Main_Interface main_interface) {
         // Required empty public constructor
     }
 

@@ -21,9 +21,10 @@ public class MainSetting extends Fragment implements Setting_Interface{
     Button btnCreateUser,btnLogIn;
 
     public static MainSetting context;
+    Main_Interface main_interface;
 
-    public MainSetting(Main_Interface main_interface) {
-
+    public MainSetting(Main_Interface _main_interface) {
+        main_interface = _main_interface;
     }
 
 
@@ -53,7 +54,7 @@ public class MainSetting extends Fragment implements Setting_Interface{
             @Override
             public void onClick(View v) {
 
-                Intent intent=new Intent(getActivity(), MainLogIn.class);
+                Intent intent = new Intent(getActivity(), MainLogIn.class);
                 startActivity(intent);
 
             }
@@ -64,6 +65,7 @@ public class MainSetting extends Fragment implements Setting_Interface{
     public void changeToProfile(String profileName) {
         if (profileName.toUpperCase() == "SEEKERPROFILE"){
             // If it is here load Seeker Fragment
+
         }
         else if (profileName.toUpperCase() == "COMPROFILE"){
             // If it is here load Company Fragment

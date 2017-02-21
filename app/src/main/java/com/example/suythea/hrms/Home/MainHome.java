@@ -15,7 +15,6 @@ public class MainHome extends Fragment {
 
 
     public MainHome(Main_Interface main_interface) {
-        main_interface.runListener("I am from MainHome !");
     }
 
 
