@@ -1,6 +1,7 @@
 package com.example.suythea.hrms.Setting;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import com.example.suythea.hrms.Supporting_Files.Main_Interface;
 public class MainSetting extends Fragment implements Setting_Interface{
     Button btnCreateUser,btnLogIn;
 
+    public static MainSetting context;
 
     public MainSetting(Main_Interface main_interface) {
 
@@ -34,6 +36,8 @@ public class MainSetting extends Fragment implements Setting_Interface{
     @Override
     public void onStart() {
         super.onStart();
+
+        context = this;
 
         btnCreateUser = (Button) getActivity().findViewById(R.id.btnCreateUser);
         btnLogIn=(Button) getActivity().findViewById(R.id.btnLogIn);
@@ -57,7 +61,13 @@ public class MainSetting extends Fragment implements Setting_Interface{
     }
 
     @Override
-    public void runListener(String stringTest) {
-        Toast.makeText(getActivity(),stringTest,Toast.LENGTH_LONG).show();
+    public void changeToProfile(String profileName) {
+        if (profileName.toUpperCase() == "SEEKERPROFILE"){
+            // If it is here load Seeker Fragment
+        }
+        else if (profileName.toUpperCase() == "COMPROFILE"){
+            // If it is here load Company Fragment
+
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.suythea.hrms.Account;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +14,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.suythea.hrms.R;
+import com.example.suythea.hrms.Setting.MainSetting;
+import com.example.suythea.hrms.Setting.Setting_Interface;
 import com.example.suythea.hrms.Supporting_Files.MyVolley;
 
 import org.json.JSONArray;
@@ -24,9 +27,12 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 public class MainLogIn extends AppCompatActivity {
+
     Toolbar toolbar;
     Button btnLogIn;
     EditText etUsername,etPassword;
+    Setting_Interface setting_interface;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,12 +51,12 @@ public class MainLogIn extends AppCompatActivity {
             }
         });
     }
-
     public MainLogIn(){
+        this.setting_interface = MainSetting.context;
     }
 
     private void dataVolley(){
-        String   password="",
+        String  password="",
                 username="";
 
         try {

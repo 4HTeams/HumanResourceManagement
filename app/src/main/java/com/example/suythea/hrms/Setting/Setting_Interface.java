@@ -5,5 +5,5 @@ package com.example.suythea.hrms.Setting;
  */
 
 public interface Setting_Interface {
-    void runListener(String stringTest);
+    void changeToProfile(String profileName);
 }
