@@ -1,6 +1,5 @@
 package com.example.suythea.hrms.Account;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,9 +12,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.suythea.hrms.MainActivity;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Setting.MainSetting;
-import com.example.suythea.hrms.Setting.Setting_Interface;
+import com.example.suythea.hrms.Interfaces.Setting_Interface;
 import com.example.suythea.hrms.Supporting_Files.MyVolley;
 
 import org.json.JSONArray;
@@ -44,18 +44,30 @@ public class MainLogIn extends AppCompatActivity {
         etUsername=(EditText) findViewById(R.id.etLogInUsername) ;
         toolbar.setTitle("LogIn");
 
+
         btnLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dataVolley();
+                setting_interface.changeToFragment("SEEKER_PROFILE");
                 finish();
-                setting_interface.changeToProfile("SEEKERPROFILE");
+            }
+        });
+
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp); // your drawable
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed(); // Implemented by activity
             }
         });
     }
     public MainLogIn(){
         this.setting_interface = MainSetting.context;
+
+
     }
+
 
     private void dataVolley(){
         String  password="",

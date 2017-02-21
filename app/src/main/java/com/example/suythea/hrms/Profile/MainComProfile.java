@@ -13,13 +13,19 @@ import com.example.suythea.hrms.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainSeekerProfile extends Fragment {
+public class MainComProfile extends Fragment {
+
+
+    public MainComProfile() {
+        // Required empty public constructor
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_seeker_profile, container, false);
+        return inflater.inflate(R.layout.fragment_main_com_profile, container, false);
     }
 
 }

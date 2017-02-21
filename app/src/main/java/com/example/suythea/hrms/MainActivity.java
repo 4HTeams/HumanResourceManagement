@@ -1,16 +1,16 @@
 package com.example.suythea.hrms;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
 
+import com.example.suythea.hrms.CV.MainCV;
 import com.example.suythea.hrms.Home.MainHome;
-import com.example.suythea.hrms.Profile.MainSeekerProfile;
 import com.example.suythea.hrms.Setting.MainSetting;
-import com.example.suythea.hrms.Supporting_Files.Main_Interface;
+import com.example.suythea.hrms.Interfaces.Main_Interface;
 
 public class MainActivity extends AppCompatActivity implements Main_Interface {
 
@@ -41,13 +41,15 @@ public class MainActivity extends AppCompatActivity implements Main_Interface {
     }
 
     void startUp(){
-        setTitle("Welcome To HRMS !");
+        setTitle("ស្វាគមន៍មកកាន់ បងន័រតុន");
         setSupportActionBar(toolbar);
 
-        viewPagerAdapter.addFragmentAndTitle(new MainHome(this),"Home");
-        viewPagerAdapter.addFragmentAndTitle(new MainSetting(this), "Setting");
+        viewPagerAdapter.addFragmentAndTitle(new MainHome(this),"ការងារ");
+        viewPagerAdapter.addFragmentAndTitle(new MainCV(this), "បុគ្គលិក");
+        viewPagerAdapter.addFragmentAndTitle(new MainSetting(this), "គណនី");
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(viewPagerAdapter);
+
     }
 
 

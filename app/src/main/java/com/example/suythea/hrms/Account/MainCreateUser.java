@@ -2,6 +2,7 @@ package com.example.suythea.hrms.Account;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,31 +25,45 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 public class MainCreateUser extends AppCompatActivity {
+
     EditText etUsername, etPassword,etConfirmPassword,etEmail;
     Button btnCreate;
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView(R.layout.activity_main_create_user);
 
+        toolbar = (Toolbar) findViewById(R.id.toolBar);
         etUsername= (EditText) findViewById(R.id.etUsername);
         etPassword= (EditText) findViewById(R.id.etPassword);
         etConfirmPassword= (EditText) findViewById(R.id.etConfirmPassword);
         etEmail= (EditText) findViewById(R.id.etEmail);
         btnCreate=(Button) findViewById(R.id.btnCreate);
 
-    btnCreate.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if(etPassword.getText()!=etConfirmPassword.getText()){
-                Toast.makeText(getApplicationContext(),"Password not match",Toast.LENGTH_LONG).show();
+        btnCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(etPassword.getText()!=etConfirmPassword.getText()){
+                    Toast.makeText(getApplicationContext(),"Password not match",Toast.LENGTH_LONG).show();
+                }
+                else {
+                    dataVolley();
+                }
             }
-            else {
-                dataVolley();
+        });
+
+        toolbar.setTitle("Create Account");
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp); // your drawable
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed(); // Implemented by activity
             }
-        }
-    });
+        });
     }
+
     private void dataVolley(){
         String  email="",
                 password="",

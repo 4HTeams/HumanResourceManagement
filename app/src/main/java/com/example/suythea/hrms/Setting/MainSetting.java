@@ -1,24 +1,21 @@
 package com.example.suythea.hrms.Setting;
 
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
-import com.example.suythea.hrms.Account.MainCreateUser;
-import com.example.suythea.hrms.Account.MainLogIn;
+import com.example.suythea.hrms.Interfaces.Setting_Interface;
+import com.example.suythea.hrms.Profile.MainComProfile;
+import com.example.suythea.hrms.Profile.MainSeekerProfile;
 import com.example.suythea.hrms.R;
-import com.example.suythea.hrms.Supporting_Files.Main_Interface;
+import com.example.suythea.hrms.Interfaces.Main_Interface;
 
 
-public class MainSetting extends Fragment implements Setting_Interface{
-    Button btnCreateUser,btnLogIn;
+public class MainSetting extends Fragment implements Setting_Interface {
 
     public static MainSetting context;
     Main_Interface main_interface;
@@ -39,37 +36,33 @@ public class MainSetting extends Fragment implements Setting_Interface{
         super.onStart();
 
         context = this;
-
-        btnCreateUser = (Button) getActivity().findViewById(R.id.btnCreateUser);
-        btnLogIn=(Button) getActivity().findViewById(R.id.btnLogIn);
-        btnCreateUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getActivity(), MainCreateUser.class);
-                startActivity(intent);
-            }
-        });
-        btnLogIn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(getActivity(), MainLogIn.class);
-                startActivity(intent);
-
-            }
-        });
+        android.support.v4.app.FragmentManager manager = getFragmentManager();
+        Setting_Choice setting_choice = new Setting_Choice();
+        manager.beginTransaction().replace(R.id.mainContent, setting_choice).commit();
     }
 
     @Override
-    public void changeToProfile(String profileName) {
-        if (profileName.toUpperCase() == "SEEKERPROFILE"){
-            // If it is here load Seeker Fragment
+    public void changeToFragment(String fragmentName) {
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        if (fragmentName.toUpperCase() == "SEEKER_PROFILE"){
+
+            MainSeekerProfile mainSeekerProfile = new MainSeekerProfile();
+            transaction.replace(R.id.mainContent, mainSeekerProfile);
 
         }
-        else if (profileName.toUpperCase() == "COMPROFILE"){
-            // If it is here load Company Fragment
+        else if (fragmentName.toUpperCase() == "COMPANY_PROFILE"){
 
+            MainComProfile mainComProfile = new MainComProfile();
+            transaction.replace(R.id.mainContent, mainComProfile);
         }
+        else if (fragmentName.toUpperCase() == "SETTING_CHOICE"){
+            Setting_Choice setting_choice = new Setting_Choice();
+            transaction.replace(R.id.mainContent, setting_choice);
+        }
+
+        transaction.commitAllowingStateLoss();
+
     }
 }
