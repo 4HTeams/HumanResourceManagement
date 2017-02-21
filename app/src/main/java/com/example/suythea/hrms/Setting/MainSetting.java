@@ -19,8 +19,6 @@ import com.example.suythea.hrms.Interfaces.Main_Interface;
 public class MainSetting extends Fragment implements Setting_Interface {
 
     public static MainSetting context;
-    String oldFragment = "SETTING_CHOICE";
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,9 +35,6 @@ public class MainSetting extends Fragment implements Setting_Interface {
             android.support.v4.app.FragmentManager manager = getFragmentManager();
             Setting_Choice setting_choice = new Setting_Choice();
             manager.beginTransaction().replace(R.id.mainContent, setting_choice).commit();
-        }
-        else {
-            changeToFragment(oldFragment);
         }
     }
 
@@ -64,7 +59,6 @@ public class MainSetting extends Fragment implements Setting_Interface {
             transaction.replace(R.id.mainContent, setting_choice);
         }
 
-        oldFragment = fragmentName;
         transaction.commitAllowingStateLoss();
 
     }
