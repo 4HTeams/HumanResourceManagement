@@ -64,8 +64,6 @@ public class MainLogIn extends AppCompatActivity {
     }
     public MainLogIn(){
         this.setting_interface = MainSetting.context;
-
-
     }
 
 

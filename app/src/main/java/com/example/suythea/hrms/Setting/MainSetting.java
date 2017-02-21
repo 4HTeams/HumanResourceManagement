@@ -19,6 +19,7 @@ public class MainSetting extends Fragment implements Setting_Interface {
 
     public static MainSetting context;
     Main_Interface main_interface;
+    String oldFragment = "SETTING_CHOICE";
 
     public MainSetting(Main_Interface _main_interface) {
         main_interface = _main_interface;
@@ -35,10 +36,15 @@ public class MainSetting extends Fragment implements Setting_Interface {
     public void onStart() {
         super.onStart();
 
-        context = this;
-        android.support.v4.app.FragmentManager manager = getFragmentManager();
-        Setting_Choice setting_choice = new Setting_Choice();
-        manager.beginTransaction().replace(R.id.mainContent, setting_choice).commit();
+        if (context == null){
+            context = this;
+            android.support.v4.app.FragmentManager manager = getFragmentManager();
+            Setting_Choice setting_choice = new Setting_Choice();
+            manager.beginTransaction().replace(R.id.mainContent, setting_choice).commit();
+        }
+        else {
+            changeToFragment(oldFragment);
+        }
     }
 
     @Override
@@ -62,6 +68,7 @@ public class MainSetting extends Fragment implements Setting_Interface {
             transaction.replace(R.id.mainContent, setting_choice);
         }
 
+        oldFragment = fragmentName;
         transaction.commitAllowingStateLoss();
 
     }
