@@ -1,4 +1,4 @@
-package com.example.suythea.hrms;
+package com.example.suythea.hrms.Account;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Supporting_Files.MyVolley;
 
 import org.json.JSONArray;

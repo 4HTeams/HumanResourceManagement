@@ -18,12 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Login.Login_Activity" />
         <activity android:name=".Register.Register_Activity" />
         <activity android:name=".Home.MainHome" />
         <activity android:name=".Setting.MainSetting" />
-        <activity android:name=".MainCreateUser" />
-        <activity android:name=".MainLogIn"></activity>
+        <activity android:name=".Account.MainCreateUser" />
+        <activity android:name=".Account.MainLogIn"></activity>
     </application>
 
 </manifest>

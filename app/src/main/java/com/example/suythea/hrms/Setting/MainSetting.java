@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.suythea.hrms.MainCreateUser;
-import com.example.suythea.hrms.MainLogIn;
+import com.example.suythea.hrms.Account.MainCreateUser;
+import com.example.suythea.hrms.Account.MainLogIn;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Supporting_Files.Main_Interface;
 
