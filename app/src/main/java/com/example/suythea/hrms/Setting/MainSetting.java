@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.suythea.hrms.Interfaces.Setting_Interface;
 import com.example.suythea.hrms.Profile.MainComProfile;
@@ -18,12 +19,7 @@ import com.example.suythea.hrms.Interfaces.Main_Interface;
 public class MainSetting extends Fragment implements Setting_Interface {
 
     public static MainSetting context;
-    Main_Interface main_interface;
     String oldFragment = "SETTING_CHOICE";
-
-    public MainSetting(Main_Interface _main_interface) {
-        main_interface = _main_interface;
-    }
 
 
     @Override

@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.example.suythea.hrms.CV.MainCV;
 import com.example.suythea.hrms.Home.MainHome;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements Main_Interface {
     TabLayout tabLayout;
     ViewPager viewPager;
     ViewPagerAdapter viewPagerAdapter;
+    public static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +46,11 @@ public class MainActivity extends AppCompatActivity implements Main_Interface {
         setTitle("ស្វាគមន៍មកកាន់ បងន័រតុន");
         setSupportActionBar(toolbar);
 
-        viewPagerAdapter.addFragmentAndTitle(new MainHome(this),"ការងារ");
-        viewPagerAdapter.addFragmentAndTitle(new MainCV(this), "បុគ្គលិក");
-        viewPagerAdapter.addFragmentAndTitle(new MainSetting(this), "គណនី");
+        viewPagerAdapter.addFragmentAndTitle(new MainHome(),"ការងារ");
+        viewPagerAdapter.addFragmentAndTitle(new MainCV(), "បុគ្គលិក");
+        viewPagerAdapter.addFragmentAndTitle(new MainSetting(), "គណនី");
         tabLayout.setupWithViewPager(viewPager);
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(viewPagerAdapter);
 
     }

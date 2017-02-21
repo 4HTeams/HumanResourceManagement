@@ -16,11 +16,6 @@ import com.example.suythea.hrms.R;
 public class MainCV extends Fragment {
 
 
-    public MainCV(Main_Interface main_interface) {
-        // Required empty public constructor
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
