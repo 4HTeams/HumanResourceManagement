@@ -1,6 +1,7 @@
 package com.example.suythea.hrms.Account;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -13,7 +14,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.suythea.hrms.Class_Models.UserModel;
+import com.example.suythea.hrms.Interfaces.Setting_Interface;
 import com.example.suythea.hrms.R;
+import com.example.suythea.hrms.Setting.MainSetting;
+import com.example.suythea.hrms.Supporting_Files.MySqlite;
 import com.example.suythea.hrms.Supporting_Files.MyVolley;
 
 import org.json.JSONArray;
@@ -26,9 +31,10 @@ import java.net.URLEncoder;
 
 public class MainCreateUser extends AppCompatActivity {
 
-    EditText etUsername, etPassword,etConfirmPassword,etEmail;
+    EditText etUsername, etPassword, etConfirmPassword, etEmail;
     Button btnCreate;
     Toolbar toolbar;
+    Setting_Interface setting_interface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +47,19 @@ public class MainCreateUser extends AppCompatActivity {
         etConfirmPassword= (EditText) findViewById(R.id.etConfirmPassword);
         etEmail= (EditText) findViewById(R.id.etEmail);
         btnCreate=(Button) findViewById(R.id.btnCreate);
+        setting_interface = MainSetting.context;
 
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(etPassword.getText()!=etConfirmPassword.getText()){
-                    Toast.makeText(getApplicationContext(),"Password not match",Toast.LENGTH_LONG).show();
+
+                if(!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())){
+                    Toast.makeText(getBaseContext(),"Password not match",Toast.LENGTH_LONG).show();
                 }
                 else {
                     dataVolley();
                 }
+
             }
         });
 
@@ -62,57 +71,70 @@ public class MainCreateUser extends AppCompatActivity {
                 onBackPressed(); // Implemented by activity
             }
         });
+
     }
 
     private void dataVolley(){
-        String  email="",
+
+        String  username="",
                 password="",
-                username="";
+                email="";
 
         try {
-            email = URLEncoder.encode(etEmail.getText().toString(), "utf-8");
+
             username = URLEncoder.encode(etUsername.getText().toString(), "utf-8");
             password = URLEncoder.encode(etPassword.getText().toString(), "utf-8");
-
+            email = URLEncoder.encode(etEmail.getText().toString(), "utf-8");
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
         String url = "http://bongNU.khmerlabs.com/bongNU/Account/create.php?appToken=ThEa331RA369RiTH383thY925&username="+username+"&password="+password+"&email="+email;
-        Log.d("test",url);
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("test",response);
+
                 try {
+
                     JSONArray arrayDB = new JSONArray(URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"),"UTF-8"));
 
-                    int i = 0;
-                    while (i < arrayDB.length()){
+                    while (true){
 
-                        JSONObject jsonObj = arrayDB.getJSONObject(i);
+                        JSONObject jsonObj = arrayDB.getJSONObject(0);
 
-                        //TopListModel topListModel = new TopListModel(jsonObj.getString("ID"),jsonObj.getString("WebAddress"),jsonObj.getString("VisitNumber"),jsonObj.getString("Title"));
+                        if (jsonObj.getString("status").equals("Success")){
 
-                        Log.d("test",jsonObj.getString("status"));
-                        if (jsonObj.getString("status")=="success"){
-                            Log.d("test",jsonObj.getString("id"));
+                            UserModel user = new UserModel();
+
+                            user.setUid(Integer.valueOf(jsonObj.getString("id")));
+                            user.setUsername(etUsername.getText().toString());
+                            user.setEmail(etEmail.getText().toString());
+                            user.setType("1");
+                            user.setApproval("1");
+
+                            MySqlite sqlite = new MySqlite(getBaseContext());
+                            sqlite.insertUser(user);
+
+                            setting_interface.changeToFragment("SEEKER_PROFILE");
+                            finish();
                         }else{
-                            jsonObj.getString("message");
+                            Snackbar.make(toolbar, jsonObj.getString("message") , Snackbar.LENGTH_LONG).show();
                         }
 
-                        i++;
+                        break;
                     }
 
                 } catch(JSONException e){e.printStackTrace();} catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
+                    Log.d("error",e.getMessage());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                dataVolley();
             }
         });
 
