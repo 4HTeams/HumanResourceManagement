@@ -24,14 +24,36 @@ public class MySqlite extends SQLiteOpenHelper {
 
     ArrayList<String> tables;
 
-    String create_tbl_current_user ="CREATE TABLE tbl_current_user (uid INT, username varchar(50), email varchar(100), profile_url varchar(100), type varchar(50), approval varchar(50) )";
+    String create_tbl_current_user ="CREATE TABLE tbl_jsonData (id INTEGER PRIMARY KEY AUTOINCREMENT, field_name varchar(50), data TEXT)";
 
     public MySqlite(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context=context;
 
         tables = new ArrayList<>();
-        tables.add("tbl_current_user");
+        tables.add("currentUser");
+
+        insertDefault();
+        getDataFromDB();
+
+    }
+
+    private void insertDefault(){
+        String query = "SELECT COUNT(*) FROM tbl_jsonData";
+
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        while(cursor.moveToNext()){
+            if (Integer.valueOf(cursor.getString(0)) < 1){
+                query = "INSERT INTO tbl_jsonData VALUES (null,'currentUser','')";
+                db.execSQL(query);
+            }
+            break;
+        }
+
+        db.close();
+        cursor.close();
     }
 
     @Override
@@ -44,36 +66,17 @@ public class MySqlite extends SQLiteOpenHelper {
 
     }
 
-    public void insertUser(UserModel user) {
-
-        // Delete Old Row if it exists
-        deleteRow(tables.get(0));
+    public void insertUser(String data) {
 
         SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        values.put("uid", user.getUid());
-        values.put("username", user.getUsername());
-        values.put("email", user.getEmail());
-        values.put("profile_url", user.getProfile_url());
-        values.put("type", user.getType());
-        values.put("approval", user.getApproval());
-
-        db.insert(tables.get(0), null, values);
-        db.close();
-    }
-
-    private void deleteRow (String tblName){
-
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM " + tblName);
+        db.execSQL("UPDATE tbl_jsonData SET data = '" + data + "' where field_name = '" + tables.get(0) + "'");
         db.close();
 
     }
 
     private void getDataFromDB() {
 
-        String query = "SELECT * FROM " + tables.get(0);
+        String query = "SELECT * FROM tbl_jsonData";
 
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -82,9 +85,6 @@ public class MySqlite extends SQLiteOpenHelper {
             Log.d("Result", cursor.getString(0));
             Log.d("Result", cursor.getString(1));
             Log.d("Result", cursor.getString(2));
-            Log.d("Result", cursor.getString(3));
-            Log.d("Result", cursor.getString(4));
-            Log.d("Result", cursor.getString(5));
         }
 
         db.close();
@@ -109,6 +109,7 @@ public class MySqlite extends SQLiteOpenHelper {
 
         return type;
     }
+
 
 
 //    public ArrayList<NewsGridModel> getDataFromDB(int keyNote) {

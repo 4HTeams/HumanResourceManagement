@@ -41,7 +41,12 @@ public class MainCreateUser extends AppCompatActivity {
         super.onCreate (savedInstanceState);
         setContentView(R.layout.activity_main_create_user);
 
-        toolbar = (Toolbar) findViewById(R.id.toolBar);
+        try {
+            toolbar = (Toolbar) findViewById(R.id.toolBarNoSearch);
+        }catch (Exception e){
+            Snackbar.make(toolbar,e.getMessage(),Snackbar.LENGTH_INDEFINITE).show();
+        }
+
         etUsername= (EditText) findViewById(R.id.etUsername);
         etPassword= (EditText) findViewById(R.id.etPassword);
         etConfirmPassword= (EditText) findViewById(R.id.etConfirmPassword);
@@ -98,7 +103,8 @@ public class MainCreateUser extends AppCompatActivity {
 
                 try {
 
-                    JSONArray arrayDB = new JSONArray(URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"),"UTF-8"));
+                    String decodeRes = URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"),"UTF-8");
+                    JSONArray arrayDB = new JSONArray(decodeRes);
 
                     while (true){
 
@@ -106,19 +112,10 @@ public class MainCreateUser extends AppCompatActivity {
 
                         if (jsonObj.getString("status").equals("Success")){
 
-                            UserModel user = new UserModel();
-
-                            user.setUid(Integer.valueOf(jsonObj.getString("id")));
-                            user.setUsername(etUsername.getText().toString());
-                            user.setEmail(etEmail.getText().toString());
-                            user.setType("1");
-                            user.setApproval("1");
-
-                            MySqlite sqlite = new MySqlite(getBaseContext());
-                            sqlite.insertUser(user);
-
+                            alterJson(jsonObj.getString("id"));
                             setting_interface.changeToFragment("SEEKER_PROFILE");
                             finish();
+
                         }else{
                             Snackbar.make(toolbar, jsonObj.getString("message") , Snackbar.LENGTH_LONG).show();
                         }
@@ -140,4 +137,24 @@ public class MainCreateUser extends AppCompatActivity {
 
         MyVolley.getMyInstance().addToRequestQueue(stringRequest);
     }
+
+    void alterJson (String id){
+
+        MySqlite sqlite = new MySqlite(this);
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put("id",id);
+            object.put("username",etUsername.getText().toString());
+            object.put("email",etEmail.getText().toString());
+            object.put("type","1");
+            object.put("approval","1");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sqlite.insertUser("[" + String.valueOf(object) + "]");
+
+    }
+
 }

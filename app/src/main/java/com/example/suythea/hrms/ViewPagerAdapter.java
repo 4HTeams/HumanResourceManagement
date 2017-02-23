@@ -26,7 +26,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     }
 
-
     @Override
     public Fragment getItem(int position) {
         return fragments.get(position);
@@ -41,4 +40,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return tabTitles.get(position);
     }
+
+
 }

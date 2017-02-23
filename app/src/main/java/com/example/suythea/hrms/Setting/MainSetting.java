@@ -2,6 +2,7 @@ package com.example.suythea.hrms.Setting;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -29,13 +30,16 @@ public class MainSetting extends Fragment implements Setting_Interface {
     @Override
     public void onStart() {
         super.onStart();
+    }
 
-        if (context == null){
-            context = this;
-            android.support.v4.app.FragmentManager manager = getFragmentManager();
-            Setting_Choice setting_choice = new Setting_Choice();
-            manager.beginTransaction().replace(R.id.mainContent, setting_choice).commit();
-        }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        context = this;
+        android.support.v4.app.FragmentManager manager = getFragmentManager();
+        Setting_Choice setting_choice = new Setting_Choice();
+        manager.beginTransaction().replace(R.id.mainContent, setting_choice).commit();
     }
 
     @Override

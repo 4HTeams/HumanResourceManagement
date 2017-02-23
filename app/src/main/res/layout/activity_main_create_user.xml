@@ -11,7 +11,7 @@
     <include
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    layout="@layout/main_toolbar"
+    layout="@layout/main_toolbar_no_search"
     />
 
     <EditText

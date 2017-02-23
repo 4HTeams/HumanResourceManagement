@@ -4,13 +4,13 @@
     android:id="@+id/activity_main_log_in"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   android:orientation="vertical"
+    android:orientation="vertical"
     tools:context="com.example.suythea.hrms.Account.MainLogIn">
 
     <include
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        layout="@layout/main_toolbar"
+        layout="@layout/main_toolbar_no_search"
         />
     <EditText
         android:layout_width="match_parent"

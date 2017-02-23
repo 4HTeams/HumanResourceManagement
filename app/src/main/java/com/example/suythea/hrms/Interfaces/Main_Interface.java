@@ -5,5 +5,5 @@ package com.example.suythea.hrms.Interfaces;
  */
 
 public interface Main_Interface {
-    void changeFragment(String fragmentName);
+    void changeSearchTitle(String newTitle);
 }

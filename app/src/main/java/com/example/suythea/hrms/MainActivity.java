@@ -6,6 +6,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.suythea.hrms.CV.MainCV;
@@ -13,13 +16,14 @@ import com.example.suythea.hrms.Home.MainHome;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Interfaces.Main_Interface;
 
-public class MainActivity extends AppCompatActivity implements Main_Interface {
+public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     TabLayout tabLayout;
     ViewPager viewPager;
     ViewPagerAdapter viewPagerAdapter;
     public static Context context;
+    SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements Main_Interface {
     }
 
     void setControls() {
+        searchView = (SearchView) findViewById(R.id.mySearch);
         toolbar = (Toolbar) findViewById(R.id.toolBar);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -40,6 +45,32 @@ public class MainActivity extends AppCompatActivity implements Main_Interface {
 
     void setEvents(){
 
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 0){
+                    searchView.setQueryHint("ស្វែងរក ការងារ.....");
+                    searchView.setVisibility(View.VISIBLE);
+                }
+                else if (tab.getPosition() == 1){
+                    searchView.setQueryHint("ស្វែងរក បុគ្គលិក.....");
+                    searchView.setVisibility(View.VISIBLE);
+                }
+                else if (tab.getPosition() == 2){
+                    searchView.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     void startUp(){
@@ -52,11 +83,7 @@ public class MainActivity extends AppCompatActivity implements Main_Interface {
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(viewPagerAdapter);
+        context = this;
 
-    }
-
-
-    @Override
-    public void changeFragment(String fragmentName) {
     }
 }

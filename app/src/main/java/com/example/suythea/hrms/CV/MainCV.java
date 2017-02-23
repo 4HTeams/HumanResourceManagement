@@ -8,13 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.suythea.hrms.Interfaces.Main_Interface;
+import com.example.suythea.hrms.MainActivity;
 import com.example.suythea.hrms.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MainCV extends Fragment {
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

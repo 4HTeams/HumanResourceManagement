@@ -38,7 +38,7 @@ public class MainLogIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_log_in);
 
-        toolbar = (Toolbar) findViewById(R.id.toolBar);
+        toolbar = (Toolbar) findViewById(R.id.toolBarNoSearch);
         btnLogIn = (Button) findViewById(R.id.btnLogIn);
         etPassword=(EditText) findViewById(R.id.etLogInPassword) ;
         etUsername=(EditText) findViewById(R.id.etLogInUsername) ;
