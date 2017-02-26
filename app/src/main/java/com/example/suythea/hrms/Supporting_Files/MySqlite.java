@@ -10,6 +10,10 @@ import android.widget.Toast;
 
 import com.example.suythea.hrms.Class_Models.UserModel;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -22,7 +26,7 @@ public class MySqlite extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "MyHRDatabase";
 
-    ArrayList<String> tables;
+    public static ArrayList<String> tables;
 
     String create_tbl_current_user ="CREATE TABLE tbl_jsonData (id INTEGER PRIMARY KEY AUTOINCREMENT, field_name varchar(50), data TEXT)";
 
@@ -34,8 +38,6 @@ public class MySqlite extends SQLiteOpenHelper {
         tables.add("currentUser");
 
         insertDefault();
-        getDataFromDB();
-
     }
 
     private void insertDefault(){
@@ -74,42 +76,33 @@ public class MySqlite extends SQLiteOpenHelper {
 
     }
 
-    private void getDataFromDB() {
+    public String getDataFromjsonField(String field, final String jsonField) {
 
-        String query = "SELECT * FROM tbl_jsonData";
+        String query = "SELECT data from tbl_jsonData where field_name = '" + field + "'";
+        String result = "";
 
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
         while(cursor.moveToNext()){
-            Log.d("Result", cursor.getString(0));
-            Log.d("Result", cursor.getString(1));
-            Log.d("Result", cursor.getString(2));
-        }
 
-        db.close();
-        cursor.close();
-    }
+            JSONArray arrayDB = null;
+            try {
 
-    public int checkUserType() {
+                result = new JSONArray(cursor.getString(0)).getJSONObject(0).getString(jsonField);
 
-        String query = "SELECT * FROM " + tables.get(0);
-        int type = 0;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
-        while(cursor.moveToNext()) {
-            type = cursor.getColumnIndex("type");
-            type = Integer.valueOf(cursor.getString(type));
+            break;
         }
 
         db.close();
         cursor.close();
 
-        return type;
+        return result;
     }
-
 
 
 //    public ArrayList<NewsGridModel> getDataFromDB(int keyNote) {
