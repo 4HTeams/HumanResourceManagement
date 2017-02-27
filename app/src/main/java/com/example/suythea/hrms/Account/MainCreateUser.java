@@ -14,7 +14,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.suythea.hrms.Class_Models.UserModel;
 import com.example.suythea.hrms.Interfaces.Setting_Interface;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Setting.MainSetting;
@@ -147,6 +146,7 @@ public class MainCreateUser extends AppCompatActivity {
             object.put("id",id);
             object.put("username",etUsername.getText().toString());
             object.put("email",etEmail.getText().toString());
+            object.put("password",etPassword.getText().toString());
             object.put("type","1");
             object.put("approval","1");
         } catch (JSONException e) {
