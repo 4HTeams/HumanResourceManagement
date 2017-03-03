@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.suythea.hrms.Account.MainEditUpgradeToCom;
+import com.example.suythea.hrms.Account.MainEditUser;
 import com.example.suythea.hrms.Interfaces.Setting_Interface;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Setting.MainSetting;
@@ -19,7 +20,7 @@ import com.example.suythea.hrms.Supporting_Files.MySqlite;
 
 public class MainSeekerProfile extends Fragment {
 
-    Button btnUpgradeToCom, btnSignOut;
+    Button btnUpgradeToCom, btnSignOut, btnChangeInfo;
     Setting_Interface setting_interface;
 
     @Override
@@ -44,6 +45,7 @@ public class MainSeekerProfile extends Fragment {
 
         btnUpgradeToCom = (Button)getActivity().findViewById(R.id.btnUpgradeToCom);
         btnSignOut = (Button)getActivity().findViewById(R.id.btnSignOutSeekerPro);
+        btnChangeInfo = (Button)getActivity().findViewById(R.id.btnChangeInfoSeekerPro);
 
     }
 
@@ -63,6 +65,14 @@ public class MainSeekerProfile extends Fragment {
                 MySqlite sqlite = new MySqlite(getActivity());
                 sqlite.deleteField(MySqlite.tables.get(0));
                 setting_interface.changeToFragment("SETTING_CHOICE");
+            }
+        });
+
+        btnChangeInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MainEditUser.class);
+                startActivity(intent);
             }
         });
 
