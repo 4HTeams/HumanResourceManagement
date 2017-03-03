@@ -4,13 +4,12 @@
     android:id="@+id/activity_main_upgrade_to_com"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.suythea.hrms.Account.MainUpgradeToCom">
+    tools:context="com.example.suythea.hrms.Account.MainEditUpgradeToCom">
 
     <include
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         layout="@layout/main_toolbar_no_search" />
 
-    
 
 </RelativeLayout>

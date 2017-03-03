@@ -104,6 +104,14 @@ public class MySqlite extends SQLiteOpenHelper {
         return result;
     }
 
+    public void deleteField (String field) {
+
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("UPDATE tbl_jsonData set data = '' where field_name= '" + field + "'");
+
+    }
+
+
 
 //    public ArrayList<NewsGridModel> getDataFromDB(int keyNote) {
 //

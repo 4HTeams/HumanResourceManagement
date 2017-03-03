@@ -6,4 +6,5 @@ package com.example.suythea.hrms.Interfaces;
 
 public interface Setting_Interface {
     void changeToFragment(String fragmentName);
+    void loadFragmentByDB();
 }

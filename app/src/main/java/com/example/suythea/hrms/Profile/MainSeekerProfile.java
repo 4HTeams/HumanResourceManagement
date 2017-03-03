@@ -10,27 +10,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.suythea.hrms.Account.MainUpgradeToCom;
+import com.example.suythea.hrms.Account.MainEditUpgradeToCom;
+import com.example.suythea.hrms.Interfaces.Setting_Interface;
 import com.example.suythea.hrms.R;
+import com.example.suythea.hrms.Setting.MainSetting;
+import com.example.suythea.hrms.Supporting_Files.MySqlite;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class MainSeekerProfile extends Fragment {
 
-    Button btnUpgradeToCom;
+    Button btnUpgradeToCom, btnSignOut;
+    Setting_Interface setting_interface;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main_seeker_profile, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        setting_interface = MainSetting.context;
 
         setControls();
         setEvents();
@@ -41,6 +43,7 @@ public class MainSeekerProfile extends Fragment {
     void setControls (){
 
         btnUpgradeToCom = (Button)getActivity().findViewById(R.id.btnUpgradeToCom);
+        btnSignOut = (Button)getActivity().findViewById(R.id.btnSignOutSeekerPro);
 
     }
 
@@ -49,8 +52,17 @@ public class MainSeekerProfile extends Fragment {
         btnUpgradeToCom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MainUpgradeToCom.class);
+                Intent intent = new Intent(getActivity(), MainEditUpgradeToCom.class);
                 startActivity(intent);
+            }
+        });
+
+        btnSignOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MySqlite sqlite = new MySqlite(getActivity());
+                sqlite.deleteField(MySqlite.tables.get(0));
+                setting_interface.changeToFragment("SETTING_CHOICE");
             }
         });
 

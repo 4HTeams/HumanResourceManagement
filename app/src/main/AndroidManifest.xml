@@ -32,7 +32,7 @@
         <activity
             android:name=".Account.MainLogIn"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".Account.MainUpgradeToCom"></activity>
+        <activity android:name=".Account.MainEditUpgradeToCom"></activity>
     </application>
 
 </manifest>

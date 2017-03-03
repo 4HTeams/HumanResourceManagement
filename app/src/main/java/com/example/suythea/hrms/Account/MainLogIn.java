@@ -1,6 +1,7 @@
 package com.example.suythea.hrms.Account;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,6 +17,7 @@ import com.example.suythea.hrms.MainActivity;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Interfaces.Setting_Interface;
+import com.example.suythea.hrms.Supporting_Files.MySqlite;
 import com.example.suythea.hrms.Supporting_Files.MyVolley;
 
 import org.json.JSONArray;
@@ -49,8 +51,6 @@ public class MainLogIn extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dataVolley();
-                setting_interface.changeToFragment("SEEKER_PROFILE");
-                finish();
             }
         });
 
@@ -81,11 +81,10 @@ public class MainLogIn extends AppCompatActivity {
         }
 
         String url = "http://bongNU.khmerlabs.com/bongNU/Account/login.php?appToken=ThEa331RA369RiTH383thY925&username="+username+"&password="+password;
-        Log.d("test",url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("test",response);
+
                 try {
                     JSONArray arrayDB = new JSONArray(URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"),"UTF-8"));
 
@@ -94,13 +93,13 @@ public class MainLogIn extends AppCompatActivity {
 
                         JSONObject jsonObj = arrayDB.getJSONObject(i);
 
-                        //TopListModel topListModel = new TopListModel(jsonObj.getString("ID"),jsonObj.getString("WebAddress"),jsonObj.getString("VisitNumber"),jsonObj.getString("Title"));
-
-                        Log.d("test",jsonObj.getString("status"));
-                        if (jsonObj.getString("status")=="success"){
-                            Log.d("test",response);
+                        if (jsonObj.getString("status").equals("Success")){
+                            MySqlite sqlite = new MySqlite(getBaseContext());
+                            sqlite.insertUser(response);
+                            setting_interface.loadFragmentByDB();
+                            finish();
                         }else{
-                            jsonObj.getString("message");
+                            Snackbar.make(btnLogIn,jsonObj.getString("message"),Snackbar.LENGTH_LONG).show();
                         }
 
                         i++;
@@ -109,6 +108,7 @@ public class MainLogIn extends AppCompatActivity {
                 } catch(JSONException e){e.printStackTrace();} catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
+
             }
         }, new Response.ErrorListener() {
             @Override

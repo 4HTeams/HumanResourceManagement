@@ -35,24 +35,7 @@ public class MainSetting extends Fragment implements Setting_Interface {
         super.onActivityCreated(savedInstanceState);
 
         context = this;
-        MySqlite sqlite = new MySqlite(getActivity());
-        String result = sqlite.getDataFromjsonField(MySqlite.tables.get(0),"type");
-        Log.d("result", result);
-
-        android.support.v4.app.FragmentManager manager = getFragmentManager();
-        Object fragment;
-
-        if (result.equals("1")){
-            fragment = new MainSeekerProfile();
-        }
-        else if (result.equals("2")){
-            fragment = new MainComProfile();
-        }
-        else {
-            fragment = new Setting_Choice();
-        }
-
-        manager.beginTransaction().replace(R.id.mainContent, (Fragment) fragment).commitAllowingStateLoss();
+        loadFragmentByDB();
     }
 
     @Override
@@ -79,4 +62,26 @@ public class MainSetting extends Fragment implements Setting_Interface {
         transaction.commitAllowingStateLoss();
 
     }
+
+    @Override
+    public void loadFragmentByDB(){
+        MySqlite sqlite = new MySqlite(getActivity());
+        String result = sqlite.getDataFromjsonField(MySqlite.tables.get(0),"type");
+
+        android.support.v4.app.FragmentManager manager = getFragmentManager();
+        Object fragment;
+
+        if (result.equals("1")){
+            fragment = new MainSeekerProfile();
+        }
+        else if (result.equals("2")){
+            fragment = new MainComProfile();
+        }
+        else {
+            fragment = new Setting_Choice();
+        }
+
+        manager.beginTransaction().replace(R.id.mainContent, (Fragment) fragment).commitAllowingStateLoss();
+    }
+
 }
