@@ -86,13 +86,15 @@ public class MySqlite extends SQLiteOpenHelper {
 
         while(cursor.moveToNext()){
 
-            JSONArray arrayDB = null;
-            try {
-
-                result = new JSONArray(cursor.getString(0)).getJSONObject(0).getString(jsonField);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (jsonField.equals("_all_db")){
+                result = cursor.getString(0);
+            }
+            else {
+                try {
+                    result = new JSONArray(cursor.getString(0)).getJSONObject(0).getString(jsonField);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             break;

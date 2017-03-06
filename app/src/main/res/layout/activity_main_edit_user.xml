@@ -14,11 +14,13 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <ImageView
                 android:layout_width="320px"
@@ -27,6 +29,7 @@
                 android:src="@mipmap/no_profile"
                 android:scaleType="centerInside"
                 android:layout_marginTop="20px"
+                android:id="@+id/imgProfileEditUser"
                 />
 
             <RelativeLayout
@@ -41,14 +44,19 @@
                     android:layout_height="wrap_content"
                     android:text="Browse"
                     android:layout_alignParentLeft="true"
+                    android:textSize="30px"
                     android:textColor="#387ef5"
+                    android:id="@+id/txtBrowseEditUser"
                     />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Remove"
                     android:layout_alignParentRight="true"
+                    android:textSize="30px"
                     android:textColor="#387ef5"
+                    android:id="@+id/txtRemoveEditUser"
                     />
 
             </RelativeLayout>
@@ -58,30 +66,172 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:layout_marginRight="50px"
-                android:layout_marginLeft="50px"
                 android:layout_marginTop="15px"
                 >
 
                 <TextView
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
+                    android:layout_width="300px"
                     android:text="Username : "
-                    android:id="@+id/txtTotalAmt"
                     android:textSize="30px"
+                    android:gravity="right"
                     >
                 </TextView>
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/TotalAmt"
+                    android:id="@+id/eTxtUsernameEditUser"
                     android:textSize="30px"
+                    android:gravity="center"
+                    android:text="Default"
+                    android:enabled="false"
                     >
                 </EditText>
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginRight="50px"
+                android:layout_marginTop="15px"
+                >
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="300px"
+                    android:text="Email : "
+                    android:textSize="30px"
+                    android:gravity="right"
+                    >
+                </TextView>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/eTxtEmailEditUser"
+                    android:textSize="30px"
+                    android:hint="Email"
+                    android:gravity="center"
+                    >
+                </EditText>
+
+            </LinearLayout>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change Password"
+                android:layout_gravity="center"
+                android:id="@+id/ckbPasswordEditUser"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/linPasswordEditUser"
+                android:visibility="gone"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="50px"
+                    android:layout_marginTop="15px"
+                    >
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="300px"
+                        android:text="Old Password : "
+                        android:textSize="30px"
+                        android:gravity="right"
+                        >
+                    </TextView>
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/eTxtOldPasswordEditUser"
+                        android:textSize="30px"
+                        android:hint="Old Password"
+                        android:gravity="center"
+                        android:inputType="textPassword"
+                        >
+                    </EditText>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="50px"
+                    android:layout_marginTop="15px"
+                    >
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="300px"
+                        android:text="New Password : "
+                        android:textSize="30px"
+                        android:gravity="right"
+                        >
+                    </TextView>
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/eTxtNewPasswordEditUser"
+                        android:textSize="30px"
+                        android:hint="New Password"
+                        android:gravity="center"
+                        android:inputType="textPassword"
+                        >
+                    </EditText>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="50px"
+                    android:layout_marginTop="15px"
+                    >
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="300px"
+                        android:text="Confirm Password : "
+                        android:textSize="30px"
+                        android:gravity="right"
+                        >
+                    </TextView>
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/eTxtConfirmPassEditUser"
+                        android:textSize="30px"
+                        android:hint="Confirm Password"
+                        android:gravity="center"
+                        android:inputType="textPassword"
+                        >
+                    </EditText>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        <!--Close Main Scroll Lin-->
         </LinearLayout>
+
     </ScrollView>
 
 </LinearLayout>

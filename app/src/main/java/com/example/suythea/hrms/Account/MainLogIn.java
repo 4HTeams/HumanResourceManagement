@@ -13,11 +13,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
 import com.example.suythea.hrms.MainActivity;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Interfaces.Setting_Interface;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
+import com.example.suythea.hrms.Supporting_Files.MySupporter;
 import com.example.suythea.hrms.Supporting_Files.MyVolley;
 
 import org.json.JSONArray;
@@ -27,8 +29,10 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
-public class MainLogIn extends AppCompatActivity {
+public class MainLogIn extends AppCompatActivity implements MySupporter_Interface {
 
     Toolbar toolbar;
     Button btnLogIn;
@@ -68,6 +72,7 @@ public class MainLogIn extends AppCompatActivity {
 
 
     private void dataVolley(){
+
         String  password="",
                 username="";
 
@@ -80,43 +85,46 @@ public class MainLogIn extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        String url = "http://bongNU.khmerlabs.com/bongNU/Account/login.php?appToken=ThEa331RA369RiTH383thY925&username="+username+"&password="+password;
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+        Map<String, String> params = new HashMap<>();
+        params.put("appToken","ThEa331RA369RiTH383thY925");
+        params.put("username",username);
+        params.put("password",password);
 
-                try {
-                    JSONArray arrayDB = new JSONArray(URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"),"UTF-8"));
+        MySupporter.Volley("http://bongNU.khmerlabs.com/bongNU/Account/login.php", params, this);
 
-                    int i = 0;
-                    while (i < arrayDB.length()){
+    }
 
-                        JSONObject jsonObj = arrayDB.getJSONObject(i);
+    @Override
+    public void onFinished(String response) {
 
-                        if (jsonObj.getString("status").equals("Success")){
-                            MySqlite sqlite = new MySqlite(getBaseContext());
-                            sqlite.insertUser(response);
-                            setting_interface.loadFragmentByDB();
-                            finish();
-                        }else{
-                            Snackbar.make(btnLogIn,jsonObj.getString("message"),Snackbar.LENGTH_LONG).show();
-                        }
+        try {
+            JSONArray arrayDB = new JSONArray(URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"),"UTF-8"));
 
-                        i++;
-                    }
+            int i = 0;
+            while (i < arrayDB.length()){
 
-                } catch(JSONException e){e.printStackTrace();} catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+                JSONObject jsonObj = arrayDB.getJSONObject(i);
+
+                if (jsonObj.getString("status").equals("Success")){
+                    MySqlite sqlite = new MySqlite(getBaseContext());
+                    sqlite.insertUser(response);
+                    setting_interface.loadFragmentByDB();
+                    finish();
+                }else{
+                    Snackbar.make(btnLogIn,jsonObj.getString("message"),Snackbar.LENGTH_LONG).show();
                 }
 
+                i++;
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
 
-            }
-        });
+        } catch(JSONException e){e.printStackTrace();} catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
-        MyVolley.getMyInstance().addToRequestQueue(stringRequest);
+    }
+
+    @Override
+    public void onError(String message) {
+
     }
 }

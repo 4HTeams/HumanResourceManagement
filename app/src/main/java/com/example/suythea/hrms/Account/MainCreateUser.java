@@ -14,10 +14,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
 import com.example.suythea.hrms.Interfaces.Setting_Interface;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
+import com.example.suythea.hrms.Supporting_Files.MySupporter;
 import com.example.suythea.hrms.Supporting_Files.MyVolley;
 
 import org.json.JSONArray;
@@ -27,8 +29,10 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
-public class MainCreateUser extends AppCompatActivity {
+public class MainCreateUser extends AppCompatActivity implements MySupporter_Interface {
 
     EditText etUsername, etPassword, etConfirmPassword, etEmail;
     Button btnCreate;
@@ -94,47 +98,13 @@ public class MainCreateUser extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        String url = "http://bongNU.khmerlabs.com/bongNU/Account/create.php?appToken=ThEa331RA369RiTH383thY925&username="+username+"&password="+password+"&email="+email;
+        Map<String, String> params = new HashMap<>();
+        params.put("appToken","ThEa331RA369RiTH383thY925");
+        params.put("username",username);
+        params.put("password",password);
+        params.put("email",email);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                try {
-
-                    String decodeRes = URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"),"UTF-8");
-                    JSONArray arrayDB = new JSONArray(decodeRes);
-
-                    while (true){
-
-                        JSONObject jsonObj = arrayDB.getJSONObject(0);
-
-                        if (jsonObj.getString("status").equals("Success")){
-
-                            alterJson(jsonObj.getString("id"));
-                            setting_interface.changeToFragment("SEEKER_PROFILE");
-                            finish();
-
-                        }else{
-                            Snackbar.make(toolbar, jsonObj.getString("message") , Snackbar.LENGTH_LONG).show();
-                        }
-
-                        break;
-                    }
-
-                } catch(JSONException e){e.printStackTrace();} catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                    Log.d("error",e.getMessage());
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                dataVolley();
-            }
-        });
-
-        MyVolley.getMyInstance().addToRequestQueue(stringRequest);
+        MySupporter.Volley("http://bongNU.khmerlabs.com/bongNU/Account/create.php", params, this);
     }
 
     void alterJson (String id){
@@ -149,6 +119,7 @@ public class MainCreateUser extends AppCompatActivity {
             object.put("password",etPassword.getText().toString());
             object.put("type","1");
             object.put("approval","1");
+            object.put("profile_url","0");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -157,4 +128,40 @@ public class MainCreateUser extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onFinished(String response) {
+
+        try {
+
+            String decodeRes = URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"),"UTF-8");
+            JSONArray arrayDB = new JSONArray(decodeRes);
+
+            while (true){
+
+                JSONObject jsonObj = arrayDB.getJSONObject(0);
+
+                if (jsonObj.getString("status").equals("Success")){
+
+                    alterJson(jsonObj.getString("id"));
+                    setting_interface.changeToFragment("SEEKER_PROFILE");
+                    finish();
+
+                }else{
+                    Snackbar.make(toolbar, jsonObj.getString("message") , Snackbar.LENGTH_LONG).show();
+                }
+
+                break;
+            }
+
+        } catch(JSONException e){e.printStackTrace();} catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            Log.d("error",e.getMessage());
+        }
+
+    }
+
+    @Override
+    public void onError(String message) {
+
+    }
 }
