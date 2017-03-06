@@ -33,6 +33,7 @@ import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
 import com.example.suythea.hrms.Supporting_Files.MyVolley;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -59,6 +60,9 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
     JSONObject jsonData;
     TextView txtBrowse, txtRemove;
     ImageView imgProfile;
+    String imgState;
+    Bitmap currentImg;
+    Map<String, Boolean> changeOrNot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +117,7 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
             public void onClick(View v) {
                 txtRemove.setTextColor(Color.parseColor("gray"));
                 imgProfile.setImageResource(getBaseContext().getResources().getIdentifier("no_profile","mipmap",getBaseContext().getPackageName()));
+                imgState = "Remove";
             }
         });
 
@@ -122,6 +127,8 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Change Info");
+
+        imgState = "";
 
         getSqlDb();
         setOldValues();
@@ -153,7 +160,7 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
                 Picasso.with(getBaseContext())
                         .load("http://bongnu.khmerlabs.com/profile_images/" + jsonData.getString("id") + ".jpg")
                         .placeholder(getBaseContext().getResources().getIdentifier("no_profile","mipmap",getBaseContext().getPackageName()))
-                        .skipMemoryCache()
+                        .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                         .into(imgProfile);
             }
 
@@ -176,10 +183,10 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inScaled = false;
-                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream,null,options);
-                imgProfile.setImageBitmap(selectedImage);
+                currentImg = BitmapFactory.decodeStream(imageStream,null,options);
+                imgProfile.setImageBitmap(currentImg);
 
-                dataVolley(MySupporter.encodeBase64(selectedImage));
+                imgState = "Yes";
 
             } catch (FileNotFoundException e) {
                 Toast.makeText(getBaseContext(),e.getMessage(),Toast.LENGTH_LONG).show();
@@ -201,7 +208,11 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
 
         switch (item.getItemId()){
             case R.id.icSave :
-                Toast.makeText(getBaseContext(),"Save Clicked !",Toast.LENGTH_LONG).show();
+
+                if (check_ChangeOrNot_SendOrNot().equals("Go")){
+                    dataVolley();
+                }
+
                 break;
             case android.R.id.home :
                 finish();
@@ -212,29 +223,107 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
     }
 
 
-    private void dataVolley(final String img){
-
-        String id = "";
-
-        try {
-            id = jsonData.getString("id");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    private void dataVolley(){
 
         Map<String, String> params = new HashMap<>();
 
         params.put("appToken", "ThEa331RA369RiTH383thY925");
-        params.put("id", id);
-        params.put("img", img);
+
+        try {
+
+            params.put("id", jsonData.getString("id"));
+
+            if (changeOrNot.containsKey("email")){
+                params.put("email", eTxtEmail.getText().toString());
+            }
+            if (changeOrNot.containsKey("password")){
+                params.put("oldPassword", jsonData.getString("password"));
+                params.put("newPassword", eTxtNewPass.getText().toString());
+            }
+            if (changeOrNot.containsKey("img")){
+                if (imgState.equals("Yes")){
+                    params.put("img", MySupporter.encodeBase64(currentImg));
+                }
+                else if (imgState.equals("Remove")){
+                    params.put("img", "remove");
+                }
+            }
+        }
+        catch (JSONException e) {e.printStackTrace();}
 
         MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/account/edit_user.php", params, this);
 
     }
 
+    String check_ChangeOrNot_SendOrNot (){
+
+        changeOrNot = new HashMap<>();
+
+        try {
+
+            if (!eTxtEmail.getText().toString().equals(jsonData.getString("email"))){
+                changeOrNot.put("email", true);
+            }
+            if (imgState.equals("Yes") || imgState.equals("Remove")){
+                changeOrNot.put("img", true);
+            }
+
+            if (ckbPassword.isChecked()){
+                if (jsonData.getString("password").equals(eTxtOldPass.getText().toString())){
+                    changeOrNot.put("password", true);
+                }
+            }
+
+        } catch (JSONException e) {e.printStackTrace();}
+
+        return "Go";
+    }
+
+    void afterDB (){
+
+        try {
+            if (changeOrNot.containsKey("email")){
+                jsonData.put("email", eTxtEmail.getText().toString());
+            }
+            if (changeOrNot.containsKey("password")){
+                jsonData.put("password", eTxtNewPass.getText().toString());
+            }
+            if (changeOrNot.containsKey("img")){
+                if (imgState.equals("Yes")){
+                    jsonData.put("profile_url", "1");
+                }
+                else if (imgState.equals("Remove")){
+                    jsonData.put("profile_url", "0");
+                }
+            }
+        }
+        catch (JSONException e) {e.printStackTrace();}
+
+        MySqlite sqlite = new MySqlite(this);
+        sqlite.insertUser("[" + String.valueOf(jsonData) + "]");
+    }
+
     @Override
     public void onFinished(String response) {
-        Toast.makeText(this, response, Toast.LENGTH_LONG).show();
+
+        try {
+            String status = new JSONArray(response).getJSONObject(0).getString("status");
+
+            if (status.equals("Success")){
+                afterDB();
+                Toast.makeText(getBaseContext(), "Success", Toast.LENGTH_LONG).show();
+            }
+            else if (status.equals("Error")){
+
+            }
+            else if (status.equals("SuccessWithError")){
+
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
