@@ -8,8 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.suythea.hrms.Class_Models.UserModel;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
