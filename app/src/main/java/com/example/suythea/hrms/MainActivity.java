@@ -18,7 +18,7 @@ import com.example.suythea.hrms.Interfaces.Main_Interface;
 
 public class MainActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
+    public static Toolbar toolbar;
     TabLayout tabLayout;
     ViewPager viewPager;
     ViewPagerAdapter viewPagerAdapter;

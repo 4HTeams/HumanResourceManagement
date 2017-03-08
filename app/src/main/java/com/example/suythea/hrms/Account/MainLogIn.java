@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -100,21 +101,22 @@ public class MainLogIn extends AppCompatActivity implements MySupporter_Interfac
         try {
             JSONArray arrayDB = new JSONArray(URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"),"UTF-8"));
 
-            int i = 0;
-            while (i < arrayDB.length()){
+            JSONObject jsonObj = arrayDB.getJSONObject(0);
 
-                JSONObject jsonObj = arrayDB.getJSONObject(i);
+            if (jsonObj.getString("status").equals("Success")){
+                MySqlite sqlite = new MySqlite(getBaseContext());
+                sqlite.insertUser(response);
 
-                if (jsonObj.getString("status").equals("Success")){
-                    MySqlite sqlite = new MySqlite(getBaseContext());
-                    sqlite.insertUser(response);
-                    setting_interface.loadFragmentByDB();
-                    finish();
-                }else{
-                    Snackbar.make(btnLogIn,jsonObj.getString("message"),Snackbar.LENGTH_LONG).show();
+                if (jsonObj.getString("type").equals("1")){
+                    setting_interface.changeToFragment("SEEKER_PROFILE");
+                }
+                else if (jsonObj.getString("type").equals("2")){
+                    setting_interface.changeToFragment("COMPANY_PROFILE");
                 }
 
-                i++;
+                finish();
+            }else{
+                Snackbar.make(btnLogIn,jsonObj.getString("message"),Snackbar.LENGTH_LONG).show();
             }
 
         } catch(JSONException e){e.printStackTrace();} catch (UnsupportedEncodingException e) {

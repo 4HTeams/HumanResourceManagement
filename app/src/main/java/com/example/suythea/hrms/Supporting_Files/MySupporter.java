@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
+import com.example.suythea.hrms.MainActivity;
 import com.kosalgeek.genasync12.AsyncResponse;
 import com.kosalgeek.genasync12.EachExceptionsHandler;
 
@@ -52,13 +53,11 @@ public class MySupporter {
         StringRequest stringRequest = new StringRequest(Request.Method.DEPRECATED_GET_OR_POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("result", response);
                 mySupporter_interface.onFinished(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("result", error.getMessage());
                 mySupporter_interface.onError(error.getMessage());
             }
         }){
@@ -105,6 +104,10 @@ public class MySupporter {
                 mySupporter_interface.onError(e.getMessage());
             }
         });
+    }
+
+    public static void showSnackBar (String message){
+        Snackbar.make(MainActivity.toolbar, message, Snackbar.LENGTH_LONG).show();
     }
 
 }

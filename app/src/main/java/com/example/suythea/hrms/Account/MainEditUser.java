@@ -34,6 +34,7 @@ import com.example.suythea.hrms.Supporting_Files.MySqlite;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
 import com.example.suythea.hrms.Supporting_Files.MyVolley;
 import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -161,6 +162,7 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
                         .load("http://bongnu.khmerlabs.com/profile_images/" + jsonData.getString("id") + ".jpg")
                         .placeholder(getBaseContext().getResources().getIdentifier("no_profile","mipmap",getBaseContext().getPackageName()))
                         .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                        .networkPolicy(NetworkPolicy.NO_CACHE)
                         .into(imgProfile);
             }
 
@@ -209,8 +211,16 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
         switch (item.getItemId()){
             case R.id.icSave :
 
-                if (check_ChangeOrNot_SendOrNot().equals("Go")){
+                String checkResult = check_ChangeOrNot_SendOrNot();
+
+                if (checkResult.equals("Go")){
                     dataVolley();
+                }
+                else if (checkResult.equals("Nothing")){
+                    Snackbar.make(toolbar, "Nothing Changed !", Snackbar.LENGTH_LONG).show();
+                }
+                else {
+                    Snackbar.make(toolbar, checkResult, Snackbar.LENGTH_LONG).show();
                 }
 
                 break;
@@ -258,14 +268,22 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
     String check_ChangeOrNot_SendOrNot (){
 
         changeOrNot = new HashMap<>();
+        Map<String, Boolean> changing = new HashMap<>();
 
         try {
 
             if (!eTxtEmail.getText().toString().equals(jsonData.getString("email"))){
                 changeOrNot.put("email", true);
             }
+            else{
+                changing.put("email", true);
+            }
+
             if (imgState.equals("Yes") || imgState.equals("Remove")){
                 changeOrNot.put("img", true);
+            }
+            else {
+                changing.put("img", true);
             }
 
             if (ckbPassword.isChecked()){
@@ -273,8 +291,15 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
                     changeOrNot.put("password", true);
                 }
             }
+            else {
+                changing.put("password", true);
+            }
 
         } catch (JSONException e) {e.printStackTrace();}
+
+        if (changing.containsKey("email") && changing.containsKey("img") && changing.containsKey("password")){
+            return "Nothing";
+        }
 
         return "Go";
     }
@@ -311,13 +336,13 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
 
             if (status.equals("Success")){
                 afterDB();
-                Toast.makeText(getBaseContext(), "Success", Toast.LENGTH_LONG).show();
+                finish();
             }
             else if (status.equals("Error")){
-
+                Toast.makeText(getBaseContext(), "Error", Toast.LENGTH_LONG).show();
             }
             else if (status.equals("SuccessWithError")){
-
+                Toast.makeText(getBaseContext(), "SuccessWithError", Toast.LENGTH_LONG).show();
             }
 
         } catch (JSONException e) {
