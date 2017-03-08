@@ -242,6 +242,7 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
         try {
 
             params.put("id", jsonData.getString("id"));
+            params.put("conPassword", jsonData.getString("password"));
 
             if (changeOrNot.containsKey("email")){
                 params.put("email", eTxtEmail.getText().toString());
@@ -343,6 +344,9 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
             }
             else if (status.equals("SuccessWithError")){
                 Toast.makeText(getBaseContext(), "SuccessWithError", Toast.LENGTH_LONG).show();
+            }
+            else if (status.equals("ErrorPassword")){
+                Toast.makeText(getBaseContext(), "ErrorPassword", Toast.LENGTH_LONG).show();
             }
 
         } catch (JSONException e) {

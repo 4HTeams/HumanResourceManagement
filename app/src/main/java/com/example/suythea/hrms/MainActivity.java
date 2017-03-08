@@ -2,6 +2,7 @@ package com.example.suythea.hrms;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,8 +16,9 @@ import com.example.suythea.hrms.CV.MainCV;
 import com.example.suythea.hrms.Home.MainHome;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Interfaces.Main_Interface;
+import com.example.suythea.hrms.Supporting_Files.MySupporter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Main_Interface{
 
     public static Toolbar toolbar;
     TabLayout tabLayout;
@@ -58,6 +60,15 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if (tab.getPosition() == 2){
                     searchView.setVisibility(View.GONE);
+
+                    if (MainSetting.showingLoading && !MainSetting.finishedAllData){
+
+                        if (!MainSetting.type.equals("")){
+                            MySupporter.showLoading("Checking Account.....",getBaseContext());
+                        }
+
+                        MainSetting.checkReloginFromInterface();
+                    }
                 }
             }
 
@@ -85,5 +96,13 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdapter);
         context = this;
 
+        MySupporter.runFirstDefault(this);
+    }
+
+    @Override
+    public void changeTapIndex(int index) {
+        try {
+            tabLayout.getTabAt(index).select();
+        }catch (Exception e){}
     }
 }

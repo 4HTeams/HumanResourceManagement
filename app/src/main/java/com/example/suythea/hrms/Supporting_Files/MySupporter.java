@@ -1,8 +1,11 @@
 package com.example.suythea.hrms.Supporting_Files;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
 import android.util.Base64;
 import android.util.Log;
@@ -34,7 +37,14 @@ import java.util.Map;
 
 public class MySupporter {
 
+    public static Context myContext;
     static MySupporter_Interface mySupporter_interface;
+    static ProgressDialog dialog;
+
+    public static void runFirstDefault (Context context){
+        myContext = context;
+        dialog = new ProgressDialog(myContext);
+    }
 
     public static String encodeBase64 (Bitmap bitmap){
 
@@ -108,6 +118,38 @@ public class MySupporter {
 
     public static void showSnackBar (String message){
         Snackbar.make(MainActivity.toolbar, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    public static void showLoading (String message, Context context){
+        dialog.setMessage(message);
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
+        dialog.show();
+    }
+
+    public static void hideLoading () {
+        try{
+            dialog.hide();
+        }catch (Exception e){
+
+        }
+    }
+
+    public static void checkError (){
+        ConnectivityManager conMgr = (ConnectivityManager) myContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if ( conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED
+                || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED ) {
+
+            showSnackBar("Try again Later !");
+
+        }
+        else if ( conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.DISCONNECTED
+                || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.DISCONNECTED) {
+
+            showSnackBar("Check your Internet connection !");
+
+        }
     }
 
 }

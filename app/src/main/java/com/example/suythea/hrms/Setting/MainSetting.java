@@ -1,6 +1,7 @@
 package com.example.suythea.hrms.Setting;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
 import com.example.suythea.hrms.Interfaces.Setting_Interface;
+import com.example.suythea.hrms.MainActivity;
 import com.example.suythea.hrms.Profile.MainComProfile;
 import com.example.suythea.hrms.Profile.MainSeekerProfile;
 import com.example.suythea.hrms.R;
@@ -36,6 +38,9 @@ import java.util.Map;
 public class MainSetting extends Fragment implements Setting_Interface, MySupporter_Interface {
 
     public static MainSetting context;
+    public static boolean showingLoading = true;
+    public static boolean finishedAllData = false;
+    public static String username, password, type;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,7 +53,8 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
         super.onActivityCreated(savedInstanceState);
 
         context = this;
-        loadFragmentByDB();
+        getDataSQLite ();
+
     }
 
     @Override
@@ -60,7 +66,6 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
 
             MainSeekerProfile mainSeekerProfile = new MainSeekerProfile();
             transaction.replace(R.id.mainContent, mainSeekerProfile);
-
         }
         else if (fragmentName.toUpperCase().equals("COMPANY_PROFILE")){
 
@@ -68,6 +73,7 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
             transaction.replace(R.id.mainContent, mainComProfile);
         }
         else if (fragmentName.toUpperCase().equals("SETTING_CHOICE")){
+
             Setting_Choice setting_choice = new Setting_Choice();
             transaction.replace(R.id.mainContent, setting_choice);
         }
@@ -78,22 +84,47 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
 
     @Override
     public void loadFragmentByDB(){
-        MySqlite sqlite = new MySqlite(getActivity());
 
-        String result = sqlite.getDataFromjsonField(MySqlite.tables.get(0),"type");
-        String username = sqlite.getDataFromjsonField(MySqlite.tables.get(0),"username");
-        String password = sqlite.getDataFromjsonField(MySqlite.tables.get(0),"password");
-
-        if (result.equals("1") || result.equals("2")){
+        if (type.equals("1") || type.equals("2")){
             reLogin(username, password);
         }
         else {
             changeToFragment("SETTING_CHOICE");
+            showingLoading = false;
+            finishedAllData = true;
+            MySupporter.hideLoading();
         }
 
     }
 
-    private void reLogin(String username, String password){
+    void getDataSQLite (){
+        MySqlite sqlite = new MySqlite(getActivity());
+
+        type = sqlite.getDataFromjsonField(MySqlite.tables.get(0),"type");
+        username = sqlite.getDataFromjsonField(MySqlite.tables.get(0),"username");
+        password = sqlite.getDataFromjsonField(MySqlite.tables.get(0),"password");
+    }
+
+    public static void checkReloginFromInterface (){
+        if (type.equals("")){
+
+            finishedAllData = true;
+
+            FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
+
+            Setting_Choice setting_choice = new Setting_Choice();
+            transaction.replace(R.id.mainContent, setting_choice);
+
+            transaction.commitAllowingStateLoss();
+
+            MySupporter.hideLoading();
+        }
+        else {
+            reLogin(username, password);
+        }
+    }
+
+    static void reLogin(String username, String password){
 
         try {
             username = URLEncoder.encode(username, "utf-8");
@@ -109,7 +140,7 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
         params.put("username",username);
         params.put("password",password);
 
-        MySupporter.Volley("http://bongNU.khmerlabs.com/bongNU/Account/login.php", params, this);
+        MySupporter.Volley("http://bongNU.khmerlabs.com/bongNU/Account/login.php", params, context);
 
     }
 
@@ -140,6 +171,10 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
                 MySupporter.showSnackBar("Password has been changed !");
             }
 
+            showingLoading = false;
+            finishedAllData = true;
+            MySupporter.hideLoading();
+
         } catch(JSONException e){e.printStackTrace();} catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -148,6 +183,11 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
 
     @Override
     public void onError(String message) {
+        MySupporter.hideLoading();
 
+        Main_Interface main_interface = (Main_Interface) MainActivity.context;
+        main_interface.changeTapIndex(0);
+
+        MySupporter.checkError();
     }
 }

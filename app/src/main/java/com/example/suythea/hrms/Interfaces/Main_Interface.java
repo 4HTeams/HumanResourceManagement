@@ -5,5 +5,5 @@ package com.example.suythea.hrms.Interfaces;
  */
 
 public interface Main_Interface {
-    void changeSearchTitle(String newTitle);
+    void changeTapIndex(int index);
 }
