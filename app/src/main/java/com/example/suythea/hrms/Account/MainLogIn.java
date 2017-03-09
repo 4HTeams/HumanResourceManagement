@@ -47,8 +47,9 @@ public class MainLogIn extends AppCompatActivity implements MySupporter_Interfac
 
         toolbar = (Toolbar) findViewById(R.id.toolBarNoSearch);
         btnLogIn = (Button) findViewById(R.id.btnLogIn);
-        etPassword=(EditText) findViewById(R.id.etLogInPassword) ;
-        etUsername=(EditText) findViewById(R.id.etLogInUsername) ;
+        etPassword = (EditText) findViewById(R.id.etLogInPassword) ;
+        etUsername = (EditText) findViewById(R.id.etLogInUsername) ;
+
         toolbar.setTitle("LogIn");
 
 
@@ -66,6 +67,8 @@ public class MainLogIn extends AppCompatActivity implements MySupporter_Interfac
                 onBackPressed(); // Implemented by activity
             }
         });
+
+
     }
     public MainLogIn(){
         this.setting_interface = MainSetting.context;

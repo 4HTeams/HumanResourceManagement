@@ -59,14 +59,18 @@ public class MainActivity extends AppCompatActivity implements Main_Interface{
                     searchView.setVisibility(View.VISIBLE);
                 }
                 else if (tab.getPosition() == 2){
+
                     searchView.setVisibility(View.GONE);
 
                     if (MainSetting.showingLoading && !MainSetting.finishedAllData){
 
                         if (!MainSetting.type.equals("")){
+
+                            // Don't show progress bar when no account logged in
                             MySupporter.showLoading("Checking Account.....",getBaseContext());
                         }
 
+                        // Check account logged in
                         MainSetting.checkReloginFromInterface();
                     }
                 }
@@ -96,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements Main_Interface{
         viewPager.setAdapter(viewPagerAdapter);
         context = this;
 
+        // MySupporter.runFirstDefault(this) is used to pass context to MySupporter class to define controls
         MySupporter.runFirstDefault(this);
     }
 

@@ -82,21 +82,6 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
 
     }
 
-    @Override
-    public void loadFragmentByDB(){
-
-        if (type.equals("1") || type.equals("2")){
-            reLogin(username, password);
-        }
-        else {
-            changeToFragment("SETTING_CHOICE");
-            showingLoading = false;
-            finishedAllData = true;
-            MySupporter.hideLoading();
-        }
-
-    }
-
     void getDataSQLite (){
         MySqlite sqlite = new MySqlite(getActivity());
 
@@ -107,7 +92,9 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
 
     public static void checkReloginFromInterface (){
         if (type.equals("")){
+            // Type is equal to "" which means no account logged in and stored in database
 
+            // finishedAllData is equal to true here means no account logged in
             finishedAllData = true;
 
             FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
@@ -125,6 +112,8 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
     }
 
     static void reLogin(String username, String password){
+
+        // It is called from MainActivity to check if old account has a true password or not
 
         try {
             username = URLEncoder.encode(username, "utf-8");
@@ -153,26 +142,40 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
             JSONObject jsonObj = arrayDB.getJSONObject(0);
 
             if (jsonObj.getString("status").equals("Success")){
+
+                // Insert data we got from web service to SQLite
                 MySqlite sqlite = new MySqlite(getActivity());
                 sqlite.insertUser(response);
 
                 if (jsonObj.getString("type").equals("1")){
+
+                    // If jsonObj.getString("type").equals("1") means this account is a typical user and load fragment as position
                     changeToFragment("SEEKER_PROFILE");
                 }
                 else if (jsonObj.getString("type").equals("2")){
+
+                    // If jsonObj.getString("type").equals("2") means this account is a company user and load fragment as position
                     changeToFragment("COMPANY_PROFILE");
                 }
 
             }else{
+                // If password has been changed, account was logged in is cleared from database and automatically log out
+
+                // It is used to delete old account logged in in database
                 MySqlite sqlite = new MySqlite(getActivity());
                 sqlite.deleteField(MySqlite.tables.get(0));
 
+                // It is used to change fragment
                 changeToFragment("SETTING_CHOICE");
+
                 MySupporter.showSnackBar("Password has been changed !");
             }
 
             showingLoading = false;
+
+            // finishedAllData is equal to true here means login or re-login has been successful
             finishedAllData = true;
+
             MySupporter.hideLoading();
 
         } catch(JSONException e){e.printStackTrace();} catch (UnsupportedEncodingException e) {
@@ -183,11 +186,15 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
 
     @Override
     public void onError(String message) {
+        // We don't need to change finishedAllData to true because we are not successful yet
+
         MySupporter.hideLoading();
 
+        // If it has any errors, don't load any fragments and change tap to HomePage
         Main_Interface main_interface = (Main_Interface) MainActivity.context;
         main_interface.changeTapIndex(0);
 
+        // MySupporter.checkError() means to check why it got this error and whether it is because of Internet or our site problem
         MySupporter.checkError();
     }
 }
