@@ -44,6 +44,8 @@ public class MainCreateUser extends AppCompatActivity implements MySupporter_Int
         super.onCreate (savedInstanceState);
         setContentView(R.layout.activity_main_create_user);
 
+        MySupporter.runFirstDefault(this);
+
         try {
             toolbar = (Toolbar) findViewById(R.id.toolBarNoSearch);
         }catch (Exception e){
@@ -65,9 +67,9 @@ public class MainCreateUser extends AppCompatActivity implements MySupporter_Int
                     Toast.makeText(getBaseContext(),"Password not match",Toast.LENGTH_LONG).show();
                 }
                 else {
+                    MySupporter.showLoading("Please wait.....");
                     dataVolley();
                 }
-
             }
         });
 
@@ -158,10 +160,13 @@ public class MainCreateUser extends AppCompatActivity implements MySupporter_Int
             Log.d("error",e.getMessage());
         }
 
+        MySupporter.hideLoading();
+
     }
 
     @Override
     public void onError(String message) {
-
+        MySupporter.hideLoading();
+        MySupporter.checkError();
     }
 }

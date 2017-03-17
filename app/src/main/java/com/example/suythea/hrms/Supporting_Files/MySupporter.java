@@ -120,7 +120,7 @@ public class MySupporter {
         Snackbar.make(MainActivity.toolbar, message, Snackbar.LENGTH_LONG).show();
     }
 
-    public static void showLoading (String message, Context context){
+    public static void showLoading (String message){
         dialog.setMessage(message);
         dialog.setCancelable(false);
         dialog.setInverseBackgroundForced(false);
@@ -128,11 +128,7 @@ public class MySupporter {
     }
 
     public static void hideLoading () {
-        try{
-            dialog.hide();
-        }catch (Exception e){
-
-        }
+        dialog.hide();
     }
 
     public static void checkError (){

@@ -1,5 +1,6 @@
 package com.example.suythea.hrms;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements Main_Interface{
                         if (!MainSetting.type.equals("")){
 
                             // Don't show progress bar when no account logged in
-                            MySupporter.showLoading("Checking Account.....",getBaseContext());
+                            MySupporter.showLoading("Checking Account.....");
                         }
 
                         // Check account logged in

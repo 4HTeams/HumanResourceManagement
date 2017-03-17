@@ -45,6 +45,8 @@ public class MainLogIn extends AppCompatActivity implements MySupporter_Interfac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_log_in);
 
+        MySupporter.runFirstDefault(this);
+
         toolbar = (Toolbar) findViewById(R.id.toolBarNoSearch);
         btnLogIn = (Button) findViewById(R.id.btnLogIn);
         etPassword = (EditText) findViewById(R.id.etLogInPassword) ;
@@ -56,6 +58,7 @@ public class MainLogIn extends AppCompatActivity implements MySupporter_Interfac
         btnLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MySupporter.showLoading("Please wait.....");
                 dataVolley();
             }
         });
@@ -126,10 +129,13 @@ public class MainLogIn extends AppCompatActivity implements MySupporter_Interfac
             e.printStackTrace();
         }
 
+        MySupporter.hideLoading();
+
     }
 
     @Override
     public void onError(String message) {
-
+        MySupporter.hideLoading();
+        MySupporter.checkError();
     }
 }

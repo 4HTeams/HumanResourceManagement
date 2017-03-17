@@ -20,6 +20,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,11 +65,14 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
     String imgState;
     Bitmap currentImg;
     Map<String, Boolean> changeOrNot;
+    ProgressBar proBarProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_edit_user);
+
+        MySupporter.runFirstDefault(this);
 
         setControls();
         setEvents();
@@ -90,6 +94,8 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
         txtRemove = (TextView) findViewById(R.id.txtRemoveEditUser);
 
         imgProfile = (ImageView) findViewById(R.id.imgProfileEditUser);
+
+        proBarProfile = (ProgressBar) findViewById(R.id.proBarProfile);
     }
 
     void setEvents (){
@@ -158,12 +164,23 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
                 txtRemove.setTextColor(Color.parseColor("gray"));
             }
             else {
+                proBarProfile.setVisibility(View.VISIBLE);
                 Picasso.with(getBaseContext())
                         .load("http://bongnu.khmerlabs.com/profile_images/" + jsonData.getString("id") + ".jpg")
                         .placeholder(getBaseContext().getResources().getIdentifier("no_profile","mipmap",getBaseContext().getPackageName()))
                         .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                         .networkPolicy(NetworkPolicy.NO_CACHE)
-                        .into(imgProfile);
+                        .into(imgProfile, new com.squareup.picasso.Callback() {
+                            @Override
+                            public void onSuccess() {
+                                proBarProfile.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onError() {
+                                proBarProfile.setVisibility(View.GONE);
+                            }
+                        });
             }
 
         } catch (JSONException e) {
@@ -214,6 +231,7 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
                 String checkResult = check_ChangeOrNot_SendOrNot();
 
                 if (checkResult.equals("Go")){
+                    MySupporter.showLoading("Please Wait.....");
                     dataVolley();
                 }
                 else if (checkResult.equals("Nothing")){
@@ -353,10 +371,13 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
             e.printStackTrace();
         }
 
+        MySupporter.hideLoading();
+
     }
 
     @Override
     public void onError(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        MySupporter.hideLoading();
+        MySupporter.checkError();
     }
 }
