@@ -2,6 +2,7 @@ package com.example.suythea.hrms.Setting;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -85,9 +86,9 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
     void getDataSQLite (){
         MySqlite sqlite = new MySqlite(getActivity());
 
-        type = sqlite.getDataFromjsonField(MySqlite.tables.get(0),"type");
-        username = sqlite.getDataFromjsonField(MySqlite.tables.get(0),"username");
-        password = sqlite.getDataFromjsonField(MySqlite.tables.get(0),"password");
+        type = sqlite.getDataFromjsonField(MySqlite.fields.get(0),"type");
+        username = sqlite.getDataFromjsonField(MySqlite.fields.get(0),"username");
+        password = sqlite.getDataFromjsonField(MySqlite.fields.get(0),"password");
     }
 
     public static void checkReloginFromInterface (){
@@ -134,8 +135,17 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
     }
 
     @Override
-    public void onFinished(String response) {
+    public void onHttpFinished(String response) {
 
+    }
+
+    @Override
+    public void onHttpError(String message) {
+
+    }
+
+    @Override
+    public void onVolleyFinished(String response) {
         try {
             JSONArray arrayDB = new JSONArray(URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"),"UTF-8"));
 
@@ -145,7 +155,7 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
 
                 // Insert data we got from web service to SQLite
                 MySqlite sqlite = new MySqlite(getActivity());
-                sqlite.insertUser(response);
+                sqlite.insertJsonDB(MySqlite.fields.get(0), response);
 
                 if (jsonObj.getString("type").equals("1")){
 
@@ -163,12 +173,12 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
 
                 // It is used to delete old account logged in in database
                 MySqlite sqlite = new MySqlite(getActivity());
-                sqlite.deleteField(MySqlite.tables.get(0));
+                sqlite.deleteField(MySqlite.fields.get(0));
 
                 // It is used to change fragment
                 changeToFragment("SETTING_CHOICE");
 
-                MySupporter.showSnackBar("Password has been changed !");
+                Snackbar.make(getActivity().getWindow().getDecorView().getRootView(), "Password has been changed !", Snackbar.LENGTH_LONG).show();
             }
 
             showingLoading = false;
@@ -181,11 +191,10 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
         } catch(JSONException e){e.printStackTrace();} catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
-    public void onError(String message) {
+    public void onVolleyError(String message) {
         // We don't need to change finishedAllData to true because we are not successful yet
 
         MySupporter.hideLoading();

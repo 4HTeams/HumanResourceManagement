@@ -59,7 +59,7 @@ public class MainComProfile extends Fragment {
             @Override
             public void onClick(View v) {
                 MySqlite sqlite = new MySqlite(getActivity());
-                sqlite.deleteField(MySqlite.tables.get(0));
+                sqlite.deleteField(MySqlite.fields.get(0));
                 setting_interface.changeToFragment("SETTING_CHOICE");
             }
         });

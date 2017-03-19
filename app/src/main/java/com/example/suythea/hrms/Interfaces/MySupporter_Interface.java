@@ -5,6 +5,8 @@ package com.example.suythea.hrms.Interfaces;
  */
 
 public interface MySupporter_Interface {
-    void onFinished(String response);
-    void onError(String message);
+    void onHttpFinished(String response);
+    void onHttpError(String message);
+    void onVolleyFinished(String response);
+    void onVolleyError(String message);
 }

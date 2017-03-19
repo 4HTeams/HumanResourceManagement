@@ -102,8 +102,17 @@ public class MainLogIn extends AppCompatActivity implements MySupporter_Interfac
     }
 
     @Override
-    public void onFinished(String response) {
+    public void onHttpFinished(String response) {
 
+    }
+
+    @Override
+    public void onHttpError(String message) {
+
+    }
+
+    @Override
+    public void onVolleyFinished(String response) {
         try {
             JSONArray arrayDB = new JSONArray(URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"),"UTF-8"));
 
@@ -111,7 +120,7 @@ public class MainLogIn extends AppCompatActivity implements MySupporter_Interfac
 
             if (jsonObj.getString("status").equals("Success")){
                 MySqlite sqlite = new MySqlite(getBaseContext());
-                sqlite.insertUser(response);
+                sqlite.insertJsonDB(MySqlite.fields.get(0), response);
 
                 if (jsonObj.getString("type").equals("1")){
                     setting_interface.changeToFragment("SEEKER_PROFILE");
@@ -130,11 +139,10 @@ public class MainLogIn extends AppCompatActivity implements MySupporter_Interfac
         }
 
         MySupporter.hideLoading();
-
     }
 
     @Override
-    public void onError(String message) {
+    public void onVolleyError(String message) {
         MySupporter.hideLoading();
         MySupporter.checkError();
     }

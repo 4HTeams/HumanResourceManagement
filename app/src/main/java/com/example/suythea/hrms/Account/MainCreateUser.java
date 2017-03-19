@@ -126,13 +126,22 @@ public class MainCreateUser extends AppCompatActivity implements MySupporter_Int
             e.printStackTrace();
         }
 
-        sqlite.insertUser("[" + String.valueOf(object) + "]");
+        sqlite.insertJsonDB(MySqlite.fields.get(0), "[" + String.valueOf(object) + "]");
 
     }
 
     @Override
-    public void onFinished(String response) {
+    public void onHttpFinished(String response) {
 
+    }
+
+    @Override
+    public void onHttpError(String message) {
+
+    }
+
+    @Override
+    public void onVolleyFinished(String response) {
         try {
 
             String decodeRes = URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"),"UTF-8");
@@ -161,11 +170,10 @@ public class MainCreateUser extends AppCompatActivity implements MySupporter_Int
         }
 
         MySupporter.hideLoading();
-
     }
 
     @Override
-    public void onError(String message) {
+    public void onVolleyError(String message) {
         MySupporter.hideLoading();
         MySupporter.checkError();
     }

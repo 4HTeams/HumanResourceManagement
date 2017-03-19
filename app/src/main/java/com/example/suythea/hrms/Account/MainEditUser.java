@@ -146,7 +146,7 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
         MySqlite sqlite = new MySqlite(this);
 
         try {
-            jsonData = new JSONArray(sqlite.getDataFromjsonField(MySqlite.tables.get(0),"_all_db")).getJSONObject(0);
+            jsonData = new JSONArray(sqlite.getDataFromjsonField(MySqlite.fields.get(0),"_all_db")).getJSONObject(0);
             Log.d("myResult", String.valueOf(jsonData));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -266,7 +266,7 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
                 params.put("email", eTxtEmail.getText().toString());
             }
             if (changeOrNot.containsKey("password")){
-                params.put("oldPassword", jsonData.getString("password"));
+                params.put("oldPassword", eTxtOldPass.getText().toString());
                 params.put("newPassword", eTxtNewPass.getText().toString());
             }
             if (changeOrNot.containsKey("img")){
@@ -282,41 +282,30 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
 
         MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/account/edit_user.php", params, this);
 
+        Log.d("http", String.valueOf(params));
     }
 
     String check_ChangeOrNot_SendOrNot (){
 
         changeOrNot = new HashMap<>();
-        Map<String, Boolean> changing = new HashMap<>();
 
         try {
 
             if (!eTxtEmail.getText().toString().equals(jsonData.getString("email"))){
                 changeOrNot.put("email", true);
             }
-            else{
-                changing.put("email", true);
-            }
 
             if (imgState.equals("Yes") || imgState.equals("Remove")){
                 changeOrNot.put("img", true);
             }
-            else {
-                changing.put("img", true);
-            }
 
             if (ckbPassword.isChecked()){
-                if (jsonData.getString("password").equals(eTxtOldPass.getText().toString())){
-                    changeOrNot.put("password", true);
-                }
-            }
-            else {
-                changing.put("password", true);
+                changeOrNot.put("password", true);
             }
 
         } catch (JSONException e) {e.printStackTrace();}
 
-        if (changing.containsKey("email") && changing.containsKey("img") && changing.containsKey("password")){
+        if (!changeOrNot.containsKey("email") && !changeOrNot.containsKey("img") && !changeOrNot.containsKey("password")){
             return "Nothing";
         }
 
@@ -344,27 +333,29 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
         catch (JSONException e) {e.printStackTrace();}
 
         MySqlite sqlite = new MySqlite(this);
-        sqlite.insertUser("[" + String.valueOf(jsonData) + "]");
+        sqlite.insertJsonDB(MySqlite.fields.get(0), "[" + String.valueOf(jsonData) + "]");
     }
 
     @Override
-    public void onFinished(String response) {
-
+    public void onHttpFinished(String response) {
         try {
-            String status = new JSONArray(response).getJSONObject(0).getString("status");
+            JSONObject data = new JSONArray(response).getJSONObject(0);
+            String status = data.getString("status");
 
-            if (status.equals("Success")){
-                afterDB();
-                finish();
-            }
-            else if (status.equals("Error")){
-                Toast.makeText(getBaseContext(), "Error", Toast.LENGTH_LONG).show();
-            }
-            else if (status.equals("SuccessWithError")){
-                Toast.makeText(getBaseContext(), "SuccessWithError", Toast.LENGTH_LONG).show();
-            }
-            else if (status.equals("ErrorPassword")){
-                Toast.makeText(getBaseContext(), "ErrorPassword", Toast.LENGTH_LONG).show();
+            switch (status){
+                case "Success" :
+                    afterDB();
+                    finish();
+                    break;
+                case "Error" :
+                    Toast.makeText(getBaseContext(), data.getString("Message"), Toast.LENGTH_LONG).show();
+                    break;
+                case "SuccessWithError" :
+                    Toast.makeText(getBaseContext(), "SuccessWithError", Toast.LENGTH_LONG).show();
+                    break;
+                case "ErrorPassword" :
+                    Toast.makeText(getBaseContext(), "ErrorPassword", Toast.LENGTH_LONG).show();
+                    break;
             }
 
         } catch (JSONException e) {
@@ -372,12 +363,21 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
         }
 
         MySupporter.hideLoading();
+    }
+
+    @Override
+    public void onHttpError(String message) {
+        MySupporter.hideLoading();
+        MySupporter.checkError();
+    }
+
+    @Override
+    public void onVolleyFinished(String response) {
 
     }
 
     @Override
-    public void onError(String message) {
-        MySupporter.hideLoading();
-        MySupporter.checkError();
+    public void onVolleyError(String message) {
+
     }
 }
