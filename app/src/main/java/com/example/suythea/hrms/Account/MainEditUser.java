@@ -66,6 +66,7 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
     Bitmap currentImg;
     Map<String, Boolean> changeOrNot;
     ProgressBar proBarProfile;
+    Boolean loadedImage = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,7 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
         setControls();
         setEvents();
         startUp();
+
     }
 
     void setControls (){
@@ -122,9 +124,11 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
         txtRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txtRemove.setTextColor(Color.parseColor("gray"));
-                imgProfile.setImageResource(getBaseContext().getResources().getIdentifier("no_profile","mipmap",getBaseContext().getPackageName()));
-                imgState = "Remove";
+                if (loadedImage){
+                    txtRemove.setTextColor(Color.parseColor("gray"));
+                    imgProfile.setImageResource(getBaseContext().getResources().getIdentifier("no_profile","mipmap",getBaseContext().getPackageName()));
+                    imgState = "Remove";
+                }
             }
         });
 
@@ -165,6 +169,7 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
             }
             else {
                 proBarProfile.setVisibility(View.VISIBLE);
+                txtRemove.setTextColor(Color.parseColor("gray"));
                 Picasso.with(getBaseContext())
                         .load("http://bongnu.khmerlabs.com/profile_images/" + jsonData.getString("id") + ".jpg")
                         .placeholder(getBaseContext().getResources().getIdentifier("no_profile","mipmap",getBaseContext().getPackageName()))
@@ -174,11 +179,14 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
                             @Override
                             public void onSuccess() {
                                 proBarProfile.setVisibility(View.GONE);
+                                txtRemove.setTextColor(Color.parseColor("#387ef5"));
+                                loadedImage = true;
                             }
 
                             @Override
                             public void onError() {
                                 proBarProfile.setVisibility(View.GONE);
+                                Snackbar.make(toolbar, "Cannot load profile !", Snackbar.LENGTH_LONG).show();
                             }
                         });
             }
@@ -195,6 +203,8 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
 
         if(requestCode == 100 && resultCode == RESULT_OK){
             try {
+
+                loadedImage = true;
 
                 txtRemove.setTextColor(Color.parseColor("#387ef5"));
 
@@ -281,8 +291,6 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
         catch (JSONException e) {e.printStackTrace();}
 
         MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/account/edit_user.php", params, this);
-
-        Log.d("http", String.valueOf(params));
     }
 
     String check_ChangeOrNot_SendOrNot (){

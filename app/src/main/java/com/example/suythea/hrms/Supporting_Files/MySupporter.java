@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Base64;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -23,6 +24,8 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MySupporter {
 
@@ -122,7 +125,7 @@ public class MySupporter {
         if ( conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED
                 || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED ) {
 
-            return "Try again Later !";
+            return "Try again later !";
 
         }
         else if ( conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.DISCONNECTED
@@ -132,6 +135,50 @@ public class MySupporter {
         }
 
         return "Not Sure !";
+    }
+
+    public static String verifyControls(Map<String, String> maps){
+
+        String result = "OK";
+        String key, value;
+
+        for (Map.Entry<String, String> entry : maps.entrySet()) {
+
+            key = entry.getKey().toUpperCase();
+            value = entry.getValue();
+
+            switch (key) {
+                case "EMAIL" :
+                    if (!verifyWithFormat("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}\\@[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}(\\.[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25})+", value)){
+                        return "Check your email format !";
+                    }
+                    break;
+                case "USERNAME" :
+                    if (value.length() > 50 || value.length() <= 5){
+                        return "Your username must be greater than 5 less than 50 characters !";
+                    }
+                    else if (!verifyWithFormat("[a-zA-Z0-9\\_]+", value)){
+                        return "Check your username format !";
+                    }
+                    break;
+                case "PASSWORD" :
+                    if (value.length() > 100 || value.length() <= 5){
+                        return "Your password must be greater than 5 less than 100 characters !";
+                    }
+                    break;
+            }
+
+        }
+
+        return result;
+    }
+
+    private static Boolean verifyWithFormat (String format, String text){
+        Pattern pattern;
+        Matcher matcher;
+        pattern = Pattern.compile(format);
+        matcher = pattern.matcher(text);
+        return matcher.matches();
     }
 
 }

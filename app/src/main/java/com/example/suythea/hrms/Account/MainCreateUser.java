@@ -10,17 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
 import com.example.suythea.hrms.Interfaces.Setting_Interface;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
-import com.example.suythea.hrms.Supporting_Files.MyVolley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,11 +59,29 @@ public class MainCreateUser extends AppCompatActivity implements MySupporter_Int
             public void onClick(View v) {
 
                 if(!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())){
-                    Toast.makeText(getBaseContext(),"Password not match",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(),"Password does not match",Toast.LENGTH_LONG).show();
                 }
                 else {
-                    MySupporter.showLoading("Please wait.....");
-                    dataVolley();
+
+                    Map<String, String> params = new HashMap<>();
+                    params.put("username",etUsername.getText().toString());
+                    params.put("password",etPassword.getText().toString());
+                    params.put("email",etEmail.getText().toString());
+
+                    // Pass params to verify if it is okay result will be OK, or it will be a message from that method
+                    String result = MySupporter.verifyControls(params);
+
+                    if (result.equals("OK")){
+
+                        // If it is okay, let it go to create an account
+                        MySupporter.showLoading("Please wait.....");
+                        dataVolley();
+                    }
+                    else {
+                        // If it verified and got wrong, we just alert that message
+                        Snackbar.make(toolbar, result, Snackbar.LENGTH_LONG).show();
+                    }
+
                 }
             }
         });
@@ -147,21 +160,16 @@ public class MainCreateUser extends AppCompatActivity implements MySupporter_Int
             String decodeRes = URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"),"UTF-8");
             JSONArray arrayDB = new JSONArray(decodeRes);
 
-            while (true){
+            JSONObject jsonObj = arrayDB.getJSONObject(0);
 
-                JSONObject jsonObj = arrayDB.getJSONObject(0);
+            if (jsonObj.getString("status").equals("Success")){
 
-                if (jsonObj.getString("status").equals("Success")){
+                alterJson(jsonObj.getString("id"));
+                setting_interface.changeToFragment("SEEKER_PROFILE");
+                finish();
 
-                    alterJson(jsonObj.getString("id"));
-                    setting_interface.changeToFragment("SEEKER_PROFILE");
-                    finish();
-
-                }else{
-                    Snackbar.make(toolbar, jsonObj.getString("message") , Snackbar.LENGTH_LONG).show();
-                }
-
-                break;
+            }else{
+                Snackbar.make(toolbar, jsonObj.getString("message") , Snackbar.LENGTH_LONG).show();
             }
 
         } catch(JSONException e){e.printStackTrace();} catch (UnsupportedEncodingException e) {
@@ -177,4 +185,5 @@ public class MainCreateUser extends AppCompatActivity implements MySupporter_Int
         MySupporter.hideLoading();
         MySupporter.checkError();
     }
+
 }
