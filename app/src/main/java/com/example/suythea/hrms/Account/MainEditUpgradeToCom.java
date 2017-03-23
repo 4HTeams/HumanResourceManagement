@@ -32,7 +32,8 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
     Toolbar toolbar;
     String order;
     JSONArray industries;
-    Spinner spiIndustry;
+    JSONArray cTypes;
+    Spinner spiIndustry, spiCType;
     Boolean existingInDB = false;
 
     @Override
@@ -50,6 +51,7 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
     void setControls (){
         toolbar = (Toolbar) findViewById(R.id.toolBarNoSearch);
         spiIndustry = (Spinner) findViewById(R.id.spiIndustryEditCom);
+        spiCType = (Spinner) findViewById(R.id.spiCTypeEditCom);
     }
 
     void setEvents (){
@@ -64,14 +66,19 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
         setTitle(order);
 
         MySqlite sqlite = new MySqlite(this);
+
         String industry = sqlite.getDataFromjsonField(MySqlite.fields.get(1), "_all_db");
+        String cType = sqlite.getDataFromjsonField(MySqlite.fields.get(2), "_all_db");
 
         if (industry.equals("")){
             MySupporter.showLoading("Please Wait.....");
         }
         else {
             try {
+
                 industries = new JSONArray(industry);
+                cTypes = new JSONArray(cType);
+
                 existingInDB = true;
                 loadSpinner();
             } catch (JSONException e) {
@@ -86,27 +93,40 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
 
     void loadSpinner (){
 
-        List<String> spinnerArray =  new ArrayList<>();
+        List<String> industrySpinner =  new ArrayList<>();
+        List<String> cTypeSpinner =  new ArrayList<>();
 
         try {
             int i = 0;
             while (i < industries.length()) {
-                spinnerArray.add(industries.getJSONObject(i).getString("name"));
+                industrySpinner.add(industries.getJSONObject(i).getString("name"));
                 i++;
             }
+
+            i = 0;
+            while (i < cTypes.length()) {
+                cTypeSpinner.add(cTypes.getJSONObject(i).getString("type"));
+                i++;
+            }
+
         }catch (JSONException e) {e.printStackTrace();}
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_spinner_item, spinnerArray);
+        ArrayAdapter<String> adapter;
 
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, industrySpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spiIndustry.setAdapter(adapter);
+
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, cTypeSpinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spiCType.setAdapter(adapter);
     }
 
     private void dataVolley(){
         Map<String, String> params = new HashMap<>();
         params.put("appToken","ThEa331RA369RiTH383thY925");
         params.put("industry","1");
+        params.put("cType","1");
 
         MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/get_data_tbl.php", params, (MySupporter_Interface) this);
     }
@@ -139,29 +159,33 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
     @Override
     public void onVolleyFinished(String response) {
 
-        String data = "";
+        String data = "", industry = "", type = "";
 
         try {
 
             data = URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"),"UTF-8");
-            data = new JSONArray(data).getJSONObject(0).getString("data");
+
+            industry = new JSONArray(data).getJSONObject(0).getString("industry");
+            type = new JSONArray(data).getJSONObject(0).getString("type");
 
             // Save to local database
             MySqlite sqlite = new MySqlite(getBaseContext());
-            sqlite.insertJsonDB(MySqlite.fields.get(1), data);
+            sqlite.insertJsonDB(MySqlite.fields.get(1), industry);
+            sqlite.insertJsonDB(MySqlite.fields.get(2), type);
 
             if (!existingInDB){
                 // It is false means not to load data to industries again
 
                 // Convert data into JsonArray to show in combo box
-                industries = new JSONArray(data);
+                industries = new JSONArray(industry);
+                cTypes = new JSONArray(type);
             }
 
         } catch(JSONException e){e.printStackTrace();} catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
-        Log.d("response", String.valueOf(industries));
+        Log.d("result", data);
 
         loadSpinner();
         MySupporter.hideLoading();

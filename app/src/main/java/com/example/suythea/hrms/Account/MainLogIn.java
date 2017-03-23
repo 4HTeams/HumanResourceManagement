@@ -58,8 +58,21 @@ public class MainLogIn extends AppCompatActivity implements MySupporter_Interfac
         btnLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MySupporter.showLoading("Please wait.....");
-                dataVolley();
+
+                Map<String, String> params = new HashMap<>();
+                params.put("Username", etUsername.getText().toString());
+                params.put("Password", etPassword.getText().toString());
+
+                String result = MySupporter.verifyControls(params);
+
+                if (result.equals("OK")){
+                    MySupporter.showLoading("Please wait.....");
+                    dataVolley();
+                }
+                else {
+                    Snackbar.make(toolbar, result, Snackbar.LENGTH_LONG).show();
+                }
+
             }
         });
 

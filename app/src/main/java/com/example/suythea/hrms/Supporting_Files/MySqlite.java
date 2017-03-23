@@ -36,6 +36,7 @@ public class MySqlite extends SQLiteOpenHelper {
         fields = new ArrayList<>();
         fields.add("currentUser");
         fields.add("industries");
+        fields.add("cTypes");
 
         insertDefault();
     }
@@ -48,7 +49,7 @@ public class MySqlite extends SQLiteOpenHelper {
 
         while(cursor.moveToNext()){
             if (Integer.valueOf(cursor.getString(0)) < 1){
-                query = "INSERT INTO tbl_jsonData VALUES (null,'currentUser',''), (null,'industries','')";
+                query = "INSERT INTO tbl_jsonData VALUES (null,'currentUser',''), (null,'industries',''), (null,'cTypes','')";
                 db.execSQL(query);
             }
             break;

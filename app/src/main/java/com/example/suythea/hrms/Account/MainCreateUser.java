@@ -78,6 +78,7 @@ public class MainCreateUser extends AppCompatActivity implements MySupporter_Int
                         dataVolley();
                     }
                     else {
+
                         // If it verified and got wrong, we just alert that message
                         Snackbar.make(toolbar, result, Snackbar.LENGTH_LONG).show();
                     }
@@ -169,6 +170,7 @@ public class MainCreateUser extends AppCompatActivity implements MySupporter_Int
                 finish();
 
             }else{
+                Log.d("result", response);
                 Snackbar.make(toolbar, jsonObj.getString("message") , Snackbar.LENGTH_LONG).show();
             }
 
@@ -183,7 +185,7 @@ public class MainCreateUser extends AppCompatActivity implements MySupporter_Int
     @Override
     public void onVolleyError(String message) {
         MySupporter.hideLoading();
-        MySupporter.checkError();
+        Snackbar.make(toolbar, MySupporter.checkError(), Snackbar.LENGTH_LONG).show();
     }
 
 }
