@@ -30,4 +30,50 @@
         >
     </Spinner>
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/eTComNameEditUpgradeToCom"
+        android:hint="Company Name"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/eTEmailEditUpgradeToCom"
+        android:hint="Company Email"
+
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/eTEmpAmountEditUpgradeToCom"
+        android:hint="Employee Amount"
+
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/eTAddressEditUpgradeToCom"
+        android:hint="Address"
+
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/eTContactEditUpgradeToCom"
+        android:hint="Contact"
+
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/eTAboutEditUpgradeToCom"
+        android:hint="About"
+        />
+
 </LinearLayout>

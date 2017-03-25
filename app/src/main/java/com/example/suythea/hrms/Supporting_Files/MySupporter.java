@@ -125,7 +125,8 @@ public class MySupporter {
         if ( conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED
                 || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED ) {
 
-            return "Try again later !";
+            // W_MS means to write a message because it can cause from server
+            return "W_MS";
 
         }
         else if ( conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.DISCONNECTED
@@ -134,7 +135,7 @@ public class MySupporter {
             return "Check your Internet connection !";
         }
 
-        return "Not Sure !";
+        return "W_MS";
     }
 
     public static String verifyControls(Map<String, String> maps){

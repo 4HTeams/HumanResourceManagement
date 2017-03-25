@@ -119,8 +119,6 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
         try {
             username = URLEncoder.encode(username, "utf-8");
             password = URLEncoder.encode(password, "utf-8");
-
-
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -131,7 +129,6 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
         params.put("password",password);
 
         MySupporter.Volley("http://bongNU.khmerlabs.com/bongNU/Account/login.php", params, context);
-
     }
 
     @Override

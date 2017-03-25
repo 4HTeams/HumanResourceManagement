@@ -156,7 +156,15 @@ public class MainLogIn extends AppCompatActivity implements MySupporter_Interfac
 
     @Override
     public void onVolleyError(String message) {
+
         MySupporter.hideLoading();
-        MySupporter.checkError();
+        String error = MySupporter.checkError();
+
+        if (error.equals("W_MS")){
+            Snackbar.make(toolbar, "Try again later ! It can cause from our server", Snackbar.LENGTH_LONG).show();
+        }
+        else {
+            Snackbar.make(toolbar, error, Snackbar.LENGTH_LONG).show();
+        }
     }
 }

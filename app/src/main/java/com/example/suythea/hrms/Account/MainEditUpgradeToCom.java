@@ -4,14 +4,18 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v7.widget.Toolbar;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
 import com.example.suythea.hrms.R;
+import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
 
@@ -35,6 +39,7 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
     JSONArray cTypes;
     Spinner spiIndustry, spiCType;
     Boolean existingInDB = false;
+    EditText eTCName, eTCEmail, eTCEmpAmount, eTCContact, eTCAbout, eTCAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,12 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
         toolbar = (Toolbar) findViewById(R.id.toolBarNoSearch);
         spiIndustry = (Spinner) findViewById(R.id.spiIndustryEditCom);
         spiCType = (Spinner) findViewById(R.id.spiCTypeEditCom);
+        eTCName = (EditText) findViewById(R.id.eTComNameEditUpgradeToCom);
+        eTCEmail = (EditText) findViewById(R.id.eTEmailEditUpgradeToCom);
+        eTCEmpAmount = (EditText) findViewById(R.id.eTEmpAmountEditUpgradeToCom);
+        eTCAddress = (EditText) findViewById(R.id.eTAddressEditUpgradeToCom);
+        eTCContact = (EditText) findViewById(R.id.eTContactEditUpgradeToCom);
+        eTCAbout = (EditText) findViewById(R.id.eTAboutEditUpgradeToCom);
     }
 
     void setEvents (){
@@ -87,7 +98,7 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
 
         }
 
-        dataVolley();
+        dataVolleyForFields();
 
     }
 
@@ -122,13 +133,11 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
         spiCType.setAdapter(adapter);
     }
 
-    private void dataVolley(){
-        Map<String, String> params = new HashMap<>();
-        params.put("appToken","ThEa331RA369RiTH383thY925");
-        params.put("industry","1");
-        params.put("cType","1");
-
-        MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/get_data_tbl.php", params, (MySupporter_Interface) this);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_save, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -136,14 +145,67 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
         super.onOptionsItemSelected(item);
 
         switch (item.getItemId()){
-
+            case R.id.icSave :
+                dataHttpToUpdateUpgrade();
+                break;
             case android.R.id.home :
                 finish();
                 break;
-
         }
-
         return true;
+    }
+
+    private void dataHttpToUpdateUpgrade (){
+
+        try {
+
+            MySqlite sqlite = new MySqlite(this);
+            String industryID = "", cTypeID = "", _eTCName = "", _eTCEmail = "", _eTCEmpAmount = "", _eTCContact = "", _eTCAbout = "", _eTCAddress = "";
+
+            try {
+
+                industryID = String.valueOf(industries.getJSONObject((Integer) spiIndustry.getSelectedItemPosition()).getString("id"));
+                cTypeID = String.valueOf(cTypes.getJSONObject((Integer) spiCType.getSelectedItemPosition()).getString("id"));
+
+                _eTCName = URLEncoder.encode(eTCName.getText().toString(), "utf-8");
+                _eTCEmail = URLEncoder.encode(eTCEmail.getText().toString(), "utf-8");
+                _eTCEmpAmount = URLEncoder.encode(eTCEmpAmount.getText().toString(), "utf-8");
+                _eTCContact = URLEncoder.encode(eTCContact.getText().toString(), "utf-8");
+                _eTCAbout = URLEncoder.encode(eTCAbout.getText().toString(), "utf-8");
+                _eTCAddress = URLEncoder.encode(eTCAddress.getText().toString(), "utf-8");
+
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            Map<String, String> params = new HashMap<>();
+            params.put("appToken","ThEa331RA369RiTH383thY925");
+            params.put("id",sqlite.getDataFromjsonField(MySqlite.fields.get(0),"id"));
+            params.put("cName",_eTCName);
+            params.put("cEmail",_eTCEmail);
+            params.put("industry",industryID);
+            params.put("cType",cTypeID);
+            params.put("empAmount",_eTCEmpAmount);
+            params.put("address",_eTCAddress);
+            params.put("contact",_eTCContact);
+            params.put("about",_eTCAbout);
+            params.put("orderToDo",order);
+            params.put("conPassword",sqlite.getDataFromjsonField(MySqlite.fields.get(0),"password"));
+
+            Log.d("result", String.valueOf(params));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void dataVolleyForFields(){
+        Map<String, String> params = new HashMap<>();
+        params.put("appToken","ThEa331RA369RiTH383thY925");
+        params.put("industry","1");
+        params.put("cType","1");
+
+        MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/get_data_tbl.php", params, (MySupporter_Interface) this);
     }
 
     @Override
@@ -193,6 +255,17 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
 
     @Override
     public void onVolleyError(String message) {
+
         MySupporter.hideLoading();
+        String error = MySupporter.checkError();
+
+        if (error.equals("W_MS")){
+            Snackbar.make(toolbar, "Try again later ! It can cause from our server", Snackbar.LENGTH_LONG).show();
+        }
+        else {
+            Snackbar.make(toolbar, error, Snackbar.LENGTH_LONG).show();
+        }
     }
+
+
 }
