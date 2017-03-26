@@ -59,20 +59,7 @@ public class MainLogIn extends AppCompatActivity implements MySupporter_Interfac
             @Override
             public void onClick(View v) {
 
-                Map<String, String> params = new HashMap<>();
-                params.put("Username", etUsername.getText().toString());
-                params.put("Password", etPassword.getText().toString());
-
-                String result = MySupporter.verifyControls(params);
-
-                if (result.equals("OK")){
-                    MySupporter.showLoading("Please wait.....");
-                    dataVolley();
-                }
-                else {
-                    Snackbar.make(toolbar, result, Snackbar.LENGTH_LONG).show();
-                }
-
+                dataVolley();
             }
         });
 
@@ -110,8 +97,15 @@ public class MainLogIn extends AppCompatActivity implements MySupporter_Interfac
         params.put("username",username);
         params.put("password",password);
 
-        MySupporter.Volley("http://bongNU.khmerlabs.com/bongNU/Account/login.php", params, this);
+        String result = MySupporter.verifyControls(params);
 
+        if (!result.equals("OK")){
+            Snackbar.make(toolbar, result, Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
+        MySupporter.Volley("http://bongNU.khmerlabs.com/bongNU/Account/login.php", params, this);
+        MySupporter.showLoading("Please wait.....");
     }
 
     @Override
