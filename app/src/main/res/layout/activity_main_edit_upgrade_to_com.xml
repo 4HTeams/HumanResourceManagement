@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/eTEmpAmountEditUpgradeToCom"
         android:hint="Employee Amount"
-
+        android:inputType="numberSigned"
         />
 
     <EditText
