@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Base64;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -155,7 +154,7 @@ public class MySupporter {
                     }
                     break;
                 case "USERNAME" :
-                    if (value.length() > 50 || value.length() <= 5){
+                    if (value.length() > 50 || value.length() <= 3){
                         return "Your username must be greater than 5 less than 50 characters !";
                     }
                     else if (!verifyWithFormat("[a-zA-Z0-9\\_]+", value)){
