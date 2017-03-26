@@ -63,26 +63,7 @@ public class MainCreateUser extends AppCompatActivity implements MySupporter_Int
                 }
                 else {
 
-                    Map<String, String> params = new HashMap<>();
-                    params.put("username",etUsername.getText().toString());
-                    params.put("password",etPassword.getText().toString());
-                    params.put("email",etEmail.getText().toString());
-
-                    // Pass params to verify if it is okay result will be OK, or it will be a message from that method
-                    String result = MySupporter.verifyControls(params);
-
-                    if (result.equals("OK")){
-
-                        // If it is okay, let it go to create an account
-                        MySupporter.showLoading("Please wait.....");
-                        dataVolley();
-                    }
-                    else {
-
-                        // If it verified and got wrong, we just alert that message
-                        Snackbar.make(toolbar, result, Snackbar.LENGTH_LONG).show();
-                    }
-
+                    dataVolley();
                 }
             }
         });
@@ -120,7 +101,17 @@ public class MainCreateUser extends AppCompatActivity implements MySupporter_Int
         params.put("password",password);
         params.put("email",email);
 
+        // Pass params to verify if it is okay result will be OK, or it will be a message from that method
+        String result = MySupporter.verifyControls(params);
+
+        if (!result.equals("OK")){
+
+            Snackbar.make(toolbar, result, Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
         MySupporter.Volley("http://bongNU.khmerlabs.com/bongNU/Account/create.php", params, this);
+        MySupporter.showLoading("Please wait.....");
     }
 
     void alterJson (String id){

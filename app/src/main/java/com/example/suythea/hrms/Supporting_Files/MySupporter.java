@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -140,12 +142,17 @@ public class MySupporter {
     public static String verifyControls(Map<String, String> maps){
 
         String result = "OK";
-        String key, value;
+        String key = "", value = "";
 
         for (Map.Entry<String, String> entry : maps.entrySet()) {
 
             key = entry.getKey().toUpperCase();
-            value = entry.getValue();
+
+            try {
+                value = URLDecoder.decode(entry.getValue(), "utf-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
 
             switch (key) {
                 case "EMAIL" :

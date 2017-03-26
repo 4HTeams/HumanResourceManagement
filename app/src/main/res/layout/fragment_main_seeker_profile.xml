@@ -33,4 +33,18 @@
         android:id="@+id/btnChangeInfoSeekerPro"
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Post CV"
+        android:id="@+id/btnPostCVInfoSeekerPro"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View CV"
+        android:id="@+id/btnViewCVInfoSeekerPro"
+        />
+
 </LinearLayout>

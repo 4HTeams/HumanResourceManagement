@@ -194,8 +194,14 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
             params.put("orderToDo",order);
             params.put("conPassword",sqlite.getDataFromjsonField(MySqlite.fields.get(0),"password"));
 
+//            String verifiedResult = MySupporter.verifyControls(params);
+//
+//            if (!verifiedResult.equals("OK")){
+//                Snackbar.make(toolbar, verifiedResult, Snackbar.LENGTH_LONG).show();
+//                return;
+//            }
+
             MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/account/edit_com.php", params, this);
-            Log.d("result", String.valueOf(params));
             MySupporter.showLoading("Please wait.....");
 
         } catch (JSONException e) {
@@ -249,8 +255,6 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
             String finalUserData = "[" + String.valueOf(jsonObject) + "]";
 
             sqlite.insertJsonDB(MySqlite.fields.get(0), finalUserData);
-
-            // Change to Company Profile Fragment
 
         } catch (JSONException e) {
             e.printStackTrace();

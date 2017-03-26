@@ -241,11 +241,7 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
                 String checkResult = check_ChangeOrNot_SendOrNot();
 
                 if (checkResult.equals("Go")){
-                    MySupporter.showLoading("Please Wait.....");
                     dataVolley();
-                }
-                else if (checkResult.equals("Nothing")){
-                    Snackbar.make(toolbar, "Nothing Changed !", Snackbar.LENGTH_LONG).show();
                 }
                 else {
                     Snackbar.make(toolbar, checkResult, Snackbar.LENGTH_LONG).show();
@@ -263,6 +259,7 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
     private void dataVolley(){
 
         Map<String, String> params = new HashMap<>();
+        Map<String, String> vParams = new HashMap<>();
 
         params.put("appToken", "ThEa331RA369RiTH383thY925");
 
@@ -273,10 +270,14 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
 
             if (changeOrNot.containsKey("email")){
                 params.put("email", eTxtEmail.getText().toString());
+
+                vParams.put("email", eTxtEmail.getText().toString());
             }
             if (changeOrNot.containsKey("password")){
                 params.put("oldPassword", eTxtOldPass.getText().toString());
                 params.put("newPassword", eTxtNewPass.getText().toString());
+
+                vParams.put("password", eTxtNewPass.getText().toString());
             }
             if (changeOrNot.containsKey("img")){
                 if (imgState.equals("Yes")){
@@ -286,13 +287,21 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
                     params.put("img", "remove");
                 }
             }
+        } catch (JSONException e) {e.printStackTrace();}
+
+
+        String verifiedResult = MySupporter.verifyControls(vParams);
+
+        if (!verifiedResult.equals("OK")){
+            Snackbar.make(toolbar, verifiedResult, Snackbar.LENGTH_LONG).show();
+            return;
         }
-        catch (JSONException e) {e.printStackTrace();}
 
         MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/account/edit_user.php", params, this);
+        MySupporter.showLoading("Please Wait.....");
     }
 
-    String check_ChangeOrNot_SendOrNot (){
+    private String check_ChangeOrNot_SendOrNot (){
 
         changeOrNot = new HashMap<>();
 
@@ -308,12 +317,15 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
 
             if (ckbPassword.isChecked()){
                 changeOrNot.put("password", true);
+                if (!eTxtNewPass.getText().toString().equals(eTxtConPass.getText().toString())){
+                    return "New and confirm passwords don't match !";
+                }
             }
 
         } catch (JSONException e) {e.printStackTrace();}
 
         if (!changeOrNot.containsKey("email") && !changeOrNot.containsKey("img") && !changeOrNot.containsKey("password")){
-            return "Nothing";
+            return "Nothing Changed !";
         }
 
         return "Go";
