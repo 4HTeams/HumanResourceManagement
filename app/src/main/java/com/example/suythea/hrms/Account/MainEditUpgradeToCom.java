@@ -11,7 +11,9 @@ import android.view.View;
 import android.support.v7.widget.Toolbar;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
 import com.example.suythea.hrms.Interfaces.Setting_Interface;
@@ -39,9 +41,9 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
     JSONArray industries;
     JSONArray cTypes;
     Spinner spiIndustry, spiCType;
-    Boolean existingInDB = false;
     EditText eTCName, eTCEmail, eTCEmpAmount, eTCContact, eTCAbout, eTCAddress;
     Map<String, String> params;
+    LinearLayout myMainContentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,7 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
         eTCAddress = (EditText) findViewById(R.id.eTAddressEditUpgradeToCom);
         eTCContact = (EditText) findViewById(R.id.eTContactEditUpgradeToCom);
         eTCAbout = (EditText) findViewById(R.id.eTAboutEditUpgradeToCom);
+        myMainContentLayout = (LinearLayout) findViewById(R.id.linContentEditUpgrade);
     }
 
     void setEvents (){
@@ -72,6 +75,8 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
     }
 
     void startUp (){
+        myMainContentLayout.setVisibility(View.GONE);
+
         order = getIntent().getStringExtra("order");
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
 
@@ -92,13 +97,15 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
                 industries = new JSONArray(industry);
                 cTypes = new JSONArray(cType);
 
-                existingInDB = true;
                 loadSpinner();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
         }
+
+        industries = new JSONArray();
+        cTypes = new JSONArray();
 
         dataVolleyForFields();
 
@@ -133,6 +140,8 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, cTypeSpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spiCType.setAdapter(adapter);
+
+        myMainContentLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -194,12 +203,12 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
             params.put("orderToDo",order);
             params.put("conPassword",sqlite.getDataFromjsonField(MySqlite.fields.get(0),"password"));
 
-//            String verifiedResult = MySupporter.verifyControls(params);
-//
-//            if (!verifiedResult.equals("OK")){
-//                Snackbar.make(toolbar, verifiedResult, Snackbar.LENGTH_LONG).show();
-//                return;
-//            }
+            String verifiedResult = MySupporter.verifyControls(params);
+
+            if (!verifiedResult.equals("OK")){
+                Snackbar.make(toolbar, verifiedResult, Snackbar.LENGTH_LONG).show();
+                return;
+            }
 
             MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/account/edit_com.php", params, this);
             MySupporter.showLoading("Please wait.....");
@@ -296,8 +305,8 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
             sqlite.insertJsonDB(MySqlite.fields.get(1), industry);
             sqlite.insertJsonDB(MySqlite.fields.get(2), type);
 
-            if (!existingInDB){
-                // It is false means not to load data to industries again
+            if (industries.length() < 1){
+                // It is less 1 means 0 means no data in database
 
                 // Convert data into JsonArray to show in combo box
                 industries = new JSONArray(industry);
@@ -318,14 +327,9 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
     public void onVolleyError(String message) {
 
         MySupporter.hideLoading();
-        String error = MySupporter.checkError();
+        Toast.makeText(this, MySupporter.checkError(), Toast.LENGTH_LONG).show();
+        finish();
 
-        if (error.equals("W_MS")){
-            Snackbar.make(toolbar, "Try again later ! It can cause from our server", Snackbar.LENGTH_LONG).show();
-        }
-        else {
-            Snackbar.make(toolbar, error, Snackbar.LENGTH_LONG).show();
-        }
     }
 
 

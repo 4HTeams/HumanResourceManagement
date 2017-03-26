@@ -126,9 +126,7 @@ public class MySupporter {
         if ( conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED
                 || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED ) {
 
-            // W_MS means to write a message because it can cause from server
-            return "W_MS";
-
+            return "Generic error may be because of our server, try again later !";
         }
         else if ( conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.DISCONNECTED
                 || conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.DISCONNECTED) {
@@ -136,7 +134,7 @@ public class MySupporter {
             return "Check your Internet connection !";
         }
 
-        return "W_MS";
+        return "Generic error may be because of our server, try again later !";
     }
 
     public static String verifyControls(Map<String, String> maps){
@@ -161,8 +159,8 @@ public class MySupporter {
                     }
                     break;
                 case "USERNAME" :
-                    if (value.length() > 50 || value.length() <= 3){
-                        return "Your username must be greater than 5 less than 50 characters !";
+                    if (value.length() > 50 || value.length() <= 2){
+                        return "Your username must be greater than 2 less than 50 characters !";
                     }
                     else if (!verifyWithFormat("[a-zA-Z0-9\\_]+", value)){
                         return "Check your username format !";
@@ -171,6 +169,36 @@ public class MySupporter {
                 case "PASSWORD" :
                     if (value.length() > 100 || value.length() <= 5){
                         return "Your password must be greater than 5 less than 100 characters !";
+                    }
+                    break;
+                case "CNAME" :
+                    if (value.length() > 100 || value.length() <= 2){
+                        return "Your Company name must be greater than 2 less than 100 characters !";
+                    }
+                    break;
+                case "CEMAIL" :
+                    if (!verifyWithFormat("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}\\@[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}(\\.[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25})+", value)){
+                        return "Check your company email format !";
+                    }
+                    break;
+                case "EMPAMOUNT" :
+                    if (value.length() < 1){
+                        return "Your company employee amount cannot be empty !";
+                    }
+                    break;
+                case "CONTACT" :
+                    if (value.length() < 1){
+                        return "Your company contact cannot be empty !";
+                    }
+                    break;
+                case "ABOUT" :
+                    if (value.length() < 1){
+                        return "Your company about cannot be empty !";
+                    }
+                    break;
+                case "ADDRESS" :
+                    if (value.length() < 1){
+                        return "Your company address cannot be empty !";
                     }
                     break;
             }

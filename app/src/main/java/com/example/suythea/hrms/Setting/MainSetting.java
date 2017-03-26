@@ -54,8 +54,15 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
         super.onActivityCreated(savedInstanceState);
 
         context = this;
-        getDataSQLite ();
+        getDataSQLite();
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        MySupporter.runFirstDefault(getActivity());
     }
 
     @Override
@@ -201,6 +208,6 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
         main_interface.changeTapIndex(0);
 
         // MySupporter.checkError() means to check why it got this error and whether it is because of Internet or our site problem
-        MySupporter.checkError();
+        Snackbar.make(getActivity().getWindow().getDecorView().getRootView(), MySupporter.checkError(), Snackbar.LENGTH_LONG).show();
     }
 }
