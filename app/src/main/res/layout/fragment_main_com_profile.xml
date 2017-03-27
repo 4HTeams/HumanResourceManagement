@@ -23,8 +23,15 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit Profile"
+        android:text="Edit Company Info"
         android:id="@+id/btnEditProComPro"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Account"
+        android:id="@+id/btnEditUserComPro"
         />
 
     <Button

@@ -353,6 +353,8 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
 
         MySqlite sqlite = new MySqlite(this);
         sqlite.insertJsonDB(MySqlite.fields.get(0), "[" + String.valueOf(jsonData) + "]");
+
+        Log.d("result", String.valueOf(jsonData));
     }
 
     @Override
