@@ -214,7 +214,9 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
         return true;
     }
 
-    private void checkFields (){
+    private String checkFields (){
+
+        String result = "Nothing Changed !";
 
         try {
 
@@ -229,41 +231,52 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
 
             if (!eTCName.getText().toString().equals(jsonCompanyInfo.getString("cName"))){
                 params.put("cName", URLEncoder.encode(eTCName.getText().toString()));
+                result = "OK";
             }
             if (!eTCEmail.getText().toString().equals(jsonCompanyInfo.getString("cEmail"))){
                 params.put("cEmail", URLEncoder.encode(eTCEmail.getText().toString()));
+                result = "OK";
             }
             if (!eTCEmpAmount.getText().toString().equals(jsonCompanyInfo.getString("empAmount"))){
                 params.put("empAmount", URLEncoder.encode(eTCEmpAmount.getText().toString()));
+                result = "OK";
             }
             if (!eTCAddress.getText().toString().equals(jsonCompanyInfo.getString("address"))){
                 params.put("address", URLEncoder.encode(eTCAddress.getText().toString()));
+                result = "OK";
             }
             if (!eTCContact.getText().toString().equals(jsonCompanyInfo.getString("contact"))){
                 params.put("contact", URLEncoder.encode(eTCContact.getText().toString()));
+                result = "OK";
             }
             if (!eTCAbout.getText().toString().equals(jsonCompanyInfo.getString("about"))){
                 params.put("about", URLEncoder.encode(eTCAbout.getText().toString()));
+                result = "OK";
             }
             if (!spiIndustry.getSelectedItem().toString().toUpperCase().equals(jsonCompanyInfo.getString("industry").toUpperCase())){
                 params.put("industry", industryID);
+                result = "OK";
             }
             if (!spiCType.getSelectedItem().toString().toUpperCase().equals(jsonCompanyInfo.getString("cType").toUpperCase())){
                 params.put("cType", cTypeID);
+                result = "OK";
             }
-
-            Log.d("result123", String.valueOf(params));
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-
+        return result;
     }
 
     private void dataHttpToUpdate (){
-        checkFields();
+
         // Not checked nothing yet
+
+        if (!checkFields().equals("OK")){
+            Snackbar.make(toolbar, "Nothing Changed !", Snackbar.LENGTH_LONG).show();
+            return;
+        }
 
         String verifiedResult = MySupporter.verifyControls(params);
 
