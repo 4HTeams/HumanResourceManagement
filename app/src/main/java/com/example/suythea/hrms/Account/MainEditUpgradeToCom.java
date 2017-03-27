@@ -44,6 +44,7 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
     EditText eTCName, eTCEmail, eTCEmpAmount, eTCContact, eTCAbout, eTCAddress;
     Map<String, String> params;
     LinearLayout myMainContentLayout;
+    JSONObject jsonCompanyInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,10 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
     void startUp (){
         myMainContentLayout.setVisibility(View.GONE);
 
+        industries = new JSONArray();
+        cTypes = new JSONArray();
+        jsonCompanyInfo = new JSONObject();
+
         order = getIntent().getStringExtra("order");
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
 
@@ -98,17 +103,52 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
                 cTypes = new JSONArray(cType);
 
                 loadSpinner();
+
+                if (order.equals("UPDATE")){
+                    setOldData();
+                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
         }
 
-        industries = new JSONArray();
-        cTypes = new JSONArray();
-
         dataVolleyForFields();
 
+    }
+
+    private void setOldData (){
+
+        try {
+
+            MySqlite sqlite = new MySqlite(this);
+            jsonCompanyInfo = new JSONArray(sqlite.getDataFromjsonField(MySqlite.fields.get(0), "_all_db")).getJSONObject(0).getJSONArray("companyInfo").getJSONObject(0);
+
+            eTCName.setText(jsonCompanyInfo.getString("cName"));
+            eTCEmail.setText(jsonCompanyInfo.getString("cEmail"));
+            eTCAddress.setText(jsonCompanyInfo.getString("address"));
+            eTCEmpAmount.setText(jsonCompanyInfo.getString("empAmount"));
+            eTCAbout.setText(jsonCompanyInfo.getString("about"));
+            eTCContact.setText(jsonCompanyInfo.getString("contact"));
+
+            for(int i = 0; i < industries.length(); i++){
+                if (jsonCompanyInfo.getString("industry").toUpperCase().equals(industries.getJSONObject(i).getString("name").toUpperCase())){
+                    spiIndustry.setSelection(i);
+                    break;
+                }
+            }
+
+            for(int j = 0; j < cTypes.length(); j++){
+                if (jsonCompanyInfo.getString("cType").toUpperCase().equals(cTypes.getJSONObject(j).getString("type").toUpperCase())){
+                    spiCType.setSelection(j);
+                    break;
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     void loadSpinner (){
@@ -157,7 +197,15 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
 
         switch (item.getItemId()){
             case R.id.icSave :
-                dataHttpToUpdateUpgrade();
+
+                params = new HashMap<>();
+
+                if (order.equals("UPGRADE")){
+                    dataHttpToUpgrade();
+                }
+                else if (order.equals("UPDATE")){
+                    dataHttpToUpdate();
+                }
                 break;
             case android.R.id.home :
                 finish();
@@ -166,7 +214,69 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
         return true;
     }
 
-    private void dataHttpToUpdateUpgrade (){
+    private void checkFields (){
+
+        try {
+
+            String industryID = String.valueOf(industries.getJSONObject((Integer) spiIndustry.getSelectedItemPosition()).getString("id"));
+            String cTypeID = String.valueOf(cTypes.getJSONObject((Integer) spiCType.getSelectedItemPosition()).getString("id"));
+
+            MySqlite sqlite = new MySqlite(this);
+            params.put("appToken","ThEa331RA369RiTH383thY925");
+            params.put("id",sqlite.getDataFromjsonField(MySqlite.fields.get(0),"id"));
+            params.put("orderToDo",order);
+            params.put("conPassword",sqlite.getDataFromjsonField(MySqlite.fields.get(0),"password"));
+
+            if (!eTCName.getText().toString().equals(jsonCompanyInfo.getString("cName"))){
+                params.put("cName", URLEncoder.encode(eTCName.getText().toString()));
+            }
+            if (!eTCEmail.getText().toString().equals(jsonCompanyInfo.getString("cEmail"))){
+                params.put("cEmail", URLEncoder.encode(eTCEmail.getText().toString()));
+            }
+            if (!eTCEmpAmount.getText().toString().equals(jsonCompanyInfo.getString("empAmount"))){
+                params.put("empAmount", URLEncoder.encode(eTCEmpAmount.getText().toString()));
+            }
+            if (!eTCAddress.getText().toString().equals(jsonCompanyInfo.getString("address"))){
+                params.put("address", URLEncoder.encode(eTCAddress.getText().toString()));
+            }
+            if (!eTCContact.getText().toString().equals(jsonCompanyInfo.getString("contact"))){
+                params.put("contact", URLEncoder.encode(eTCContact.getText().toString()));
+            }
+            if (!eTCAbout.getText().toString().equals(jsonCompanyInfo.getString("about"))){
+                params.put("about", URLEncoder.encode(eTCAbout.getText().toString()));
+            }
+            if (!spiIndustry.getSelectedItem().toString().toUpperCase().equals(jsonCompanyInfo.getString("industry").toUpperCase())){
+                params.put("industry", industryID);
+            }
+            if (!spiCType.getSelectedItem().toString().toUpperCase().equals(jsonCompanyInfo.getString("cType").toUpperCase())){
+                params.put("cType", cTypeID);
+            }
+
+            Log.d("result123", String.valueOf(params));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void dataHttpToUpdate (){
+        checkFields();
+        // Not checked nothing yet
+
+        String verifiedResult = MySupporter.verifyControls(params);
+
+        if (!verifiedResult.equals("OK")){
+            Snackbar.make(toolbar, verifiedResult, Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
+        MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/account/edit_com.php", params, this);
+        MySupporter.showLoading("Please wait.....");
+    }
+
+    private void dataHttpToUpgrade (){
 
         try {
 
@@ -189,7 +299,6 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
                 e.printStackTrace();
             }
 
-            params = new HashMap<>();
             params.put("appToken","ThEa331RA369RiTH383thY925");
             params.put("id",sqlite.getDataFromjsonField(MySqlite.fields.get(0),"id"));
             params.put("cName",_eTCName);
@@ -218,7 +327,7 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
         }
     }
 
-    private void dataVolleyForFields(){
+    private void dataVolleyForFields (){
         Map<String, String> params = new HashMap<>();
         params.put("appToken","ThEa331RA369RiTH383thY925");
         params.put("industry","1");
@@ -227,7 +336,91 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
         MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/get_data_tbl.php", params, (MySupporter_Interface) this);
     }
 
-    private void alterJson (String response){
+    private void alterJsonUpdate (String response){
+
+        try {
+
+            MySqlite sqlite = new MySqlite(this);
+            JSONObject oldData = new JSONArray(sqlite.getDataFromjsonField(MySqlite.fields.get(0),"_all_db")).getJSONObject(0);
+
+            JSONObject jsonObject = new JSONObject();
+            JSONObject jsonComInfo = new JSONObject();
+
+            jsonObject.put("id", oldData.getString("id"));
+            jsonObject.put("username", oldData.getString("username"));
+            jsonObject.put("password", oldData.getString("password"));
+            jsonObject.put("email", oldData.getString("email"));
+            jsonObject.put("profile_url", oldData.getString("profile_url"));
+            jsonObject.put("type", "2");
+            jsonObject.put("approval", oldData.getString("approval"));
+
+            jsonComInfo.put("cID", jsonCompanyInfo.getString("cID"));
+            jsonComInfo.put("industry", spiIndustry.getSelectedItem());
+            jsonComInfo.put("cType", spiCType.getSelectedItem());
+
+            if (params.containsKey("cName")){
+                jsonComInfo.put("cName", URLDecoder.decode(params.get("cName")));
+            }
+            else {
+                jsonComInfo.put("cName", URLDecoder.decode(jsonCompanyInfo.getString("cName")));
+            }
+
+            if (params.containsKey("cEmail")){
+                jsonComInfo.put("cEmail", URLDecoder.decode(params.get("cEmail")));
+            }
+            else {
+                jsonComInfo.put("cEmail", URLDecoder.decode(jsonCompanyInfo.getString("cEmail")));
+            }
+
+            if (params.containsKey("empAmount")){
+                jsonComInfo.put("empAmount", URLDecoder.decode(params.get("empAmount")));
+            }
+            else {
+                jsonComInfo.put("empAmount", URLDecoder.decode(jsonCompanyInfo.getString("empAmount")));
+            }
+
+            if (params.containsKey("address")){
+                jsonComInfo.put("address", URLDecoder.decode(params.get("address")));
+            }
+            else {
+                jsonComInfo.put("address", URLDecoder.decode(jsonCompanyInfo.getString("address")));
+            }
+
+            if (params.containsKey("contact")){
+                jsonComInfo.put("contact", URLDecoder.decode(params.get("contact")));
+            }
+            else {
+                jsonComInfo.put("contact", URLDecoder.decode(jsonCompanyInfo.getString("contact")));
+            }
+
+            if (params.containsKey("about")){
+                jsonComInfo.put("about", URLDecoder.decode(params.get("about")));
+            }
+            else {
+                jsonComInfo.put("about", URLDecoder.decode(jsonCompanyInfo.getString("about")));
+            }
+
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(jsonComInfo);
+
+            jsonObject.put("companyInfo", jsonArray);
+
+            String finalUserData = "[" + String.valueOf(jsonObject) + "]";
+
+            sqlite.insertJsonDB(MySqlite.fields.get(0), finalUserData);
+
+            Log.d("result123", finalUserData);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        MySupporter.hideLoading();
+        finish();
+    }
+
+    private void alterJsonUpgrade (String response){
 
         try {
 
@@ -250,20 +443,25 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
             jsonObject.put("approval", oldData.getString("approval"));
 
             jsonComInfo.put("cID", cID);
-            jsonComInfo.put("cName", params.get("cName"));
-            jsonComInfo.put("cEmail", params.get("cEmail"));
+            jsonComInfo.put("cName", URLDecoder.decode(params.get("cName")));
+            jsonComInfo.put("cEmail", URLDecoder.decode(params.get("cEmail")));
             jsonComInfo.put("industry", industry);
             jsonComInfo.put("cType", cType);
-            jsonComInfo.put("empAmount", params.get("empAmount"));
-            jsonComInfo.put("address", params.get("address"));
-            jsonComInfo.put("contact", params.get("contact"));
-            jsonComInfo.put("about", params.get("about"));
+            jsonComInfo.put("empAmount", URLDecoder.decode(params.get("empAmount")));
+            jsonComInfo.put("address", URLDecoder.decode(params.get("address")));
+            jsonComInfo.put("contact", URLDecoder.decode(params.get("contact")));
+            jsonComInfo.put("about", URLDecoder.decode(params.get("about")));
 
-            jsonObject.put("companyInfo", jsonComInfo);
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(jsonComInfo);
+
+            jsonObject.put("companyInfo", jsonArray);
 
             String finalUserData = "[" + String.valueOf(jsonObject) + "]";
 
             sqlite.insertJsonDB(MySqlite.fields.get(0), finalUserData);
+
+            Log.d("result", finalUserData);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -277,15 +475,22 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
         finish();
     }
 
-
     @Override
     public void onHttpFinished(String response) {
-        alterJson (response);
+
+        if (order.equals("UPGRADE")){
+            alterJsonUpgrade(response);
+        }
+        else if (order.equals("UPDATE")){
+            alterJsonUpdate(response);
+        }
+
     }
 
     @Override
     public void onHttpError(String message) {
         MySupporter.hideLoading();
+        Toast.makeText(this, MySupporter.checkError(), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -311,24 +516,29 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
                 // Convert data into JsonArray to show in combo box
                 industries = new JSONArray(industry);
                 cTypes = new JSONArray(type);
+
+                loadSpinner();
+
+                if (order.equals("UPDATE")){
+                    setOldData();
+                }
             }
 
         } catch(JSONException e){e.printStackTrace();} catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
-        Log.d("result", data);
-
-        loadSpinner();
         MySupporter.hideLoading();
     }
 
     @Override
     public void onVolleyError(String message) {
 
-        MySupporter.hideLoading();
-        Toast.makeText(this, MySupporter.checkError(), Toast.LENGTH_LONG).show();
-        finish();
+        if (industries.length() < 1){
+            MySupporter.hideLoading();
+            Toast.makeText(this, MySupporter.checkError(), Toast.LENGTH_LONG).show();
+            finish();
+        }
 
     }
 

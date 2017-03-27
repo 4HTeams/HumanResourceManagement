@@ -1,6 +1,7 @@
 package com.example.suythea.hrms.Profile;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,29 +10,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.suythea.hrms.Account.MainEditUpgradeToCom;
 import com.example.suythea.hrms.Interfaces.Setting_Interface;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class MainComProfile extends Fragment {
 
-    Button btnSignOut;
+    Button btnSignOut, btnUpdate;
     Setting_Interface setting_interface;
-
-    public MainComProfile() {
-        // Required empty public constructor
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main_com_profile, container, false);
     }
 
@@ -50,7 +43,7 @@ public class MainComProfile extends Fragment {
     void setControls (){
 
         btnSignOut = (Button)getActivity().findViewById(R.id.btnSignOutComPro);
-
+        btnUpdate = (Button)getActivity().findViewById(R.id.btnEditProComPro);
     }
 
     void setEvents (){
@@ -61,6 +54,15 @@ public class MainComProfile extends Fragment {
                 MySqlite sqlite = new MySqlite(getActivity());
                 sqlite.deleteField(MySqlite.fields.get(0));
                 setting_interface.changeToFragment("SETTING_CHOICE");
+            }
+        });
+
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MainEditUpgradeToCom.class);
+                intent.putExtra("order", "UPDATE");
+                startActivity(intent);
             }
         });
 

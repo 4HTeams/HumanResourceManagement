@@ -152,13 +152,7 @@ public class MainLogIn extends AppCompatActivity implements MySupporter_Interfac
     public void onVolleyError(String message) {
 
         MySupporter.hideLoading();
-        String error = MySupporter.checkError();
+        Snackbar.make(toolbar, MySupporter.checkError(), Snackbar.LENGTH_LONG).show();
 
-        if (error.equals("W_MS")){
-            Snackbar.make(toolbar, "Try again later ! It can cause from our server", Snackbar.LENGTH_LONG).show();
-        }
-        else {
-            Snackbar.make(toolbar, error, Snackbar.LENGTH_LONG).show();
-        }
     }
 }
