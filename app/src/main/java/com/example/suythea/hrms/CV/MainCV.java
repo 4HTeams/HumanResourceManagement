@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.suythea.hrms.Interfaces.Main_Interface;
-import com.example.suythea.hrms.MainActivity;
 import com.example.suythea.hrms.R;
 
 /**

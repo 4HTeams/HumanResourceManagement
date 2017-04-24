@@ -13,6 +13,7 @@ import android.widget.Button;
 import com.example.suythea.hrms.Account.MainEditUpgradeToCom;
 import com.example.suythea.hrms.Account.MainEditUser;
 import com.example.suythea.hrms.Interfaces.Setting_Interface;
+import com.example.suythea.hrms.PostCV.MainPostCV;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
@@ -20,7 +21,7 @@ import com.example.suythea.hrms.Supporting_Files.MySqlite;
 
 public class MainSeekerProfile extends Fragment {
 
-    Button btnUpgradeToCom, btnSignOut, btnChangeInfo;
+    Button btnUpgradeToCom, btnSignOut, btnChangeInfo, btnPostCV;
     Setting_Interface setting_interface;
 
     @Override
@@ -46,6 +47,7 @@ public class MainSeekerProfile extends Fragment {
         btnUpgradeToCom = (Button)getActivity().findViewById(R.id.btnUpgradeToCom);
         btnSignOut = (Button)getActivity().findViewById(R.id.btnSignOutSeekerPro);
         btnChangeInfo = (Button)getActivity().findViewById(R.id.btnChangeInfoSeekerPro);
+        btnPostCV = (Button)getActivity().findViewById(R.id.btnPostCVInfoSeekerPro);
 
     }
 
@@ -73,6 +75,14 @@ public class MainSeekerProfile extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MainEditUser.class);
+                startActivity(intent);
+            }
+        });
+
+        btnPostCV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MainPostCV.class);
                 startActivity(intent);
             }
         });

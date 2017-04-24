@@ -297,6 +297,8 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
             return;
         }
 
+        Log.d("result", String.valueOf(params));
+
         MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/account/edit_user.php", params, this);
         MySupporter.showLoading("Please Wait.....");
     }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="320px"
+        android:layout_height="350px"
+        android:layout_gravity="left"
+        android:src="@mipmap/no_profile"
+        android:scaleType="centerInside"
+        android:layout_margin="10px"
+        android:id="@+id/imgProfileListCV"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/imgProfileListCV"
+        android:layout_margin="10px"
+        android:layout_marginLeft="0px"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="Name"
+            android:textColor="#196fb1"
+            android:gravity="center"
+            android:id="@+id/txtNameListCV"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="Prefer : "
+            android:id="@+id/txtJobListCV"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="Experience : "
+            android:id="@+id/txtExperListCV"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="Expected Salary : "
+            android:id="@+id/txtE_SalaryListCV"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="Posted Date : "
+            android:id="@+id/txtPostedDateListCV"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

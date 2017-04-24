@@ -93,7 +93,7 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
         String industry = sqlite.getDataFromjsonField(MySqlite.fields.get(1), "_all_db");
         String cType = sqlite.getDataFromjsonField(MySqlite.fields.get(2), "_all_db");
 
-        if (industry.equals("")){
+        if (industry.equals("") || cType.equals("")){
             MySupporter.showLoading("Please Wait.....");
         }
         else {
@@ -523,7 +523,7 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
             sqlite.insertJsonDB(MySqlite.fields.get(1), industry);
             sqlite.insertJsonDB(MySqlite.fields.get(2), type);
 
-            if (industries.length() < 1){
+            if (industries.length() < 1 || cTypes.length() < 1){
                 // It is less 1 means 0 means no data in database
 
                 // Convert data into JsonArray to show in combo box
@@ -547,7 +547,7 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
     @Override
     public void onVolleyError(String message) {
 
-        if (industries.length() < 1){
+        if (industries.length() < 1 || cTypes.length() < 1){
             MySupporter.hideLoading();
             Toast.makeText(this, MySupporter.checkError(), Toast.LENGTH_LONG).show();
             finish();
