@@ -39,9 +39,9 @@ public class MySqlite extends SQLiteOpenHelper {
         fields.add("cTypes");
         fields.add("provinces");
         fields.add("lan_lvl");
-        fields.add("degree");
-        fields.add("contractType");
-        fields.add("job_cate");
+        fields.add("degrees");
+        fields.add("contractTypes");
+        fields.add("job_cates");
 
         insertDefault();
     }
@@ -54,7 +54,9 @@ public class MySqlite extends SQLiteOpenHelper {
 
         while(cursor.moveToNext()){
             if (Integer.valueOf(cursor.getString(0)) < 1){
-                query = "INSERT INTO tbl_jsonData VALUES (null,'currentUser',''), (null,'industries',''), (null,'cTypes',''), (null,'provinces',''), (null,'lan_lvl',''), (null,'degree',''), (null,'contractType',''), (null,'job_cate','')";
+                query = "INSERT INTO tbl_jsonData VALUES (null,'currentUser',''), (null,'industries',''), " +
+                        "(null,'cTypes',''), (null,'provinces',''), (null,'lan_lvl',''), (null,'degrees',''), " +
+                        "(null,'contractTypes',''), (null,'job_cates','')";
                 db.execSQL(query);
             }
             break;
@@ -75,6 +77,8 @@ public class MySqlite extends SQLiteOpenHelper {
     }
 
     public void insertJsonDB(String field, String data) {
+
+        data = data.replaceAll("'", "''");
 
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("UPDATE tbl_jsonData SET data = '" + data + "' where field_name = '" + field + "'");

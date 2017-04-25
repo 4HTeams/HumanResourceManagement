@@ -83,6 +83,7 @@ public class MainSeekerProfile extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MainPostCV.class);
+                intent.putExtra("order", "POST");
                 startActivity(intent);
             }
         });
