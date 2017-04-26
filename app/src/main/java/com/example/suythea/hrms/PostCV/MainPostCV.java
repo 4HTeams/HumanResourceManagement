@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
 import com.example.suythea.hrms.R;
@@ -77,6 +81,31 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/get_data_tbl.php?appToken=ThEa331RA369RiTH383thY925&province=1&lan_lvl=1&degree=1&contractType=1&job_cate=1",new HashMap<String, String>(),this);
     }
 
+    void setFullHeightListView (ListView listView){
+        ListAdapter mAdapter = listView.getAdapter();
+
+        int totalHeight = 0;
+
+        for (int i = 0; i < mAdapter.getCount(); i++) {
+            View mView = mAdapter.getView(i, null, listView);
+
+            mView.measure(
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+
+            totalHeight += mView.getMeasuredHeight();
+            Log.w("HEIGHT" + i, String.valueOf(totalHeight));
+
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight
+                + (listView.getDividerHeight() * (mAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+
     @Override
     public void onHttpFinished(String response) {
 
@@ -104,8 +133,6 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             this.degree = new JSONArray(degree);
             this.contractType = new JSONArray(contractType);
             this.job_cate = new JSONArray(job_cate);
-
-            Log.d("ABCABC", degree);
 
             MySqlite sqlite = new MySqlite(this);
             sqlite.insertJsonDB(MySqlite.fields.get(3), pro);
