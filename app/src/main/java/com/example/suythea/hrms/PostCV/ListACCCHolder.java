@@ -4,6 +4,6 @@ import android.widget.TextView;
 
 public class ListACCCHolder {
 
-    public TextView txtTitle, txtDate;
+    public TextView txtTitle, txtDate, txtCName;
 
 }

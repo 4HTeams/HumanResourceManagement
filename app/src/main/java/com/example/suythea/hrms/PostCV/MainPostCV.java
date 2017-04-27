@@ -1,6 +1,5 @@
 package com.example.suythea.hrms.PostCV;
 
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -19,11 +18,9 @@ import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
-import com.example.suythea.hrms.Supporting_Files.MyVolley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -33,19 +30,22 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 
 public class MainPostCV extends AppCompatActivity implements MySupporter_Interface{
 
     Toolbar toolbar;
     String order;
     JSONArray pro, l_lvl, degree, contractType, job_cate;
-    ListView lisAccc;
-    Button btnAddACCC;
+    ListView lisAccc, lisExp;
+    Button btnAddACCC, btnAddExp;
     Spinner spinGander, spinProvince;
-    ArrayList<ListACCCModel> lisAcccModels;
+
+    ArrayList<ListPostCVModel> lisACCCModels;
+    ArrayList<ListPostCVModel> lisExpModels;
 
     ListACCCAdp lisAcccAdp;
+    ListExpAdp lisExpAdp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,9 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
     void setControls(){
         toolbar = (Toolbar)findViewById(R.id.toolBarNoSearch);
         lisAccc = (ListView)findViewById(R.id.lisACCCPostCV);
+        lisExp = (ListView)findViewById(R.id.lisExpPostCV);
         btnAddACCC = (Button)findViewById(R.id.btnAddACCCPostCV);
+        btnAddExp = (Button)findViewById(R.id.btnAddExpPostCV);
         spinGander = (Spinner)findViewById(R.id.spinGanderPostCV);
         spinProvince = (Spinner)findViewById(R.id.spinProvincePostCV);
     }
@@ -74,10 +76,24 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
                 DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
                 String date = df.format(Calendar.getInstance().getTime());
 
-                ListACCCModel model = new ListACCCModel("ABCBABCBCBC", date);
-                lisAcccModels.add(model);
+                ListPostCVModel model = new ListPostCVModel();
+                model.setTitle("My Title");
+                model.setDate(date);
+                lisACCCModels.add(model);
                 lisAcccAdp.notifyDataSetChanged();
                 setFullHeightListView(lisAccc);
+            }
+        });
+
+        btnAddExp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ListPostCVModel model = new ListPostCVModel();
+                model.setTitle("My Title");
+                model.setcName("My CName");
+                lisExpModels.add(model);
+                lisExpAdp.notifyDataSetChanged();
+                setFullHeightListView(lisExp);
             }
         });
     }
@@ -92,10 +108,14 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         this.contractType = new JSONArray();
         this.job_cate = new JSONArray();
 
-        lisAcccModels = new ArrayList<>();
+        lisACCCModels = new ArrayList<>();
+        lisExpModels = new ArrayList<>();
 
-        lisAcccAdp = new ListACCCAdp(this, R.layout.list_accc_postcv, lisAcccModels);
+        lisAcccAdp = new ListACCCAdp(this, R.layout.list_accc_postcv, lisACCCModels);
         lisAccc.setAdapter(lisAcccAdp);
+
+        lisExpAdp = new ListExpAdp(this, R.layout.list_exp_postcv, lisExpModels);
+        lisExp.setAdapter(lisExpAdp);
 
         order = getIntent().getStringExtra("order");
         this.setTitle(order);

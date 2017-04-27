@@ -14,13 +14,13 @@ import java.util.ArrayList;
 /**
  * Created by lolzzlolzz on 6/28/16.
  */
-public class ListACCCAdp extends ArrayAdapter<ListPostCVModel> {
+public class ListExpAdp extends ArrayAdapter<ListPostCVModel> {
 
     Context context;
     int resource;
     LayoutInflater layoutInflater;
 
-    public ListACCCAdp(Context _con, int _res, ArrayList<ListPostCVModel>listModels){
+    public ListExpAdp(Context _con, int _res, ArrayList<ListPostCVModel>listModels){
 
         super(_con,_res,listModels);
 
@@ -39,8 +39,8 @@ public class ListACCCAdp extends ArrayAdapter<ListPostCVModel> {
 
             convertView = layoutInflater.inflate(this.resource,null);
             listACCCHolder = new ListACCCHolder();
-            listACCCHolder.txtTitle = (TextView)convertView.findViewById(R.id.txtTitleListACCC);
-            listACCCHolder.txtDate = (TextView)convertView.findViewById(R.id.txtDateListACCC);
+            listACCCHolder.txtTitle = (TextView)convertView.findViewById(R.id.txtTitleListExp);
+            listACCCHolder.txtCName = (TextView)convertView.findViewById(R.id.txtCNameListExp);
             convertView.setTag(listACCCHolder);
 
         }
@@ -51,7 +51,7 @@ public class ListACCCAdp extends ArrayAdapter<ListPostCVModel> {
         ListPostCVModel listPostCVModel = getItem(position);
 
         listACCCHolder.txtTitle.setText(listPostCVModel.getTitle());
-        listACCCHolder.txtDate.setText(listPostCVModel.getDate());
+        listACCCHolder.txtCName.setText(listPostCVModel.getcName());
 
         return convertView;
     }
