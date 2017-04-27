@@ -1,5 +1,6 @@
 package com.example.suythea.hrms.PostCV;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -7,8 +8,12 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
 import com.example.suythea.hrms.R;
@@ -18,17 +23,29 @@ import com.example.suythea.hrms.Supporting_Files.MyVolley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainPostCV extends AppCompatActivity implements MySupporter_Interface{
 
     Toolbar toolbar;
     String order;
     JSONArray pro, l_lvl, degree, contractType, job_cate;
+    ListView lisAccc;
+    Button btnAddACCC;
+    Spinner spinGander, spinProvince;
+    ArrayList<ListACCCModel> lisAcccModels;
+
+    ListACCCAdp lisAcccAdp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +61,41 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
 
     void setControls(){
         toolbar = (Toolbar)findViewById(R.id.toolBarNoSearch);
+        lisAccc = (ListView)findViewById(R.id.lisACCCPostCV);
+        btnAddACCC = (Button)findViewById(R.id.btnAddACCCPostCV);
+        spinGander = (Spinner)findViewById(R.id.spinGanderPostCV);
+        spinProvince = (Spinner)findViewById(R.id.spinProvincePostCV);
     }
 
     void setEvents(){
+        btnAddACCC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+                String date = df.format(Calendar.getInstance().getTime());
 
+                ListACCCModel model = new ListACCCModel("ABCBABCBCBC", date);
+                lisAcccModels.add(model);
+                lisAcccAdp.notifyDataSetChanged();
+                setFullHeightListView(lisAccc);
+            }
+        });
     }
 
     void startUp(){
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         setSupportActionBar(toolbar);
+
+        this.pro = new JSONArray();
+        this.l_lvl = new JSONArray();
+        this.degree = new JSONArray();
+        this.contractType = new JSONArray();
+        this.job_cate = new JSONArray();
+
+        lisAcccModels = new ArrayList<>();
+
+        lisAcccAdp = new ListACCCAdp(this, R.layout.list_accc_postcv, lisAcccModels);
+        lisAccc.setAdapter(lisAcccAdp);
 
         order = getIntent().getStringExtra("order");
         this.setTitle(order);
@@ -70,11 +113,57 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         }
         else {
             // Set data to array
+
+            try {
+
+                this.pro = new JSONArray(pro);
+                this.l_lvl = new JSONArray(l_lvl);
+                this.degree = new JSONArray(degree);
+                this.contractType = new JSONArray(contract_type);
+                this.job_cate = new JSONArray(job_cate);
+
+            } catch (JSONException e) {e.printStackTrace();}
+
+            loadSpinners();
+
         }
 
-        Log.d("result", pro + l_lvl + degree + contract_type + job_cate);
-
         getSpinnerDB();
+    }
+
+    void loadSpinners () {
+
+        try{
+
+            int i = 0;
+            ArrayList<String> gander, provinces;
+
+            gander = new ArrayList<>();
+            gander.add("Male");
+            gander.add("Female");
+
+            provinces = new ArrayList<>();
+
+            while (i < pro.length()) {
+
+                provinces.add(pro.getJSONObject(i).getString("proName"));
+                i++;
+            }
+
+            ArrayAdapter<String> adapter;
+
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, gander);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinGander.setAdapter(adapter);
+
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, provinces);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinProvince.setAdapter(adapter);
+
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     void getSpinnerDB(){
@@ -128,11 +217,16 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             String contractType = new JSONArray(data).getJSONObject(0).getString("contractType");
             String job_cate = new JSONArray(data).getJSONObject(0).getString("job_cate");
 
-            this.pro = new JSONArray(pro);
-            this.l_lvl = new JSONArray(l_lvl);
-            this.degree = new JSONArray(degree);
-            this.contractType = new JSONArray(contractType);
-            this.job_cate = new JSONArray(job_cate);
+            if (this.pro.length() < 1 || this.l_lvl.length() < 1 || this.degree.length() < 1 || this.contractType.length() < 1 || this.job_cate.length() < 1){
+
+                this.pro = new JSONArray(pro);
+                this.l_lvl = new JSONArray(l_lvl);
+                this.degree = new JSONArray(degree);
+                this.contractType = new JSONArray(contractType);
+                this.job_cate = new JSONArray(job_cate);
+
+                loadSpinners();
+            }
 
             MySqlite sqlite = new MySqlite(this);
             sqlite.insertJsonDB(MySqlite.fields.get(3), pro);
@@ -141,7 +235,6 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             sqlite.insertJsonDB(MySqlite.fields.get(6), contractType);
             sqlite.insertJsonDB(MySqlite.fields.get(7), job_cate);
 
-            // Load Spinners
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -155,6 +248,12 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
     @Override
     public void onVolleyError(String message) {
         MySupporter.hideLoading();
+
+        if (this.pro.length() < 1 || this.l_lvl.length() < 1 || this.degree.length() < 1 || this.contractType.length() < 1 || this.job_cate.length() < 1) {
+            // No data in database and no error getting data from web ---> finish this activity
+            Toast.makeText(this,MySupporter.checkError(),Toast.LENGTH_LONG).show();
+            finish();
+        }
     }
 
     @Override

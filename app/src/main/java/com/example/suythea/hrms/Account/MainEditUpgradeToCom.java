@@ -272,7 +272,6 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
     private void dataHttpToUpdate (){
 
         // Not checked nothing yet
-
         if (!checkFields().equals("OK")){
             Snackbar.make(toolbar, "Nothing Changed !", Snackbar.LENGTH_LONG).show();
             return;

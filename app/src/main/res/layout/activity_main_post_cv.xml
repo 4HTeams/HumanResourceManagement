@@ -38,6 +38,7 @@
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/spinGanderPostCV"
                 >
 
             </Spinner>
@@ -51,6 +52,7 @@
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/spinProvincePostCV"
                 >
 
             </Spinner>
@@ -61,13 +63,28 @@
                 android:hint="About"
                 />
 
-            <ListView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/listView"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 >
 
-            </ListView>
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/lisACCCPostCV"
+                    >
+
+                </ListView>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Add More"
+                    android:id="@+id/btnAddACCCPostCV"
+                    />
+            </LinearLayout>
 
         </LinearLayout>
 
