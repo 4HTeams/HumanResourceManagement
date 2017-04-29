@@ -36,15 +36,22 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
     Toolbar toolbar;
     String order;
     JSONArray pro, l_lvl, degree, contractType, job_cate;
-    ListView lisAccc, lisExp;
-    Button btnAddACCC, btnAddExp;
     Spinner spinGander, spinProvince;
+
+    ListView lisAccc, lisExp, lisLan, lisRef, lisSchool;
+    Button btnAddACCC, btnAddExp, btnAddLan, btnAddRef, btnAddSchool;
 
     ArrayList<ListPostCVModel> lisACCCModels;
     ArrayList<ListPostCVModel> lisExpModels;
+    ArrayList<ListPostCVModel> lisLanModels;
+    ArrayList<ListPostCVModel> lisRefModels;
+    ArrayList<ListPostCVModel> lisSchoolModels;
 
     ListACCCAdp lisAcccAdp;
     ListExpAdp lisExpAdp;
+    ListLanAdp lisLanAdp;
+    ListRefAdp lisRefAdp;
+    ListSchoolAdp lisSchoolAdp;
 
 
     @Override
@@ -63,8 +70,14 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         toolbar = (Toolbar)findViewById(R.id.toolBarNoSearch);
         lisAccc = (ListView)findViewById(R.id.lisACCCPostCV);
         lisExp = (ListView)findViewById(R.id.lisExpPostCV);
+        lisLan = (ListView)findViewById(R.id.lisLanPostCV);
+        lisRef = (ListView)findViewById(R.id.lisRefPostCV);
+        lisSchool = (ListView)findViewById(R.id.lisSchoolPostCV);
         btnAddACCC = (Button)findViewById(R.id.btnAddACCCPostCV);
         btnAddExp = (Button)findViewById(R.id.btnAddExpPostCV);
+        btnAddLan = (Button)findViewById(R.id.btnAddLanPostCV);
+        btnAddRef = (Button)findViewById(R.id.btnAddRefPostCV);
+        btnAddSchool = (Button)findViewById(R.id.btnAddSchoolPostCV);
         spinGander = (Spinner)findViewById(R.id.spinGanderPostCV);
         spinProvince = (Spinner)findViewById(R.id.spinProvincePostCV);
     }
@@ -90,10 +103,46 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             public void onClick(View v) {
                 ListPostCVModel model = new ListPostCVModel();
                 model.setTitle("My Title");
-                model.setcName("My CName");
+                model.setName("My CName");
                 lisExpModels.add(model);
                 lisExpAdp.notifyDataSetChanged();
                 setFullHeightListView(lisExp);
+            }
+        });
+
+        btnAddLan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ListPostCVModel model = new ListPostCVModel();
+                model.setName("My LName");
+                model.setLevel("My LLevel");
+                lisLanModels.add(model);
+                lisLanAdp.notifyDataSetChanged();
+                setFullHeightListView(lisLan);
+            }
+        });
+
+        btnAddRef.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ListPostCVModel model = new ListPostCVModel();
+                model.setTitle("My Title");
+                model.setName("My Name");
+                lisRefModels.add(model);
+                lisRefAdp.notifyDataSetChanged();
+                setFullHeightListView(lisRef);
+            }
+        });
+
+        btnAddSchool.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ListPostCVModel model = new ListPostCVModel();
+                model.setName("My Name");
+                model.setDegree("My Degree");
+                lisSchoolModels.add(model);
+                lisSchoolAdp.notifyDataSetChanged();
+                setFullHeightListView(lisSchool);
             }
         });
     }
@@ -110,12 +159,24 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
 
         lisACCCModels = new ArrayList<>();
         lisExpModels = new ArrayList<>();
+        lisLanModels = new ArrayList<>();
+        lisRefModels = new ArrayList<>();
+        lisSchoolModels = new ArrayList<>();
 
         lisAcccAdp = new ListACCCAdp(this, R.layout.list_accc_postcv, lisACCCModels);
         lisAccc.setAdapter(lisAcccAdp);
 
         lisExpAdp = new ListExpAdp(this, R.layout.list_exp_postcv, lisExpModels);
         lisExp.setAdapter(lisExpAdp);
+
+        lisLanAdp = new ListLanAdp(this, R.layout.list_language_postcv, lisLanModels);
+        lisLan.setAdapter(lisLanAdp);
+
+        lisRefAdp = new ListRefAdp(this, R.layout.list_ref_postcv, lisRefModels);
+        lisRef.setAdapter(lisRefAdp);
+
+        lisSchoolAdp = new ListSchoolAdp(this, R.layout.list_school_postcv, lisSchoolModels);
+        lisSchool.setAdapter(lisSchoolAdp);
 
         order = getIntent().getStringExtra("order");
         this.setTitle(order);

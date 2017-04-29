@@ -33,25 +33,25 @@ public class ListACCCAdp extends ArrayAdapter<ListPostCVModel> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ListACCCHolder listACCCHolder;
+        ListPostCVHolder listPostCVHolder;
 
         if (convertView == null){
 
             convertView = layoutInflater.inflate(this.resource,null);
-            listACCCHolder = new ListACCCHolder();
-            listACCCHolder.txtTitle = (TextView)convertView.findViewById(R.id.txtTitleListACCC);
-            listACCCHolder.txtDate = (TextView)convertView.findViewById(R.id.txtDateListACCC);
-            convertView.setTag(listACCCHolder);
+            listPostCVHolder = new ListPostCVHolder();
+            listPostCVHolder.txtTitle = (TextView)convertView.findViewById(R.id.txtTitleListACCC);
+            listPostCVHolder.txtDate = (TextView)convertView.findViewById(R.id.txtDateListACCC);
+            convertView.setTag(listPostCVHolder);
 
         }
         else {
-            listACCCHolder = (ListACCCHolder)convertView.getTag();
+            listPostCVHolder = (ListPostCVHolder)convertView.getTag();
         }
 
         ListPostCVModel listPostCVModel = getItem(position);
 
-        listACCCHolder.txtTitle.setText(listPostCVModel.getTitle());
-        listACCCHolder.txtDate.setText(listPostCVModel.getDate());
+        listPostCVHolder.txtTitle.setText(listPostCVModel.getTitle());
+        listPostCVHolder.txtDate.setText(listPostCVModel.getDate());
 
         return convertView;
     }

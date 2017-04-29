@@ -14,13 +14,13 @@ import java.util.ArrayList;
 /**
  * Created by lolzzlolzz on 6/28/16.
  */
-public class ListExpAdp extends ArrayAdapter<ListPostCVModel> {
+public class ListSchoolAdp extends ArrayAdapter<ListPostCVModel> {
 
     Context context;
     int resource;
     LayoutInflater layoutInflater;
 
-    public ListExpAdp(Context _con, int _res, ArrayList<ListPostCVModel>listModels){
+    public ListSchoolAdp(Context _con, int _res, ArrayList<ListPostCVModel>listModels){
 
         super(_con,_res,listModels);
 
@@ -39,8 +39,8 @@ public class ListExpAdp extends ArrayAdapter<ListPostCVModel> {
 
             convertView = layoutInflater.inflate(this.resource,null);
             listPostCVHolder = new ListPostCVHolder();
-            listPostCVHolder.txtTitle = (TextView)convertView.findViewById(R.id.txtTitleListExp);
-            listPostCVHolder.txtName = (TextView)convertView.findViewById(R.id.txtCNameListExp);
+            listPostCVHolder.txtName = (TextView)convertView.findViewById(R.id.txtNameSchool);
+            listPostCVHolder.txtDegree = (TextView)convertView.findViewById(R.id.txtDegreeSchool);
             convertView.setTag(listPostCVHolder);
 
         }
@@ -50,8 +50,8 @@ public class ListExpAdp extends ArrayAdapter<ListPostCVModel> {
 
         ListPostCVModel listPostCVModel = getItem(position);
 
-        listPostCVHolder.txtTitle.setText(listPostCVModel.getTitle());
         listPostCVHolder.txtName.setText(listPostCVModel.getName());
+        listPostCVHolder.txtDegree.setText(listPostCVModel.getDegree());
 
         return convertView;
     }

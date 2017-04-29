@@ -14,13 +14,13 @@ import java.util.ArrayList;
 /**
  * Created by lolzzlolzz on 6/28/16.
  */
-public class ListExpAdp extends ArrayAdapter<ListPostCVModel> {
+public class ListRefAdp extends ArrayAdapter<ListPostCVModel> {
 
     Context context;
     int resource;
     LayoutInflater layoutInflater;
 
-    public ListExpAdp(Context _con, int _res, ArrayList<ListPostCVModel>listModels){
+    public ListRefAdp(Context _con, int _res, ArrayList<ListPostCVModel>listModels){
 
         super(_con,_res,listModels);
 
@@ -39,8 +39,8 @@ public class ListExpAdp extends ArrayAdapter<ListPostCVModel> {
 
             convertView = layoutInflater.inflate(this.resource,null);
             listPostCVHolder = new ListPostCVHolder();
-            listPostCVHolder.txtTitle = (TextView)convertView.findViewById(R.id.txtTitleListExp);
-            listPostCVHolder.txtName = (TextView)convertView.findViewById(R.id.txtCNameListExp);
+            listPostCVHolder.txtTitle = (TextView)convertView.findViewById(R.id.txtTitleRef);
+            listPostCVHolder.txtName = (TextView)convertView.findViewById(R.id.txtNameRef);
             convertView.setTag(listPostCVHolder);
 
         }
