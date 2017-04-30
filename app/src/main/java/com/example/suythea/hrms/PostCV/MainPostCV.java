@@ -1,17 +1,29 @@
 package com.example.suythea.hrms.PostCV;
 
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
@@ -30,13 +42,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Random;
 
-public class MainPostCV extends AppCompatActivity implements MySupporter_Interface{
+public class MainPostCV extends AppCompatActivity implements MySupporter_Interface, DatePickerDialog.OnDateSetListener {
 
     Toolbar toolbar;
     String order;
     JSONArray pro, l_lvl, degree, contractType, job_cate;
     Spinner spinGander, spinProvince;
+    AlertDialog alert;
+    DatePickerDialog datepickerdialog;
+
+    EditText eTxtPubDate;
 
     ListView lisAccc, lisExp, lisLan, lisRef, lisSchool;
     Button btnAddACCC, btnAddExp, btnAddLan, btnAddRef, btnAddSchool;
@@ -53,6 +70,11 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
     ListRefAdp lisRefAdp;
     ListSchoolAdp lisSchoolAdp;
 
+    ArrayList<HashMap> lisAcccData;
+    ArrayList<HashMap> lisExpData;
+    ArrayList<HashMap> lisLanData;
+    ArrayList<HashMap> lisRefData;
+    ArrayList<HashMap> lisSchoolData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,15 +108,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         btnAddACCC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-                String date = df.format(Calendar.getInstance().getTime());
-
-                ListPostCVModel model = new ListPostCVModel();
-                model.setTitle("My Title");
-                model.setDate(date);
-                lisACCCModels.add(model);
-                lisAcccAdp.notifyDataSetChanged();
-                setFullHeightListView(lisAccc);
+                loadFormAccc();
             }
         });
 
@@ -163,6 +177,12 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         lisRefModels = new ArrayList<>();
         lisSchoolModels = new ArrayList<>();
 
+        lisAcccData = new ArrayList<>();
+        lisExpData = new ArrayList<>();
+        lisLanData = new ArrayList<>();
+        lisRefData = new ArrayList<>();
+        lisSchoolData = new ArrayList<>();
+
         lisAcccAdp = new ListACCCAdp(this, R.layout.list_accc_postcv, lisACCCModels);
         lisAccc.setAdapter(lisAcccAdp);
 
@@ -210,6 +230,87 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         }
 
         getSpinnerDB();
+    }
+
+    void loadFormAccc(){
+
+        alert = new AlertDialog.Builder(this).create();
+
+        LayoutInflater inflater = getLayoutInflater();
+        final View view2 = inflater.inflate(R.layout.add_accc,null);
+
+        alert.setCancelable(false);
+        alert.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+
+                if (keyCode == 4){ // 4 is keyCode of BackButton
+                    alert.dismiss();
+                }
+                return false;
+            }
+        });
+
+        final EditText eTxtDate = (EditText) view2.findViewById(R.id.eTxtDateAddAccc);
+        final EditText eTxtTitle = (EditText) view2.findViewById(R.id.eTxtTitleAddAccc);
+        final EditText eTxtAbout = (EditText) view2.findViewById(R.id.eTxtAboutAddAccc);
+        eTxtPubDate = eTxtDate;
+
+        Button btnCancel = (Button)view2.findViewById(R.id.btnCancelAccc);
+        Button btnAdd = (Button)view2.findViewById(R.id.btnAddAccc);
+        Button btnAddDate = (Button)view2.findViewById(R.id.btnAddDateAddAccc);
+
+
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        datepickerdialog = new DatePickerDialog(alert.getContext(),
+                android.app.AlertDialog.THEME_HOLO_LIGHT, this,year,month,day);
+
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Add
+                ListPostCVModel model = new ListPostCVModel();
+                model.setTitle(eTxtTitle.getText().toString());
+                model.setDate(eTxtDate.getText().toString().substring(eTxtDate.getText().toString().indexOf(':') + 1, eTxtDate.getText().toString().length()));
+                lisACCCModels.add(model);
+                lisAcccAdp.notifyDataSetChanged();
+                setFullHeightListView(lisAccc);
+
+                HashMap<String, String> map = new HashMap<>();
+                map.put("title", eTxtTitle.getText().toString());
+                map.put("about", eTxtAbout.getText().toString());
+                map.put("date", eTxtDate.getText().toString().substring(eTxtDate.getText().toString().indexOf(':') + 1, eTxtDate.getText().toString().length()));
+
+                lisAcccData.add(map);
+
+                alert.dismiss();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+            }
+        });
+
+        btnAddDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datepickerdialog.show();
+            }
+        });
+
+//        alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+        alert.setView(view2);
+        alert.show();
+
     }
 
     void loadSpinners () {
@@ -348,5 +449,17 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, dayOfMonth);
+
+        SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy");
+        String strDate = format.format(calendar.getTime());
+
+        eTxtPubDate.setText("Date : " + strDate);
     }
 }
