@@ -54,6 +54,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
     DatePickerDialog datepickerdialog;
 
     EditText eTxtPubDate;
+    EditText eTxtEndDate;
 
     ListView lisAccc, lisExp, lisLan, lisRef, lisSchool;
     Button btnAddACCC, btnAddExp, btnAddLan, btnAddRef, btnAddSchool;
@@ -115,48 +116,28 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         btnAddExp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ListPostCVModel model = new ListPostCVModel();
-                model.setTitle("My Title");
-                model.setName("My CName");
-                lisExpModels.add(model);
-                lisExpAdp.notifyDataSetChanged();
-                setFullHeightListView(lisExp);
+                loadFormExp();
             }
         });
 
         btnAddLan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ListPostCVModel model = new ListPostCVModel();
-                model.setName("My LName");
-                model.setLevel("My LLevel");
-                lisLanModels.add(model);
-                lisLanAdp.notifyDataSetChanged();
-                setFullHeightListView(lisLan);
+                loadFormLan();
             }
         });
 
         btnAddRef.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ListPostCVModel model = new ListPostCVModel();
-                model.setTitle("My Title");
-                model.setName("My Name");
-                lisRefModels.add(model);
-                lisRefAdp.notifyDataSetChanged();
-                setFullHeightListView(lisRef);
+                loadFormRef();
             }
         });
 
         btnAddSchool.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ListPostCVModel model = new ListPostCVModel();
-                model.setName("My Name");
-                model.setDegree("My Degree");
-                lisSchoolModels.add(model);
-                lisSchoolAdp.notifyDataSetChanged();
-                setFullHeightListView(lisSchool);
+                loadFormSchool();
             }
         });
     }
@@ -232,6 +213,418 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         getSpinnerDB();
     }
 
+    void loadFormSchool(){
+
+        int i = 0;
+
+        alert = new AlertDialog.Builder(this).create();
+
+        LayoutInflater inflater = getLayoutInflater();
+        final View view2 = inflater.inflate(R.layout.add_school,null);
+
+        alert.setCancelable(false);
+        alert.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+
+                if (keyCode == 4){ // 4 is keyCode of BackButton
+                    alert.dismiss();
+                }
+                return false;
+            }
+        });
+
+        final EditText eTxtName = (EditText) view2.findViewById(R.id.eTxtNameAddSchool);
+        final EditText eTxtStudy = (EditText) view2.findViewById(R.id.eTxtStudyAddSchool);
+        final EditText eTxtGrade = (EditText) view2.findViewById(R.id.eTxtGradeAddSchool);
+        final EditText eSTxtDate = (EditText) view2.findViewById(R.id.eTxtSDateAddSchool);
+
+        eTxtPubDate = eSTxtDate;
+
+        Button btnCancel = (Button)view2.findViewById(R.id.btnCancelSchool);
+        Button btnAdd = (Button)view2.findViewById(R.id.btnAddSchool);
+        Button btnSDate = (Button)view2.findViewById(R.id.btnAddSDateAddSchool);
+
+        final Spinner spinDegree = (Spinner)view2.findViewById(R.id.spinDegreeAddSchool);
+
+        final ArrayList<String> degrees = new ArrayList<>();
+
+        while (i < degree.length()) {
+
+            try {
+                degrees.add(degree.getJSONObject(i).getString("dName"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            i++;
+        }
+
+        ArrayAdapter<String> adapter;
+
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, degrees);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinDegree.setAdapter(adapter);
+
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        datepickerdialog = new DatePickerDialog(alert.getContext(),
+                android.app.AlertDialog.THEME_HOLO_LIGHT, this,year,month,day);
+
+        datepickerdialog.getDatePicker().setTag("1");
+
+        btnSDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datepickerdialog.show();
+            }
+        });
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Add
+
+                ListPostCVModel model = new ListPostCVModel();
+                model.setName(eTxtName.getText().toString());
+                model.setDegree(spinDegree.getSelectedItem().toString());
+                lisSchoolModels.add(model);
+                lisSchoolAdp.notifyDataSetChanged();
+                setFullHeightListView(lisSchool);
+
+                HashMap<String, String> map = new HashMap<>();
+                map.put("name", eTxtName.getText().toString());
+                map.put("study", eTxtStudy.getText().toString());
+                map.put("grade", eTxtGrade.getText().toString());
+                map.put("sDate", eSTxtDate.getText().toString().substring(eSTxtDate.getText().toString().indexOf(':') + 2, eSTxtDate.getText().toString().length()));
+                try {
+                    map.put("degree", String.valueOf(degree.getJSONObject((Integer) spinDegree.getSelectedItemPosition()).getString("id")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                lisSchoolData.add(map);
+
+                Log.d("", String.valueOf(map));
+
+                alert.dismiss();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+            }
+        });
+
+        alert.setView(view2);
+        alert.show();
+    }
+
+    void loadFormRef(){
+
+        int i = 0;
+
+        alert = new AlertDialog.Builder(this).create();
+
+        LayoutInflater inflater = getLayoutInflater();
+        final View view2 = inflater.inflate(R.layout.add_ref,null);
+
+        alert.setCancelable(false);
+        alert.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+
+                if (keyCode == 4){ // 4 is keyCode of BackButton
+                    alert.dismiss();
+                }
+                return false;
+            }
+        });
+
+        final EditText eTxtTitle = (EditText) view2.findViewById(R.id.eTxtJTitleAddRef);
+        final EditText eTxtName = (EditText) view2.findViewById(R.id.eTxtNameAddRef);
+        final EditText eTxtCom = (EditText) view2.findViewById(R.id.eTxtComAddRef);
+        final EditText eTxtPhone = (EditText) view2.findViewById(R.id.eTxtPhoneAddRef);
+        final EditText eTxtEmail = (EditText) view2.findViewById(R.id.eTxtEmailAddRef);
+
+        Button btnCancel = (Button)view2.findViewById(R.id.btnCancelRef);
+        Button btnAdd = (Button)view2.findViewById(R.id.btnAddRef);
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Add
+                ListPostCVModel model = new ListPostCVModel();
+                model.setTitle(eTxtTitle.getText().toString());
+                model.setName(eTxtName.getText().toString());
+
+                lisRefModels.add(model);
+                lisRefAdp.notifyDataSetChanged();
+                setFullHeightListView(lisRef);
+
+                HashMap<String, String> map = new HashMap<>();
+                map.put("title", eTxtTitle.getText().toString());
+                map.put("name", eTxtName.getText().toString());
+                map.put("com", eTxtCom.getText().toString());
+                map.put("phone", eTxtPhone.getText().toString());
+                map.put("email", eTxtEmail.getText().toString());
+
+                lisRefData.add(map);
+
+                Log.d("", String.valueOf(map));
+
+                alert.dismiss();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+            }
+        });
+
+        alert.setView(view2);
+        alert.show();
+    }
+
+    void loadFormLan(){
+
+        int i = 0;
+
+        alert = new AlertDialog.Builder(this).create();
+
+        LayoutInflater inflater = getLayoutInflater();
+        final View view2 = inflater.inflate(R.layout.add_lan,null);
+
+        alert.setCancelable(false);
+        alert.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+
+                if (keyCode == 4){ // 4 is keyCode of BackButton
+                    alert.dismiss();
+                }
+                return false;
+            }
+        });
+
+        final EditText eTxtLan = (EditText) view2.findViewById(R.id.eTxtLanAddLan);
+
+        Button btnCancel = (Button)view2.findViewById(R.id.btnCancelLan);
+        Button btnAdd = (Button)view2.findViewById(R.id.btnAddLan);
+
+        final Spinner spinLan = (Spinner)view2.findViewById(R.id.spinLanAddLan);
+
+        final ArrayList<String> llevel = new ArrayList<>();
+
+        while (i < l_lvl.length()) {
+
+            try {
+                llevel.add(l_lvl.getJSONObject(i).getString("llName"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            i++;
+        }
+
+        ArrayAdapter<String> adapter;
+
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, llevel);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinLan.setAdapter(adapter);
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Add
+                ListPostCVModel model = new ListPostCVModel();
+                model.setName(eTxtLan.getText().toString());
+                model.setLevel(spinLan.getSelectedItem().toString());
+                lisLanModels.add(model);
+                lisLanAdp.notifyDataSetChanged();
+                setFullHeightListView(lisLan);
+
+                HashMap<String, String> map = new HashMap<>();
+                map.put("lName", eTxtLan.getText().toString());
+                try {
+                    map.put("l_lvl", String.valueOf(l_lvl.getJSONObject((Integer) spinLan.getSelectedItemPosition()).getString("id")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                lisLanData.add(map);
+
+                Log.d("", String.valueOf(map));
+
+                alert.dismiss();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+            }
+        });
+
+        alert.setView(view2);
+        alert.show();
+    }
+
+    void loadFormExp(){
+
+        int i = 0;
+
+        alert = new AlertDialog.Builder(this).create();
+
+        LayoutInflater inflater = getLayoutInflater();
+        final View view2 = inflater.inflate(R.layout.add_exp,null);
+
+        alert.setCancelable(false);
+        alert.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+
+                if (keyCode == 4){ // 4 is keyCode of BackButton
+                    alert.dismiss();
+                }
+                return false;
+            }
+        });
+
+        final EditText eTxtTitle = (EditText) view2.findViewById(R.id.eTxtTitleAddExp);
+        final EditText eTxtName = (EditText) view2.findViewById(R.id.eTxtNameAddExp);
+        final EditText eTxtActivity = (EditText) view2.findViewById(R.id.eTxtActivityAddExp);
+        final EditText eTxtSDate = (EditText) view2.findViewById(R.id.eTxtSDateAddExp);
+        final EditText eTxtEDate = (EditText) view2.findViewById(R.id.eTxtEDateAddExp);
+
+        eTxtPubDate = eTxtSDate;
+        eTxtEndDate = eTxtEDate;
+
+        Button btnCancel = (Button)view2.findViewById(R.id.btnCancelExp);
+        Button btnAdd = (Button)view2.findViewById(R.id.btnAddExp);
+
+        Button btnAddSDate = (Button)view2.findViewById(R.id.btnAddSDateAddExp);
+        Button btnAddEDate = (Button)view2.findViewById(R.id.btnAddEDateAddExp);
+
+        final Spinner spinJR = (Spinner)view2.findViewById(R.id.spinJobRoleExp);
+        final Spinner spinCType = (Spinner)view2.findViewById(R.id.spinCTypeExp);
+
+        ArrayList<String> jobRoles = new ArrayList<>();
+        ArrayList<String> cType = new ArrayList<>();
+
+        while (i < job_cate.length()) {
+
+            try {
+                jobRoles.add(job_cate.getJSONObject(i).getString("jcName"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            i++;
+        }
+        i = 0;
+
+        while (i < contractType.length()) {
+
+            try {
+                cType.add(contractType.getJSONObject(i).getString("ctName"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            i++;
+        }
+        i = 0;
+
+        ArrayAdapter<String> adapter;
+
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, jobRoles);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinJR.setAdapter(adapter);
+
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, cType);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinCType.setAdapter(adapter);
+
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        datepickerdialog = new DatePickerDialog(alert.getContext(),
+                android.app.AlertDialog.THEME_HOLO_LIGHT, this,year,month,day);
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Add
+                ListPostCVModel model = new ListPostCVModel();
+                model.setTitle(eTxtTitle.getText().toString());
+                model.setName(eTxtName.getText().toString());
+                lisExpModels.add(model);
+                lisExpAdp.notifyDataSetChanged();
+                setFullHeightListView(lisExp);
+
+                HashMap<String, String> map = new HashMap<>();
+                map.put("title", eTxtTitle.getText().toString());
+                map.put("name", eTxtName.getText().toString());
+                map.put("activity", eTxtActivity.getText().toString());
+                map.put("sDate", eTxtSDate.getText().toString().substring(eTxtSDate.getText().toString().indexOf(':') + 2, eTxtSDate.getText().toString().length()));
+                map.put("eDate", eTxtSDate.getText().toString().substring(eTxtSDate.getText().toString().indexOf(':') + 2, eTxtSDate.getText().toString().length()));
+                try {
+                    map.put("jr", String.valueOf(job_cate.getJSONObject((Integer) spinJR.getSelectedItemPosition()).getString("id")));
+                    map.put("ct", String.valueOf(contractType.getJSONObject((Integer) spinCType.getSelectedItemPosition()).getString("id")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                lisExpData.add(map);
+
+                Log.d("result", String.valueOf(map));
+
+                alert.dismiss();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+            }
+        });
+
+        btnAddSDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datepickerdialog.getDatePicker().setTag("1");
+                datepickerdialog.show();
+            }
+        });
+
+        btnAddEDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datepickerdialog.getDatePicker().setTag("2");
+                datepickerdialog.show();
+            }
+        });
+
+//        alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+        alert.setView(view2);
+        alert.show();
+
+    }
+
     void loadFormAccc(){
 
         alert = new AlertDialog.Builder(this).create();
@@ -269,6 +662,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         datepickerdialog = new DatePickerDialog(alert.getContext(),
                 android.app.AlertDialog.THEME_HOLO_LIGHT, this,year,month,day);
 
+        datepickerdialog.getDatePicker().setTag("1");
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -276,7 +670,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
                 // Add
                 ListPostCVModel model = new ListPostCVModel();
                 model.setTitle(eTxtTitle.getText().toString());
-                model.setDate(eTxtDate.getText().toString().substring(eTxtDate.getText().toString().indexOf(':') + 1, eTxtDate.getText().toString().length()));
+                model.setDate(eTxtDate.getText().toString().substring(eTxtDate.getText().toString().indexOf(':') + 2, eTxtDate.getText().toString().length()));
                 lisACCCModels.add(model);
                 lisAcccAdp.notifyDataSetChanged();
                 setFullHeightListView(lisAccc);
@@ -284,7 +678,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
                 HashMap<String, String> map = new HashMap<>();
                 map.put("title", eTxtTitle.getText().toString());
                 map.put("about", eTxtAbout.getText().toString());
-                map.put("date", eTxtDate.getText().toString().substring(eTxtDate.getText().toString().indexOf(':') + 1, eTxtDate.getText().toString().length()));
+                map.put("date", eTxtDate.getText().toString().substring(eTxtDate.getText().toString().indexOf(':') + 2, eTxtDate.getText().toString().length()));
 
                 lisAcccData.add(map);
 
@@ -460,6 +854,12 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy");
         String strDate = format.format(calendar.getTime());
 
-        eTxtPubDate.setText("Date : " + strDate);
+        if (view.getTag().equals("1")){
+            eTxtPubDate.setText("Date : " + strDate);
+        }
+        else if (view.getTag().equals("2")){
+            eTxtEndDate.setText("Date : " + strDate);
+        }
+
     }
 }
