@@ -1,20 +1,24 @@
 package com.example.suythea.hrms.PostCV;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -22,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +39,7 @@ import com.example.suythea.hrms.Supporting_Files.MySupporter;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -109,35 +115,200 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         btnAddACCC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFormAccc();
+                loadFormAccc("add", -1);
             }
         });
 
         btnAddExp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFormExp();
+                loadFormExp("add", -1);
             }
         });
 
         btnAddLan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFormLan();
+                loadFormLan("add", -1);
             }
         });
 
         btnAddRef.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFormRef();
+                loadFormRef("add", -1);
             }
         });
 
         btnAddSchool.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFormSchool();
+                loadFormSchool("add", -1);
+            }
+        });
+
+        lisAccc.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                Context wrapper = new ContextThemeWrapper(getBaseContext(), R.style.PopupMenu);
+                PopupMenu popup = new PopupMenu(wrapper, view);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.menu_list_post_cv, popup.getMenu());
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch(item.getItemId()){
+                            case R.id.menu_edit_post_cv:
+                                loadFormAccc("edit", position);
+                                break;
+
+                            case R.id.menu_delete_post_cv:
+                                lisACCCModels.remove(position);
+                                lisAcccData.remove(position);
+                                lisAcccAdp.notifyDataSetChanged();
+                                setFullHeightListView(lisAccc);
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popup.show();
+
+                return false;
+            }
+        });
+
+        lisExp.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                Context wrapper = new ContextThemeWrapper(getBaseContext(), R.style.PopupMenu);
+                PopupMenu popup = new PopupMenu(wrapper, view);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.menu_list_post_cv, popup.getMenu());
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch(item.getItemId()){
+                            case R.id.menu_edit_post_cv:
+                                loadFormExp("edit", position);
+                                break;
+
+                            case R.id.menu_delete_post_cv:
+                                lisExpModels.remove(position);
+                                lisExpData.remove(position);
+                                lisExpAdp.notifyDataSetChanged();
+                                setFullHeightListView(lisExp);
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popup.show();
+
+                return false;
+            }
+        });
+
+        lisLan.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                Context wrapper = new ContextThemeWrapper(getBaseContext(), R.style.PopupMenu);
+                PopupMenu popup = new PopupMenu(wrapper, view);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.menu_list_post_cv, popup.getMenu());
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch(item.getItemId()){
+                            case R.id.menu_edit_post_cv:
+                                loadFormLan("edit", position);
+                                break;
+
+                            case R.id.menu_delete_post_cv:
+                                lisLanModels.remove(position);
+                                lisLanData.remove(position);
+                                lisLanAdp.notifyDataSetChanged();
+                                setFullHeightListView(lisLan);
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popup.show();
+
+                return false;
+            }
+        });
+
+        lisRef.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                Context wrapper = new ContextThemeWrapper(getBaseContext(), R.style.PopupMenu);
+                PopupMenu popup = new PopupMenu(wrapper, view);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.menu_list_post_cv, popup.getMenu());
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch(item.getItemId()){
+                            case R.id.menu_edit_post_cv:
+                                loadFormRef("edit", position);
+                                break;
+
+                            case R.id.menu_delete_post_cv:
+                                lisRefModels.remove(position);
+                                lisRefData.remove(position);
+                                lisRefAdp.notifyDataSetChanged();
+                                setFullHeightListView(lisRef);
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popup.show();
+
+                return false;
+            }
+        });
+
+        lisSchool.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                Context wrapper = new ContextThemeWrapper(getBaseContext(), R.style.PopupMenu);
+                PopupMenu popup = new PopupMenu(wrapper, view);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.menu_list_post_cv, popup.getMenu());
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch(item.getItemId()){
+                            case R.id.menu_edit_post_cv:
+                                loadFormSchool("edit", position);
+                                break;
+
+                            case R.id.menu_delete_post_cv:
+                                lisSchoolModels.remove(position);
+                                lisSchoolData.remove(position);
+                                lisSchoolAdp.notifyDataSetChanged();
+                                setFullHeightListView(lisSchool);
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popup.show();
+
+                return false;
             }
         });
     }
@@ -213,7 +384,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         getSpinnerDB();
     }
 
-    void loadFormSchool(){
+    void loadFormSchool(final String order, final int index){
 
         int i = 0;
 
@@ -253,6 +424,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
 
             try {
                 degrees.add(degree.getJSONObject(i).getString("dName"));
+                break;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -276,6 +448,24 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
 
         datepickerdialog.getDatePicker().setTag("1");
 
+        if (order.equals("edit")){
+
+            eTxtName.setText(String.valueOf(lisSchoolData.get(index).get("name")));
+            eTxtStudy.setText(String.valueOf(lisSchoolData.get(index).get("study")));
+            eTxtGrade.setText(String.valueOf(lisSchoolData.get(index).get("grade")));
+            eSTxtDate.setText("Date : " + String.valueOf(lisSchoolData.get(index).get("sDate")));
+
+            for (int j = 0; j < degree.length(); j++){
+                try {
+                    if (degree.getJSONObject(j).get("id").equals(lisSchoolData.get(index).get("degree"))){
+                        spinDegree.setSelection(j);
+                        break;
+                    }
+                } catch (JSONException e) {e.printStackTrace();}
+            }
+
+        }
+
         btnSDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -286,14 +476,10 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Add
 
                 ListPostCVModel model = new ListPostCVModel();
                 model.setName(eTxtName.getText().toString());
                 model.setDegree(spinDegree.getSelectedItem().toString());
-                lisSchoolModels.add(model);
-                lisSchoolAdp.notifyDataSetChanged();
-                setFullHeightListView(lisSchool);
 
                 HashMap<String, String> map = new HashMap<>();
                 map.put("name", eTxtName.getText().toString());
@@ -306,7 +492,17 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
                     e.printStackTrace();
                 }
 
-                lisSchoolData.add(map);
+                if (order.equals("edit")){
+                    lisSchoolModels.set(index, model);
+                    lisSchoolData.set(index, map);
+                }
+                else {
+                    lisSchoolModels.add(model);
+                    lisSchoolData.add(map);
+                }
+
+                lisSchoolAdp.notifyDataSetChanged();
+                setFullHeightListView(lisSchool);
 
                 Log.d("", String.valueOf(map));
 
@@ -325,7 +521,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         alert.show();
     }
 
-    void loadFormRef(){
+    void loadFormRef(final String order, final int index){
 
         int i = 0;
 
@@ -355,6 +551,14 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         Button btnCancel = (Button)view2.findViewById(R.id.btnCancelRef);
         Button btnAdd = (Button)view2.findViewById(R.id.btnAddRef);
 
+        if (order.equals("edit")){
+            eTxtTitle.setText(String.valueOf(lisRefData.get(index).get("title")));
+            eTxtName.setText(String.valueOf(lisRefData.get(index).get("name")));
+            eTxtCom.setText(String.valueOf(lisRefData.get(index).get("com")));
+            eTxtPhone.setText(String.valueOf(lisRefData.get(index).get("phone")));
+            eTxtEmail.setText(String.valueOf(lisRefData.get(index).get("email")));
+        }
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -363,10 +567,6 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
                 model.setTitle(eTxtTitle.getText().toString());
                 model.setName(eTxtName.getText().toString());
 
-                lisRefModels.add(model);
-                lisRefAdp.notifyDataSetChanged();
-                setFullHeightListView(lisRef);
-
                 HashMap<String, String> map = new HashMap<>();
                 map.put("title", eTxtTitle.getText().toString());
                 map.put("name", eTxtName.getText().toString());
@@ -374,7 +574,17 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
                 map.put("phone", eTxtPhone.getText().toString());
                 map.put("email", eTxtEmail.getText().toString());
 
-                lisRefData.add(map);
+                if (order.equals("edit")){
+                    lisRefModels.set(index, model);
+                    lisRefData.set(index, map);
+                }
+                else {
+                    lisRefModels.add(model);
+                    lisRefData.add(map);
+                }
+
+                lisRefAdp.notifyDataSetChanged();
+                setFullHeightListView(lisRef);
 
                 Log.d("", String.valueOf(map));
 
@@ -393,7 +603,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         alert.show();
     }
 
-    void loadFormLan(){
+    void loadFormLan(final String order, final int index){
 
         int i = 0;
 
@@ -440,6 +650,21 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinLan.setAdapter(adapter);
 
+        if (order.equals("edit")){
+
+            eTxtLan.setText(String.valueOf(lisLanData.get(index).get("lName")));
+
+            for (int j = 0; j < l_lvl.length(); j++){
+                try {
+                    if (l_lvl.getJSONObject(j).get("id").equals(lisLanData.get(index).get("l_lvl"))){
+                        spinLan.setSelection(j);
+                        break;
+                    }
+                } catch (JSONException e) {e.printStackTrace();}
+            }
+
+        }
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -447,9 +672,6 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
                 ListPostCVModel model = new ListPostCVModel();
                 model.setName(eTxtLan.getText().toString());
                 model.setLevel(spinLan.getSelectedItem().toString());
-                lisLanModels.add(model);
-                lisLanAdp.notifyDataSetChanged();
-                setFullHeightListView(lisLan);
 
                 HashMap<String, String> map = new HashMap<>();
                 map.put("lName", eTxtLan.getText().toString());
@@ -459,7 +681,17 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
                     e.printStackTrace();
                 }
 
-                lisLanData.add(map);
+                if (order.equals("edit")) {
+                    lisLanData.set(index, map);
+                    lisLanModels.set(index, model);
+                }
+                else{
+                    lisLanData.add(map);
+                    lisLanModels.add(model);
+                }
+
+                lisLanAdp.notifyDataSetChanged();
+                setFullHeightListView(lisLan);
 
                 Log.d("", String.valueOf(map));
 
@@ -478,7 +710,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         alert.show();
     }
 
-    void loadFormExp(){
+    void loadFormExp(final String order, final int index){
 
         int i = 0;
 
@@ -562,6 +794,34 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         datepickerdialog = new DatePickerDialog(alert.getContext(),
                 android.app.AlertDialog.THEME_HOLO_LIGHT, this,year,month,day);
 
+        if (order.equals("edit")){
+
+            eTxtTitle.setText(String.valueOf(lisExpData.get(index).get("title")));
+            eTxtName.setText(String.valueOf(lisExpData.get(index).get("name")));
+            eTxtActivity.setText(String.valueOf(lisExpData.get(index).get("activity")));
+            eTxtSDate.setText("Date : " + String.valueOf(lisExpData.get(index).get("sDate")));
+            eTxtEDate.setText("Date : " + String.valueOf(lisExpData.get(index).get("eDate")));
+
+            for (int j = 0; j < job_cate.length(); j++){
+                try {
+                    if (job_cate.getJSONObject(j).get("id").equals(lisExpData.get(index).get("jr"))){
+                        spinJR.setSelection(j);
+                        break;
+                    }
+                } catch (JSONException e) {e.printStackTrace();}
+            }
+
+            for (int j1 = 0; j1 < contractType.length(); j1++){
+                try {
+                    if (contractType.getJSONObject(j1).get("id").equals(lisExpData.get(index).get("ct"))){
+                        spinCType.setSelection(j1);
+                        break;
+                    }
+                } catch (JSONException e) {e.printStackTrace();}
+            }
+
+        }
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -570,16 +830,13 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
                 ListPostCVModel model = new ListPostCVModel();
                 model.setTitle(eTxtTitle.getText().toString());
                 model.setName(eTxtName.getText().toString());
-                lisExpModels.add(model);
-                lisExpAdp.notifyDataSetChanged();
-                setFullHeightListView(lisExp);
 
                 HashMap<String, String> map = new HashMap<>();
                 map.put("title", eTxtTitle.getText().toString());
                 map.put("name", eTxtName.getText().toString());
                 map.put("activity", eTxtActivity.getText().toString());
                 map.put("sDate", eTxtSDate.getText().toString().substring(eTxtSDate.getText().toString().indexOf(':') + 2, eTxtSDate.getText().toString().length()));
-                map.put("eDate", eTxtSDate.getText().toString().substring(eTxtSDate.getText().toString().indexOf(':') + 2, eTxtSDate.getText().toString().length()));
+                map.put("eDate", eTxtEDate.getText().toString().substring(eTxtEDate.getText().toString().indexOf(':') + 2, eTxtEDate.getText().toString().length()));
                 try {
                     map.put("jr", String.valueOf(job_cate.getJSONObject((Integer) spinJR.getSelectedItemPosition()).getString("id")));
                     map.put("ct", String.valueOf(contractType.getJSONObject((Integer) spinCType.getSelectedItemPosition()).getString("id")));
@@ -587,7 +844,17 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
                     e.printStackTrace();
                 }
 
-                lisExpData.add(map);
+                if (order.equals("edit")){
+                    lisExpModels.set(index, model);
+                    lisExpData.set(index, map);
+                }
+                else {
+                    lisExpModels.add(model);
+                    lisExpData.add(map);
+                }
+
+                lisExpAdp.notifyDataSetChanged();
+                setFullHeightListView(lisExp);
 
                 Log.d("result", String.valueOf(map));
 
@@ -625,7 +892,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
 
     }
 
-    void loadFormAccc(){
+    void loadFormAccc(final String order, final int index){
 
         alert = new AlertDialog.Builder(this).create();
 
@@ -644,15 +911,23 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             }
         });
 
-        final EditText eTxtDate = (EditText) view2.findViewById(R.id.eTxtDateAddAccc);
         final EditText eTxtTitle = (EditText) view2.findViewById(R.id.eTxtTitleAddAccc);
+        final EditText eTxtDate = (EditText) view2.findViewById(R.id.eTxtDateAddAccc);
         final EditText eTxtAbout = (EditText) view2.findViewById(R.id.eTxtAboutAddAccc);
+
         eTxtPubDate = eTxtDate;
+
+        if (order.equals("edit")){
+
+            eTxtTitle.setText(String.valueOf(lisAcccData.get(index).get("title")));
+            eTxtAbout.setText(String.valueOf(lisAcccData.get(index).get("about")));
+            eTxtDate.setText("Date : " + String.valueOf(lisAcccData.get(index).get("date")));
+
+        }
 
         Button btnCancel = (Button)view2.findViewById(R.id.btnCancelAccc);
         Button btnAdd = (Button)view2.findViewById(R.id.btnAddAccc);
         Button btnAddDate = (Button)view2.findViewById(R.id.btnAddDateAddAccc);
-
 
         final Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -671,16 +946,23 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
                 ListPostCVModel model = new ListPostCVModel();
                 model.setTitle(eTxtTitle.getText().toString());
                 model.setDate(eTxtDate.getText().toString().substring(eTxtDate.getText().toString().indexOf(':') + 2, eTxtDate.getText().toString().length()));
-                lisACCCModels.add(model);
-                lisAcccAdp.notifyDataSetChanged();
-                setFullHeightListView(lisAccc);
 
                 HashMap<String, String> map = new HashMap<>();
                 map.put("title", eTxtTitle.getText().toString());
                 map.put("about", eTxtAbout.getText().toString());
                 map.put("date", eTxtDate.getText().toString().substring(eTxtDate.getText().toString().indexOf(':') + 2, eTxtDate.getText().toString().length()));
 
-                lisAcccData.add(map);
+                if (order.equals("edit")){
+                    lisACCCModels.set(index, model);
+                    lisAcccData.add(index, map);
+                }
+                else{
+                    lisACCCModels.add(model);
+                    lisAcccData.add(map);
+                }
+
+                lisAcccAdp.notifyDataSetChanged();
+                setFullHeightListView(lisAccc);
 
                 alert.dismiss();
             }

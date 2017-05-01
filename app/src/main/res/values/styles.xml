@@ -12,4 +12,7 @@
         <item name="android:textSize">20dp</item>
     </style>
 
+    <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
+    </style>
+
 </resources>
