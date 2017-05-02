@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +39,7 @@ import com.example.suythea.hrms.Supporting_Files.MySupporter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -55,12 +57,15 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
     Toolbar toolbar;
     String order;
     JSONArray pro, l_lvl, degree, contractType, job_cate;
-    Spinner spinGander, spinProvince;
     AlertDialog alert;
     DatePickerDialog datepickerdialog;
 
     EditText eTxtPubDate;
     EditText eTxtEndDate;
+
+    Spinner spinGander, spinProvince;
+
+    EditText eTxtTitle, eTxtFName, eTxtLName, eTxtPhone, eTxtAbout;
 
     ListView lisAccc, lisExp, lisLan, lisRef, lisSchool;
     Button btnAddACCC, btnAddExp, btnAddLan, btnAddRef, btnAddSchool;
@@ -109,6 +114,11 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         btnAddSchool = (Button)findViewById(R.id.btnAddSchoolPostCV);
         spinGander = (Spinner)findViewById(R.id.spinGanderPostCV);
         spinProvince = (Spinner)findViewById(R.id.spinProvincePostCV);
+        eTxtTitle = (EditText)findViewById(R.id.eTxtTitlePostCV);
+        eTxtFName = (EditText)findViewById(R.id.eTxtFNamePostCV);
+        eTxtLName = (EditText)findViewById(R.id.eTxtLNamePostCV);
+        eTxtPhone = (EditText)findViewById(R.id.eTxtPhonePostCV);
+        eTxtAbout = (EditText)findViewById(R.id.eTxtAboutPostCV);
     }
 
     void setEvents(){
@@ -424,7 +434,6 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
 
             try {
                 degrees.add(degree.getJSONObject(i).getString("dName"));
-                break;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -885,8 +894,6 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             }
         });
 
-//        alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
         alert.setView(view2);
         alert.show();
 
@@ -982,8 +989,6 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             }
         });
 
-//        alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
         alert.setView(view2);
         alert.show();
 
@@ -1051,16 +1056,19 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
                 + (listView.getDividerHeight() * (mAdapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
+
     }
 
     @Override
     public void onHttpFinished(String response) {
-
+        Toast.makeText(this, response, Toast.LENGTH_LONG).show();
+        Log.d("result", response);
     }
 
     @Override
     public void onHttpError(String message) {
-
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        Log.d("result", message);
     }
 
     @Override
@@ -1123,8 +1131,126 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             case android.R.id.home :
                 finish();
                 break;
+
+            case R.id.icSend :
+                prepareForHttp();
+                break;
         }
         return true;
+    }
+
+    private void prepareForHttp (){
+
+        try {
+
+            JSONObject mainArray = new JSONObject();
+            JSONObject object = new JSONObject();
+
+            JSONArray accc = new JSONArray();
+            JSONArray exp = new JSONArray();
+            JSONArray lan = new JSONArray();
+            JSONArray ref = new JSONArray();
+            JSONArray school = new JSONArray();
+
+            for (int i = 0; i < lisAcccData.size(); i++){
+                object = new JSONObject();
+                object.put("title", lisAcccData.get(i).get("title"));
+                object.put("about", lisAcccData.get(i).get("about"));
+                object.put("date", lisAcccData.get(i).get("date"));
+                accc.put(object);
+            }
+
+
+            for (int i = 0; i < lisExpData.size(); i++){
+                object = new JSONObject();
+                object.put("title", lisExpData.get(i).get("title"));
+                object.put("name", lisExpData.get(i).get("name"));
+                object.put("activity", lisExpData.get(i).get("activity"));
+                object.put("sDate", lisExpData.get(i).get("sDate"));
+                object.put("eDate", lisExpData.get(i).get("eDate"));
+                object.put("jr", lisExpData.get(i).get("jr"));
+                object.put("ct", lisExpData.get(i).get("ct"));
+                exp.put(object);
+            }
+
+
+            for (int i = 0; i < lisLanData.size(); i++){
+                object = new JSONObject();
+                object.put("lName", lisLanData.get(i).get("lName"));
+                object.put("l_lvl", lisLanData.get(i).get("l_lvl"));
+                lan.put(object);
+            }
+
+
+            for (int i = 0; i < lisRefData.size(); i++){
+                object = new JSONObject();
+                object.put("title", lisRefData.get(i).get("title"));
+                object.put("name", lisRefData.get(i).get("name"));
+                object.put("com", lisRefData.get(i).get("com"));
+                object.put("phone", lisRefData.get(i).get("phone"));
+                object.put("email", lisRefData.get(i).get("email"));
+                ref.put(object);
+            }
+
+
+            for (int i = 0; i < lisSchoolData.size(); i++){
+                object = new JSONObject();
+                object.put("name", lisSchoolData.get(i).get("name"));
+                object.put("study", lisSchoolData.get(i).get("study"));
+                object.put("grade", lisSchoolData.get(i).get("grade"));
+                object.put("sDate", lisSchoolData.get(i).get("sDate"));
+                object.put("degree", lisSchoolData.get(i).get("degree"));
+                school.put(object);
+            }
+
+            mainArray.put("accc", accc);
+            mainArray.put("exp", exp);
+            mainArray.put("lan", lan);
+            mainArray.put("ref", ref);
+            mainArray.put("school", school);
+
+            MySqlite sqlite = new MySqlite(this);
+
+            HashMap<String, String> params = new HashMap<>();
+
+            params.put("appToken","ThEa331RA369RiTH383thY925");
+            params.put("id",sqlite.getDataFromjsonField(MySqlite.fields.get(0),"id"));
+            params.put("conPassword",sqlite.getDataFromjsonField(MySqlite.fields.get(0),"password"));
+            params.put("listData", String.valueOf(mainArray));
+            params.put("title", eTxtTitle.getText().toString());
+            params.put("fName", eTxtFName.getText().toString());
+            params.put("lName", eTxtLName.getText().toString());
+            params.put("gander", String.valueOf(spinGander.getSelectedItem()));
+            params.put("phone", eTxtPhone.getText().toString());
+            params.put("pro", String.valueOf(spinProvince.getSelectedItemPosition()));
+            params.put("about", eTxtAbout.getText().toString());
+
+            beforeHttp(params);
+
+            Log.d("result", String.valueOf(params));
+        }
+        catch (JSONException e) {
+            Log.d("", "Error prepareForHttp");
+            e.printStackTrace();
+        }
+    }
+
+    private void beforeHttp(HashMap<String, String> map){
+        if (order.equals("POST")){
+            map.put("order", "POST");
+            MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/postcv/post_cv.php", map, this);
+        }
+        else {
+            map.put("order", "EDIT");
+            MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/postcv/post_cv.php", map, this);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_send, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

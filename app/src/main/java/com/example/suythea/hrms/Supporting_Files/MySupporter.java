@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Base64;
+import android.view.WindowManager;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
