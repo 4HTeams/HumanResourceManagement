@@ -33,7 +33,8 @@
         <activity android:name=".Account.MainLogIn" />
         <activity android:name=".Account.MainEditUpgradeToCom" />
         <activity android:name=".Account.MainEditUser" />
-        <activity android:name=".PostCV.MainPostCV"></activity>
+        <activity android:name=".PostCV.MainPostCV" />
+        <activity android:name=".ViewCV.MainViewCV"></activity>
     </application>
 
 </manifest>

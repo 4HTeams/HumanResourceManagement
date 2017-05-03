@@ -486,6 +486,11 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             @Override
             public void onClick(View v) {
 
+                if (eTxtName.getText().toString().equals("") || eTxtStudy.getText().toString().equals("") || eTxtGrade.getText().toString().equals("")){
+                    Toast.makeText(getBaseContext(), "Fill all textboxes", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 ListPostCVModel model = new ListPostCVModel();
                 model.setName(eTxtName.getText().toString());
                 model.setDegree(spinDegree.getSelectedItem().toString());
@@ -571,7 +576,12 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Add
+
+                if (eTxtTitle.getText().toString().equals("") || eTxtName.getText().toString().equals("") || eTxtCom.getText().toString().equals("") || eTxtPhone.getText().toString().equals("") || eTxtEmail.getText().toString().equals("")){
+                    Toast.makeText(getBaseContext(), "Fill all textboxes", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 ListPostCVModel model = new ListPostCVModel();
                 model.setTitle(eTxtTitle.getText().toString());
                 model.setName(eTxtName.getText().toString());
@@ -677,7 +687,12 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Add
+
+                if (eTxtLan.getText().toString().equals("")){
+                    Toast.makeText(getBaseContext(), "Fill all textboxes", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 ListPostCVModel model = new ListPostCVModel();
                 model.setName(eTxtLan.getText().toString());
                 model.setLevel(spinLan.getSelectedItem().toString());
@@ -835,7 +850,11 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             @Override
             public void onClick(View v) {
 
-                // Add
+                if (eTxtTitle.getText().toString().equals("") || eTxtName.getText().toString().equals("") || eTxtActivity.getText().toString().equals("")){
+                    Toast.makeText(getBaseContext(), "Fill all textboxes", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 ListPostCVModel model = new ListPostCVModel();
                 model.setTitle(eTxtTitle.getText().toString());
                 model.setName(eTxtName.getText().toString());
@@ -949,7 +968,12 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Add
+
+                if (eTxtTitle.getText().toString().equals("") || eTxtAbout.getText().toString().equals("")){
+                    Toast.makeText(getBaseContext(), "Fill all textboxes", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 ListPostCVModel model = new ListPostCVModel();
                 model.setTitle(eTxtTitle.getText().toString());
                 model.setDate(eTxtDate.getText().toString().substring(eTxtDate.getText().toString().indexOf(':') + 2, eTxtDate.getText().toString().length()));
@@ -1061,14 +1085,28 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
 
     @Override
     public void onHttpFinished(String response) {
-        Toast.makeText(this, response, Toast.LENGTH_LONG).show();
-        Log.d("result", response);
+        try {
+
+            JSONArray arrayDB = new JSONArray(URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"), "UTF-8"));
+            JSONObject jsonObj = arrayDB.getJSONObject(0);
+
+            if (jsonObj.getString("status").equals("Success")){
+                finish();
+            }
+            else if (jsonObj.getString("status").equals("ErrorPassword")){
+                Toast.makeText(this, jsonObj.getString("Message"), Toast.LENGTH_LONG).show();
+            }
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onHttpError(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-        Log.d("result", message);
+        Toast.makeText(this, MySupporter.checkError(), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -1133,6 +1171,11 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
                 break;
 
             case R.id.icSend :
+                if (eTxtTitle.getText().toString().equals("") || eTxtFName.getText().toString().equals("") || eTxtLName.getText().toString().equals("") || eTxtPhone.getText().toString().equals("") || eTxtAbout.getText().toString().equals("")){
+                    Toast.makeText(getBaseContext(), "Fill all textboxes !", Toast.LENGTH_LONG).show();
+                    break;
+                }
+
                 prepareForHttp();
                 break;
         }
@@ -1222,7 +1265,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             params.put("lName", eTxtLName.getText().toString());
             params.put("gander", String.valueOf(spinGander.getSelectedItem()));
             params.put("phone", eTxtPhone.getText().toString());
-            params.put("pro", String.valueOf(spinProvince.getSelectedItemPosition()));
+            params.put("pro", String.valueOf(pro.getJSONObject((Integer) spinProvince.getSelectedItemPosition()).getString("id")));
             params.put("about", eTxtAbout.getText().toString());
 
             beforeHttp(params);
