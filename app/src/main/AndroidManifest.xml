@@ -20,21 +20,30 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:configChanges="orientation|screenSize"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Home.MainHome" />
-        <activity android:name=".Setting.MainSetting" />
-        <activity android:name=".Account.MainCreateUser" />
-        <activity android:name=".Account.MainLogIn" />
-        <activity android:name=".Account.MainEditUpgradeToCom" />
-        <activity android:name=".Account.MainEditUser" />
-        <activity android:name=".PostCV.MainPostCV" />
-        <activity android:name=".ViewCV.MainViewCV"></activity>
+        <activity android:name=".Home.MainHome"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".Setting.MainSetting"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".Account.MainCreateUser"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".Account.MainLogIn"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".Account.MainEditUpgradeToCom"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".Account.MainEditUser"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".PostCV.MainPostCV"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".ViewCV.MainViewCV"
+            android:configChanges="orientation|screenSize"/>
     </application>
 
 </manifest>

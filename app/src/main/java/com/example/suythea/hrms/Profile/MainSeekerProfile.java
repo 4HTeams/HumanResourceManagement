@@ -17,11 +17,12 @@ import com.example.suythea.hrms.PostCV.MainPostCV;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
+import com.example.suythea.hrms.ViewCV.MainViewCV;
 
 
 public class MainSeekerProfile extends Fragment {
 
-    Button btnUpgradeToCom, btnSignOut, btnChangeInfo, btnPostCV;
+    Button btnUpgradeToCom, btnSignOut, btnChangeInfo, btnPostCV, btnViewCV;
     Setting_Interface setting_interface;
 
     @Override
@@ -48,6 +49,7 @@ public class MainSeekerProfile extends Fragment {
         btnSignOut = (Button)getActivity().findViewById(R.id.btnSignOutSeekerPro);
         btnChangeInfo = (Button)getActivity().findViewById(R.id.btnChangeInfoSeekerPro);
         btnPostCV = (Button)getActivity().findViewById(R.id.btnPostCVInfoSeekerPro);
+        btnViewCV = (Button)getActivity().findViewById(R.id.btnViewCVInfoSeekerPro);
 
     }
 
@@ -85,6 +87,14 @@ public class MainSeekerProfile extends Fragment {
                 Intent intent = new Intent(getActivity(), MainPostCV.class);
                 intent.putExtra("order", "POST");
                 startActivity(intent);
+            }
+        });
+
+        btnViewCV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), MainViewCV.class);
+                startActivity(i);
             }
         });
 

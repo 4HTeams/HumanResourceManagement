@@ -3,6 +3,7 @@ package com.example.suythea.hrms.PostCV;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.IntegerRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,9 +34,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
+import com.example.suythea.hrms.Interfaces.ViewCV_Interface;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
+import com.example.suythea.hrms.ViewCV.MainViewCV;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,6 +73,8 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
     ListView lisAccc, lisExp, lisLan, lisRef, lisSchool;
     Button btnAddACCC, btnAddExp, btnAddLan, btnAddRef, btnAddSchool;
 
+    String oldCVID;
+
     ArrayList<ListPostCVModel> lisACCCModels;
     ArrayList<ListPostCVModel> lisExpModels;
     ArrayList<ListPostCVModel> lisLanModels;
@@ -98,6 +103,12 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         setControls();
         setEvents();
         startUp();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        MySupporter.runFirstDefault(this);
     }
 
     void setControls(){
@@ -985,7 +996,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
 
                 if (order.equals("edit")){
                     lisACCCModels.set(index, model);
-                    lisAcccData.add(index, map);
+                    lisAcccData.set(index, map);
                 }
                 else{
                     lisACCCModels.add(model);
@@ -1051,6 +1062,157 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         catch (JSONException e) {
             e.printStackTrace();
         }
+
+        loadOldCV ();
+    }
+
+    void loadOldCV(){
+
+        try {
+            if (!order.equals("EDIT")){
+                return;
+            }
+
+            HashMap<String, String> map = new HashMap<>();
+            ListPostCVModel model = new ListPostCVModel();
+
+            JSONArray data = new JSONArray(URLDecoder.decode(URLEncoder.encode(MainViewCV.oldCVData, "iso8859-1"),"UTF-8"));
+            JSONObject CV = new JSONArray(data.getJSONObject(0).getString("CV")).getJSONObject(0);
+            JSONArray Accc = new JSONArray();
+            JSONArray Exp = new JSONArray();
+            JSONArray Ref = new JSONArray();
+            JSONArray Lan = new JSONArray();
+            JSONArray School = new JSONArray();
+
+            try{ Accc = new JSONArray(data.getJSONObject(0).getString("Accc"));} catch (JSONException e) {e.printStackTrace();}
+            try{ Exp = new JSONArray(data.getJSONObject(0).getString("Exp")); } catch (JSONException e) {e.printStackTrace();}
+            try{ Ref = new JSONArray(data.getJSONObject(0).getString("Ref")); } catch (JSONException e) {e.printStackTrace();}
+            try{ Lan = new JSONArray(data.getJSONObject(0).getString("lan")); } catch (JSONException e) {e.printStackTrace();}
+            try{ School = new JSONArray(data.getJSONObject(0).getString("School")); } catch (JSONException e) {e.printStackTrace();}
+
+            oldCVID = CV.getString("id");
+
+            eTxtTitle.setText(CV.getString("title"));
+            eTxtFName.setText(CV.getString("fName"));
+            eTxtLName.setText(CV.getString("lName"));
+            eTxtPhone.setText(CV.getString("phone"));
+            eTxtAbout.setText(CV.getString("about"));
+
+            spinGander.setSelection(CV.getString("gender").equals("Male") ? 0 : 1);
+
+            for (int i=0; i < pro.length(); i++){
+                if (pro.getJSONObject(i).getString("id").equals(CV.getString("pID"))){
+                    spinProvince.setSelection(i);
+                    break;
+                }
+            }
+
+            for (int i=0; i<Accc.length(); i++){
+
+                model = new ListPostCVModel();
+                map = new HashMap<>();
+
+                model.setTitle(Accc.getJSONObject(i).getString("title"));
+                model.setDate(Accc.getJSONObject(i).getString("date"));
+
+                map.put("title", Accc.getJSONObject(i).getString("title"));
+                map.put("about", Accc.getJSONObject(i).getString("des"));
+                map.put("date", Accc.getJSONObject(i).getString("date"));
+
+
+                lisACCCModels.add(model);
+                lisAcccData.add(map);
+            }
+
+
+
+            for (int i=0; i<Exp.length(); i++){
+
+                model = new ListPostCVModel();
+                map = new HashMap<>();
+
+                model.setTitle(Exp.getJSONObject(i).getString("jTitle"));
+                model.setName(Exp.getJSONObject(i).getString("comName"));
+
+                map.put("title", Exp.getJSONObject(i).getString("jTitle"));
+                map.put("name", Exp.getJSONObject(i).getString("comName"));
+                map.put("activity", Exp.getJSONObject(i).getString("activity"));
+                map.put("sDate", Exp.getJSONObject(i).getString("sDate"));
+                map.put("eDate", Exp.getJSONObject(i).getString("eDate"));
+                map.put("jr", Exp.getJSONObject(i).getString("jtID"));
+                map.put("ct", Exp.getJSONObject(i).getString("ctID"));
+
+                lisExpModels.add(model);
+                lisExpData.add(map);
+            }
+
+            for (int i=0; i<Ref.length(); i++){
+
+                model = new ListPostCVModel();
+                map = new HashMap<>();
+
+                model.setTitle(Ref.getJSONObject(i).getString("title"));
+                model.setName(Ref.getJSONObject(i).getString("name"));
+
+                map.put("title", Ref.getJSONObject(i).getString("title"));
+                map.put("name", Ref.getJSONObject(i).getString("name"));
+                map.put("com", Ref.getJSONObject(i).getString("com"));
+                map.put("phone", Ref.getJSONObject(i).getString("tel"));
+                map.put("email", Ref.getJSONObject(i).getString("email"));
+
+                lisRefModels.add(model);
+                lisRefData.add(map);
+            }
+
+            for (int i=0; i<Lan.length(); i++){
+
+                model = new ListPostCVModel();
+                map = new HashMap<>();
+
+                model.setName(Lan.getJSONObject(i).getString("lName"));
+                model.setLevel(Lan.getJSONObject(i).getString("l_level"));
+
+                map.put("lName", Lan.getJSONObject(i).getString("lName"));
+                map.put("l_lvl", Lan.getJSONObject(i).getString("lID"));
+
+                lisLanModels.add(model);
+                lisLanData.add(map);
+            }
+
+            for (int i=0; i<School.length(); i++){
+
+                model = new ListPostCVModel();
+                map = new HashMap<>();
+
+                model.setName(School.getJSONObject(i).getString("sName"));
+                model.setDegree(School.getJSONObject(i).getString("degree"));
+
+                map.put("name", School.getJSONObject(i).getString("sName"));
+                map.put("study", School.getJSONObject(i).getString("study"));
+                map.put("grade", School.getJSONObject(i).getString("grade"));
+                map.put("sDate", School.getJSONObject(i).getString("sDate"));
+                map.put("degree", School.getJSONObject(i).getString("dID"));
+
+                lisSchoolModels.add(model);
+                lisSchoolData.add(map);
+            }
+
+        } catch (JSONException e) {e.printStackTrace();} catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        lisAcccAdp.notifyDataSetChanged();
+        lisRefAdp.notifyDataSetChanged();
+        lisLanAdp.notifyDataSetChanged();
+        lisSchoolAdp.notifyDataSetChanged();
+        lisExpAdp.notifyDataSetChanged();
+
+        setFullHeightListView(lisAccc);
+        setFullHeightListView(lisRef);
+        setFullHeightListView(lisLan);
+        setFullHeightListView(lisSchool);
+        setFullHeightListView(lisExp);
+
     }
 
     void getSpinnerDB(){
@@ -1085,27 +1247,49 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
 
     @Override
     public void onHttpFinished(String response) {
+
+        MySupporter.hideLoading();
+
         try {
 
             JSONArray arrayDB = new JSONArray(URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"), "UTF-8"));
             JSONObject jsonObj = arrayDB.getJSONObject(0);
 
             if (jsonObj.getString("status").equals("Success")){
+                if (order.equals("EDIT")){
+                    ViewCV_Interface viewCVInterface = (ViewCV_Interface) MainViewCV.context;
+                    JSONArray data = new JSONArray(URLDecoder.decode(URLEncoder.encode(MainViewCV.oldCVData, "iso8859-1"),"UTF-8"));
+                    JSONObject CV = new JSONArray(data.getJSONObject(0).getString("CV")).getJSONObject(0);
+                    JSONObject object = new JSONObject();
+
+                    object.put("id", CV.getString("id"));
+                    object.put("fName", eTxtFName.getText().toString());
+                    object.put("lName", eTxtLName.getText().toString());
+                    object.put("posted_date", CV.getString("posted_date"));
+                    object.put("title", eTxtTitle.getText().toString());
+
+                    viewCVInterface.regetOwnCV(object);
+                }
+
                 finish();
             }
             else if (jsonObj.getString("status").equals("ErrorPassword")){
                 Toast.makeText(this, jsonObj.getString("Message"), Toast.LENGTH_LONG).show();
             }
+
+            Log.d("result", response);
         }
         catch (JSONException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
     public void onHttpError(String message) {
+        MySupporter.hideLoading();
         Toast.makeText(this, MySupporter.checkError(), Toast.LENGTH_LONG).show();
     }
 
@@ -1279,12 +1463,16 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
     }
 
     private void beforeHttp(HashMap<String, String> map){
+
+        MySupporter.showLoading("Please Wait.....");
+
         if (order.equals("POST")){
             map.put("order", "POST");
             MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/postcv/post_cv.php", map, this);
         }
         else {
             map.put("order", "EDIT");
+            map.put("emp_id", oldCVID);
             MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/postcv/post_cv.php", map, this);
         }
     }
