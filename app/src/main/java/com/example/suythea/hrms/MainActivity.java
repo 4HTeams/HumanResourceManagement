@@ -1,17 +1,13 @@
 package com.example.suythea.hrms;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.example.suythea.hrms.CV.MainCV;
 import com.example.suythea.hrms.Home.MainHome;
@@ -22,10 +18,10 @@ import com.example.suythea.hrms.Supporting_Files.MySupporter;
 public class MainActivity extends AppCompatActivity implements Main_Interface{
 
     public static Toolbar toolbar;
+    public static Context context;
     TabLayout tabLayout;
     ViewPager viewPager;
     ViewPagerAdapter viewPagerAdapter;
-    public static Context context;
     SearchView searchView;
 
     @Override
@@ -58,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements Main_Interface{
                 else if (tab.getPosition() == 1){
                     searchView.setQueryHint("ស្វែងរក បុគ្គលិក.....");
                     searchView.setVisibility(View.VISIBLE);
+
+                    MainCV.startGettingData();
                 }
                 else if (tab.getPosition() == 2){
 

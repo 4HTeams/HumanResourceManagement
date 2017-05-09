@@ -3,14 +3,11 @@ package com.example.suythea.hrms.PostCV;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.annotation.IntegerRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -19,18 +16,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
@@ -38,22 +32,19 @@ import com.example.suythea.hrms.Interfaces.ViewCV_Interface;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
-import com.example.suythea.hrms.ViewCV.MainViewCV;
+import com.example.suythea.hrms.ViewOwnCV.MainViewOwnCV;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Random;
 
 public class MainPostCV extends AppCompatActivity implements MySupporter_Interface, DatePickerDialog.OnDateSetListener {
 
@@ -1076,7 +1067,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             HashMap<String, String> map = new HashMap<>();
             ListPostCVModel model = new ListPostCVModel();
 
-            JSONArray data = new JSONArray(URLDecoder.decode(URLEncoder.encode(MainViewCV.oldCVData, "iso8859-1"),"UTF-8"));
+            JSONArray data = new JSONArray(URLDecoder.decode(URLEncoder.encode(MainViewOwnCV.oldCVData, "iso8859-1"),"UTF-8"));
             JSONObject CV = new JSONArray(data.getJSONObject(0).getString("CV")).getJSONObject(0);
             JSONArray Accc = new JSONArray();
             JSONArray Exp = new JSONArray();
@@ -1257,8 +1248,8 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
 
             if (jsonObj.getString("status").equals("Success")){
                 if (order.equals("EDIT")){
-                    ViewCV_Interface viewCVInterface = (ViewCV_Interface) MainViewCV.context;
-                    JSONArray data = new JSONArray(URLDecoder.decode(URLEncoder.encode(MainViewCV.oldCVData, "iso8859-1"),"UTF-8"));
+                    ViewCV_Interface viewCVInterface = (ViewCV_Interface) MainViewOwnCV.context;
+                    JSONArray data = new JSONArray(URLDecoder.decode(URLEncoder.encode(MainViewOwnCV.oldCVData, "iso8859-1"),"UTF-8"));
                     JSONObject CV = new JSONArray(data.getJSONObject(0).getString("CV")).getJSONObject(0);
                     JSONObject object = new JSONObject();
 
@@ -1468,12 +1459,12 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
 
         if (order.equals("POST")){
             map.put("order", "POST");
-            MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/postcv/post_cv.php", map, this);
+            MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/cv/post_cv.php", map, this);
         }
         else {
             map.put("order", "EDIT");
             map.put("emp_id", oldCVID);
-            MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/postcv/post_cv.php", map, this);
+            MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/cv/post_cv.php", map, this);
         }
     }
 

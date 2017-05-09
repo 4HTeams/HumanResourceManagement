@@ -44,11 +44,10 @@ public class ListCVAdp extends ArrayAdapter<ListCVModel> {
             convertView = layoutInflater.inflate(this.resource,null);
             listCVHolder = new ListCVHolder();
             listCVHolder.imgProfile = (ImageView) convertView.findViewById(R.id.imgProfileListCV);
-            listCVHolder.txtName = (TextView)convertView.findViewById(R.id.txtNameListCV);
-            listCVHolder.txtJob = (TextView)convertView.findViewById(R.id.txtJobListCV);
-            listCVHolder.txtExper = (TextView)convertView.findViewById(R.id.txtExperListCV);
-            listCVHolder.txtEx_Salary = (TextView)convertView.findViewById(R.id.txtE_SalaryListCV);
+            listCVHolder.txtFName = (TextView)convertView.findViewById(R.id.txtFNameListCV);
+            listCVHolder.txtLName = (TextView)convertView.findViewById(R.id.txtLNameListCV);
             listCVHolder.txtPostedDate = (TextView)convertView.findViewById(R.id.txtPostedDateListCV);
+            listCVHolder.txtTitle = (TextView)convertView.findViewById(R.id.txtTitleListCV);
             convertView.setTag(listCVHolder);
 
         }
@@ -58,10 +57,9 @@ public class ListCVAdp extends ArrayAdapter<ListCVModel> {
 
         ListCVModel listCVModel = getItem(position);
 
-        listCVHolder.txtName.setText(listCVModel.getName());
-        listCVHolder.txtJob.setText(listCVModel.getJob());
-        listCVHolder.txtExper.setText(listCVModel.getExperience());
-        listCVHolder.txtEx_Salary.setText(listCVModel.getEx_salary());
+        listCVHolder.txtFName.setText(listCVModel.getfName());
+        listCVHolder.txtLName.setText(listCVModel.getlName());
+        listCVHolder.txtTitle.setText(listCVModel.getTitle());
         listCVHolder.txtPostedDate.setText(listCVModel.getPostedDate());
 
         return convertView;

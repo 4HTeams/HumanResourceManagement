@@ -8,7 +8,7 @@ import android.widget.TextView;
  */
 public class ListCVHolder {
 
-    public TextView txtName, txtJob, txtExper, txtEx_Salary, txtPostedDate;
+    public TextView txtFName, txtLName, txtPostedDate, txtTitle;
     public ImageView imgProfile;
 
 }

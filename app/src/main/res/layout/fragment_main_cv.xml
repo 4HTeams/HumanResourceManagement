@@ -4,12 +4,45 @@
     android:layout_height="match_parent"
     tools:context="com.example.suythea.hrms.CV.MainCV">
 
-    <ListView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/lisCV"
+        android:orientation="vertical"
         >
 
-    </ListView>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/lisCV"
+            android:layout_weight="1"
+            android:visibility="gone"
+            >
+        </ListView>
+
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:id="@+id/proBarMoreMainCV"
+            android:visibility="gone"
+            />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/proBarMainCV"
+            />
+
+    </RelativeLayout>
 
 </FrameLayout>

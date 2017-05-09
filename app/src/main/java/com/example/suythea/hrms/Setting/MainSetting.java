@@ -55,7 +55,6 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
 
         context = this;
         getDataSQLite();
-
     }
 
     @Override

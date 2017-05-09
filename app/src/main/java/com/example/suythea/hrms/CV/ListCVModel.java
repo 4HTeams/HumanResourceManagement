@@ -5,38 +5,29 @@ package com.example.suythea.hrms.CV;
  */
 public class ListCVModel {
 
-    private String name, job, experience, urlProfile, ex_salary, postedDate;
+    private String fName, lName, postedDate, title;
 
-    public ListCVModel(String name, String job, String experience, String urlProfile, String ex_salary, String postedDate) {
-        this.name = name;
-        this.job = job;
-        this.experience = experience;
-        this.urlProfile = urlProfile;
-        this.ex_salary = ex_salary;
+    public ListCVModel(String fName, String lName, String postedDate, String title) {
+
+        this.fName = fName;
+        this.lName = lName;
         this.postedDate = postedDate;
+        this.title = title;
     }
 
-    public String getName() {
-        return name;
+    public String getfName() {
+        return fName;
     }
 
-    public String getJob() {
-        return job;
-    }
-
-    public String getExperience() {
-        return experience;
-    }
-
-    public String getUrlProfile() {
-        return urlProfile;
-    }
-
-    public String getEx_salary() {
-        return ex_salary;
+    public String getlName() {
+        return lName;
     }
 
     public String getPostedDate() {
         return postedDate;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

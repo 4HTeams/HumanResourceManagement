@@ -26,39 +26,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="1"
-            android:text="Name"
-            android:textColor="#196fb1"
-            android:gravity="center"
-            android:id="@+id/txtNameListCV"
+            android:text="First Name : "
+            android:id="@+id/txtFNameListCV"
+            android:layout_marginTop="15px"
+            android:maxLines="1"
+            android:minLines="1"
             />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="1"
-            android:text="Prefer : "
-            android:id="@+id/txtJobListCV"
+            android:text="Last Name : "
+            android:id="@+id/txtLNameListCV"
+            android:maxLines="1"
+            android:minLines="1"
             />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:text="Experience : "
-            android:id="@+id/txtExperListCV"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:text="Expected Salary : "
-            android:id="@+id/txtE_SalaryListCV"
-            />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="1"
             android:text="Posted Date : "
             android:id="@+id/txtPostedDateListCV"
+            android:maxLines="1"
+            android:minLines="1"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="Title"
+            android:id="@+id/txtTitleListCV"
+            android:textAlignment="center"
             />
 
     </LinearLayout>

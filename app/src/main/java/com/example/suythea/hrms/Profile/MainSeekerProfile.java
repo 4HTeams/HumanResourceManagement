@@ -17,7 +17,7 @@ import com.example.suythea.hrms.PostCV.MainPostCV;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
-import com.example.suythea.hrms.ViewCV.MainViewCV;
+import com.example.suythea.hrms.ViewOwnCV.MainViewOwnCV;
 
 
 public class MainSeekerProfile extends Fragment {
@@ -93,7 +93,7 @@ public class MainSeekerProfile extends Fragment {
         btnViewCV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), MainViewCV.class);
+                Intent i = new Intent(getActivity(), MainViewOwnCV.class);
                 startActivity(i);
             }
         });

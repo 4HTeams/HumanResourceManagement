@@ -1,13 +1,13 @@
-package com.example.suythea.hrms.ViewCV;
+package com.example.suythea.hrms.ViewOwnCV;
 
 /**
  * Created by lolzzlolzz on 6/28/16.
  */
-public class ListViewCVModel {
+public class ListViewOwnCVModel {
 
     private String fName, lName, pDate, title;
 
-    public ListViewCVModel(String fName, String lName, String pDate, String title) {
+    public ListViewOwnCVModel(String fName, String lName, String pDate, String title) {
         this.fName = "First Name : " + fName;
         this.lName = "Last Name : " + lName;
         this.pDate = "Posted Date : " + pDate;
