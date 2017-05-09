@@ -110,6 +110,42 @@ public class MySupporter {
         });
     }
 
+    public static void Http2 (String url, Map<String,String> params, Context context, MySupporter_Interface _mySupporter_interface){
+
+        MyVolley.cancelOldPandingRequest();
+        mySupporter_interface = _mySupporter_interface;
+
+        MyHttp myTask = new MyHttp(context, (HashMap<String, String>) params, new AsyncResponse() {
+            @Override
+            public void processFinish(String response) {
+                mySupporter_interface.onHttpFinished(response);
+            }
+        });
+
+        myTask.execute(url);
+        myTask.setEachExceptionsHandler(new EachExceptionsHandler() {
+            @Override
+            public void handleIOException(IOException e) {
+                mySupporter_interface.onHttpError(e.getMessage());
+            }
+
+            @Override
+            public void handleMalformedURLException(MalformedURLException e) {
+                mySupporter_interface.onHttpError(e.getMessage());
+            }
+
+            @Override
+            public void handleProtocolException(ProtocolException e) {
+                mySupporter_interface.onHttpError(e.getMessage());
+            }
+
+            @Override
+            public void handleUnsupportedEncodingException(UnsupportedEncodingException e) {
+                mySupporter_interface.onHttpError(e.getMessage());
+            }
+        });
+    }
+
     public static void showLoading (String message){
         dialog.setMessage(message);
         dialog.setCancelable(false);

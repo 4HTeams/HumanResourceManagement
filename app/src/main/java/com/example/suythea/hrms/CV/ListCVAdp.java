@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.suythea.hrms.Interfaces.ListCV_Interface;
 import com.example.suythea.hrms.R;
 
 import java.util.ArrayList;
@@ -23,15 +24,16 @@ public class ListCVAdp extends ArrayAdapter<ListCVModel> {
     Context context;
     int resource;
     LayoutInflater layoutInflater;
+    ListCV_Interface listCV_interface;
 
-    public ListCVAdp(Context _con, int _res, ArrayList<ListCVModel>listModels){
+    public ListCVAdp(Context _con, int _res, ArrayList<ListCVModel>listModels, MainCV _me){
 
         super(_con,_res,listModels);
 
         context = _con;
         resource = _res;
         layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+        listCV_interface = (ListCV_Interface) _me;
     }
 
     @Override
@@ -61,6 +63,10 @@ public class ListCVAdp extends ArrayAdapter<ListCVModel> {
         listCVHolder.txtLName.setText(listCVModel.getlName());
         listCVHolder.txtTitle.setText(listCVModel.getTitle());
         listCVHolder.txtPostedDate.setText(listCVModel.getPostedDate());
+
+        if (position == MainCV.lisData.size() - 1){
+            listCV_interface.cameLastIndex();
+        }
 
         return convertView;
     }

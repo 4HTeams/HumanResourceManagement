@@ -5,14 +5,14 @@ package com.example.suythea.hrms.CV;
  */
 public class ListCVModel {
 
-    private String fName, lName, postedDate, title;
+    private String fName, lName, postedDate, title, id;
 
-    public ListCVModel(String fName, String lName, String postedDate, String title) {
-
+    public ListCVModel(String fName, String lName, String postedDate, String title, String id) {
         this.fName = fName;
         this.lName = lName;
         this.postedDate = postedDate;
         this.title = title;
+        this.id = id;
     }
 
     public String getfName() {
@@ -29,5 +29,9 @@ public class ListCVModel {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getId() {
+        return id;
     }
 }

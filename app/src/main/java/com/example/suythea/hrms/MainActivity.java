@@ -1,6 +1,7 @@
 package com.example.suythea.hrms;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -14,6 +15,7 @@ import com.example.suythea.hrms.Home.MainHome;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Interfaces.Main_Interface;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
+import com.example.suythea.hrms.ViewCV.MainViewCV;
 
 public class MainActivity extends AppCompatActivity implements Main_Interface{
 

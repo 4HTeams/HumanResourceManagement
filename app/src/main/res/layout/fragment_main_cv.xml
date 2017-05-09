@@ -15,7 +15,6 @@
             android:layout_height="match_parent"
             android:id="@+id/lisCV"
             android:layout_weight="1"
-            android:visibility="gone"
             >
         </ListView>
 
@@ -33,7 +32,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <ProgressBar
             android:layout_width="50dp"
