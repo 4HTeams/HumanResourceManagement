@@ -2,16 +2,20 @@ package com.example.suythea.hrms;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.SearchView;
 
 import com.example.suythea.hrms.CV.MainCV;
 import com.example.suythea.hrms.Home.MainHome;
+import com.example.suythea.hrms.SearchCV.MainSearchCV;
+import com.example.suythea.hrms.SearchJob.MainSearchJob;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Interfaces.Main_Interface;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
@@ -103,6 +107,28 @@ public class MainActivity extends AppCompatActivity implements Main_Interface{
 
         // MySupporter.runFirstDefault(this) is used to pass context to MySupporter class to define controls
         MySupporter.runFirstDefault(this);
+
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+
+                    if (hasFocus){
+                        v.clearFocus();
+
+                        Intent i = new Intent();
+                        if (searchView.getQueryHint().equals("ស្វែងរក ការងារ.....")){
+                            i = new Intent(getBaseContext(), MainSearchJob.class);
+                        }
+                        else if (searchView.getQueryHint().equals("ស្វែងរក បុគ្គលិក.....")){
+                            i = new Intent(getBaseContext(), MainSearchCV.class);
+                        }
+                        startActivity(i);
+                    }
+
+                }
+            }
+        });
     }
 
     @Override
@@ -111,4 +137,5 @@ public class MainActivity extends AppCompatActivity implements Main_Interface{
             tabLayout.getTabAt(index).select();
         }catch (Exception e){}
     }
+
 }

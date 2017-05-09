@@ -6,11 +6,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.suythea.hrms.MainActivity;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Interfaces.Main_Interface;
+import com.example.suythea.hrms.Supporting_Files.MySupporter;
 
 
 public class MainHome extends Fragment {
@@ -23,6 +25,12 @@ public class MainHome extends Fragment {
     }
 
     public MainHome (){
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
 

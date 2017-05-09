@@ -3,9 +3,15 @@ package com.example.suythea.hrms.CV;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.MotionEvent;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +22,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.suythea.hrms.Interfaces.ListCV_Interface;
+import com.example.suythea.hrms.Interfaces.Main_Interface;
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
 import com.example.suythea.hrms.R;
+import com.example.suythea.hrms.SearchCV.MainSearchCV;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
 import com.example.suythea.hrms.ViewCV.MainViewCV;
 
@@ -41,6 +49,7 @@ public class MainCV extends Fragment implements MySupporter_Interface, ListCV_In
     ProgressBar proBarLoading;
     ProgressBar proBarMore;
     boolean gettable = true;
+    SearchView searchView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,6 +79,7 @@ public class MainCV extends Fragment implements MySupporter_Interface, ListCV_In
         lisView = (ListView)getActivity().findViewById(R.id.lisCV);
         proBarLoading = (ProgressBar)getActivity().findViewById(R.id.proBarMainCV);
         proBarMore = (ProgressBar)getActivity().findViewById(R.id.proBarMoreMainCV);
+        searchView = (SearchView)getActivity().findViewById(R.id.mySearch);
     }
 
     void setEvents(){
@@ -83,6 +93,11 @@ public class MainCV extends Fragment implements MySupporter_Interface, ListCV_In
                 MySupporter.Http2("http://bongnu.khmerlabs.com/bongnu/cv/get_one_cv.php?appToken=ThEa331RA369RiTH383thY925&id=" + lisData.get(position).getId(), new HashMap<String, String>(), getActivity(), (MySupporter_Interface)_c);
             }
         });
+
+
+
+        searchView.getQueryHint();
+
     }
 
     void startUp(){
