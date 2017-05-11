@@ -1,6 +1,8 @@
 package com.example.suythea.hrms.CV;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,9 @@ import android.widget.TextView;
 
 import com.example.suythea.hrms.Interfaces.ListCV_Interface;
 import com.example.suythea.hrms.R;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -63,6 +68,19 @@ public class ListCVAdp extends ArrayAdapter<ListCVModel> {
         listCVHolder.txtLName.setText(listCVModel.getlName());
         listCVHolder.txtTitle.setText(listCVModel.getTitle());
         listCVHolder.txtPostedDate.setText(listCVModel.getPostedDate());
+
+        Picasso.with(context)
+                .load("http://bongnu.khmerlabs.com/profile_images/" + listCVModel.getUid() + ".jpg")
+                .placeholder(context.getResources().getIdentifier("no_profile","mipmap",context.getPackageName()))
+                .into(listCVHolder.imgProfile, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                    }
+
+                    @Override
+                    public void onError() {
+                    }
+                });
 
         if (position == MainCV.lisData.size() - 1){
             listCV_interface.cameLastIndex();

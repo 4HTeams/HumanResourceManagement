@@ -62,6 +62,10 @@ public class MainCV extends Fragment implements MySupporter_Interface, ListCV_In
         super.onActivityCreated(savedInstanceState);
 
         context = this;
+
+        setControls();
+        setEvents();
+        startUp();
     }
 
     @Override
@@ -70,9 +74,6 @@ public class MainCV extends Fragment implements MySupporter_Interface, ListCV_In
 
         MySupporter.runFirstDefault(getActivity());
 
-        setControls();
-        setEvents();
-        startUp();
     }
 
     void setControls(){
@@ -93,11 +94,6 @@ public class MainCV extends Fragment implements MySupporter_Interface, ListCV_In
                 MySupporter.Http2("http://bongnu.khmerlabs.com/bongnu/cv/get_one_cv.php?appToken=ThEa331RA369RiTH383thY925&id=" + lisData.get(position).getId(), new HashMap<String, String>(), getActivity(), (MySupporter_Interface)_c);
             }
         });
-
-
-
-        searchView.getQueryHint();
-
     }
 
     void startUp(){
@@ -144,7 +140,7 @@ public class MainCV extends Fragment implements MySupporter_Interface, ListCV_In
 
             for (int i = 0; i < jsonArray.length(); i++){
                 object = new JSONObject(String.valueOf(jsonArray.get(i)));
-                model = new ListCVModel(object.getString("fName"), object.getString("lName"), object.getString("posted_date"), object.getString("title"), object.getString("id"));
+                model = new ListCVModel(object.getString("fName"), object.getString("lName"), object.getString("posted_date"), object.getString("title"), object.getString("id"), object.getString("uid"));
                 lisData.add(model);
             }
 

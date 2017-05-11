@@ -59,7 +59,7 @@ public class MyVolley extends Application {
     }
 
     public static void cancelOldPandingRequest(){
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.DEPRECATED_GET_OR_POST, "", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 

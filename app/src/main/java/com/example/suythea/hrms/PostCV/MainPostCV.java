@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -62,7 +63,10 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
     EditText eTxtTitle, eTxtFName, eTxtLName, eTxtPhone, eTxtAbout;
 
     ListView lisAccc, lisExp, lisLan, lisRef, lisSchool;
+
     Button btnAddACCC, btnAddExp, btnAddLan, btnAddRef, btnAddSchool;
+
+    ScrollView scrollView;
 
     String oldCVID;
 
@@ -121,6 +125,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         eTxtLName = (EditText)findViewById(R.id.eTxtLNamePostCV);
         eTxtPhone = (EditText)findViewById(R.id.eTxtPhonePostCV);
         eTxtAbout = (EditText)findViewById(R.id.eTxtAboutPostCV);
+        scrollView = (ScrollView)findViewById(R.id.scrVPostCV);
     }
 
     void setEvents(){
@@ -1021,6 +1026,8 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
     }
 
     void loadSpinners () {
+
+        scrollView.setVisibility(View.VISIBLE);
 
         try{
 

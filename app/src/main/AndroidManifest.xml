@@ -56,8 +56,10 @@
         <activity
             android:name=".ViewCV.MainViewCV"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".SearchCV.MainSearchCV" />
-        <activity android:name=".SearchJob.MainSearchJob"></activity>
+        <activity android:name=".SearchCV.MainSearchCV"
+            android:configChanges="orientation|screenSize" />
+        <activity android:name=".SearchJob.MainSearchJob"
+            android:configChanges="orientation|screenSize" />
     </application>
 
 </manifest>
