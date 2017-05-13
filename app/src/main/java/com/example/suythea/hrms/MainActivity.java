@@ -14,6 +14,7 @@ import android.widget.SearchView;
 
 import com.example.suythea.hrms.CV.MainCV;
 import com.example.suythea.hrms.Home.MainHome;
+import com.example.suythea.hrms.PostJob.MainPostJob;
 import com.example.suythea.hrms.SearchJob.MainSearchJob;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Interfaces.Main_Interface;
@@ -113,7 +114,9 @@ public class MainActivity extends AppCompatActivity implements Main_Interface{
                     if (hasFocus){
                         v.clearFocus();
 
-                        Intent i = new Intent(getBaseContext(), MainSearchJob.class);
+//                        Intent i = new Intent(getBaseContext(), MainSearchJob.class);
+                        Intent i = new Intent(getBaseContext(), MainPostJob.class);
+                        i.putExtra("order","POST");
                         startActivity(i);
                     }
 

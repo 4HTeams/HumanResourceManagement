@@ -395,7 +395,6 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             } catch (JSONException e) {e.printStackTrace();}
 
             loadSpinners();
-
         }
 
         getSpinnerDB();

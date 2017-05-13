@@ -102,7 +102,6 @@ public class MainCV extends Fragment implements MySupporter_Interface, ListCV_In
 
     public static void startGettingData(){
         if (firstGetData){
-            firstGetData = false;
             MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/cv/get_all_cv.php?appToken=ThEa331RA369RiTH383thY925&offset=0",new HashMap<String, String>(), context);
         }
     }
@@ -129,6 +128,9 @@ public class MainCV extends Fragment implements MySupporter_Interface, ListCV_In
     @Override
     public void onVolleyFinished(String response) {
         try {
+            firstGetData = false;
+
+            Log.d("result", "my firstGetData");
 
             JSONArray jsonArray = new JSONArray(URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"), "UTF-8"));
             jsonArray = new JSONArray(new JSONObject(String.valueOf(jsonArray.getJSONObject(0))).getString("data"));

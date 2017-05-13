@@ -1,9 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.suythea.hrms.PostJob.MainPostJob">
+    tools:context="com.example.suythea.hrms.PostJob.MainPostJob"
+    android:orientation="vertical"
+    >
 
-</android.support.constraint.ConstraintLayout>
+    <include
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/main_toolbar_no_search"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/linPostJob"
+            >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Title"
+                android:id="@+id/eTxtTitlePostJob"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Job Position"
+                android:id="@+id/eTxtJobPositionPostJob"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description"
+                android:id="@+id/eTxtDesPostJob"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Salary"
+                android:id="@+id/eTxtSalaryPostJob"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Deadline : NULL"
+                    android:id="@+id/eTxtDatePostJob"
+                    android:inputType="none"
+                    android:textIsSelectable="true"
+                    />
+
+                <Button
+                    android:layout_width="150px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10px"
+                    android:text="Add Date"
+                    android:id="@+id/btnAddDatePostJob"
+                    />
+
+            </LinearLayout>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Experience"
+                android:id="@+id/eTxtExpPostJob"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Skills"
+                android:id="@+id/eTxtSkillsPostJob"
+                />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinJobCatePostJob"
+                >
+
+            </Spinner>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinConTypePostJob"
+                >
+
+            </Spinner>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinProPostJob"
+                >
+
+            </Spinner>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinCarLvlPostJob"
+                >
+
+            </Spinner>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinDegreePostJob"
+                >
+
+            </Spinner>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
