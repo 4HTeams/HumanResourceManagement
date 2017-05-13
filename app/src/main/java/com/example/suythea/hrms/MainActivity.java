@@ -14,7 +14,6 @@ import android.widget.SearchView;
 
 import com.example.suythea.hrms.CV.MainCV;
 import com.example.suythea.hrms.Home.MainHome;
-import com.example.suythea.hrms.SearchCV.MainSearchCV;
 import com.example.suythea.hrms.SearchJob.MainSearchJob;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Interfaces.Main_Interface;
@@ -58,9 +57,7 @@ public class MainActivity extends AppCompatActivity implements Main_Interface{
                     searchView.setVisibility(View.VISIBLE);
                 }
                 else if (tab.getPosition() == 1){
-                    searchView.setQueryHint("ស្វែងរក បុគ្គលិក.....");
-                    searchView.setVisibility(View.VISIBLE);
-
+                    searchView.setVisibility(View.GONE);
                     MainCV.startGettingData();
                 }
                 else if (tab.getPosition() == 2){
@@ -116,13 +113,7 @@ public class MainActivity extends AppCompatActivity implements Main_Interface{
                     if (hasFocus){
                         v.clearFocus();
 
-                        Intent i = new Intent();
-                        if (searchView.getQueryHint().equals("ស្វែងរក ការងារ.....")){
-                            i = new Intent(getBaseContext(), MainSearchJob.class);
-                        }
-                        else if (searchView.getQueryHint().equals("ស្វែងរក បុគ្គលិក.....")){
-                            i = new Intent(getBaseContext(), MainSearchCV.class);
-                        }
+                        Intent i = new Intent(getBaseContext(), MainSearchJob.class);
                         startActivity(i);
                     }
 

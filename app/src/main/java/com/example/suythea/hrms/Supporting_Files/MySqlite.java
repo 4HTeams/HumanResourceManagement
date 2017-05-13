@@ -34,14 +34,15 @@ public class MySqlite extends SQLiteOpenHelper {
         this.context=context;
 
         fields = new ArrayList<>();
-        fields.add("currentUser");
-        fields.add("industries");
-        fields.add("cTypes");
-        fields.add("provinces");
-        fields.add("lan_lvl");
-        fields.add("degrees");
-        fields.add("contractTypes");
-        fields.add("job_cates");
+        fields.add("currentUser"); // 0
+        fields.add("industries"); // 1
+        fields.add("cTypes"); // 2
+        fields.add("provinces"); // 3
+        fields.add("lan_lvl"); // 4
+        fields.add("degrees"); // 5
+        fields.add("contractTypes"); // 6
+        fields.add("job_cates"); // 7
+        fields.add("career_lvl"); // 8
 
         insertDefault();
     }
@@ -56,7 +57,7 @@ public class MySqlite extends SQLiteOpenHelper {
             if (Integer.valueOf(cursor.getString(0)) < 1){
                 query = "INSERT INTO tbl_jsonData VALUES (null,'currentUser',''), (null,'industries',''), " +
                         "(null,'cTypes',''), (null,'provinces',''), (null,'lan_lvl',''), (null,'degrees',''), " +
-                        "(null,'contractTypes',''), (null,'job_cates','')";
+                        "(null,'contractTypes',''), (null,'job_cates',''), (null,'career_lvl','')";
                 db.execSQL(query);
             }
             break;

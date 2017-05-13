@@ -1,6 +1,5 @@
 package com.example.suythea.hrms.CV;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -25,7 +24,6 @@ import com.example.suythea.hrms.Interfaces.ListCV_Interface;
 import com.example.suythea.hrms.Interfaces.Main_Interface;
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
 import com.example.suythea.hrms.R;
-import com.example.suythea.hrms.SearchCV.MainSearchCV;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
 import com.example.suythea.hrms.ViewCV.MainViewCV;
 
