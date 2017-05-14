@@ -4,13 +4,35 @@
     android:layout_height="match_parent"
     tools:context="com.example.suythea.hrms.Home.MainHome">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="30dp"
-        android:text="Home Page !"
-        android:gravity="center"
-        android:textStyle="bold"
-        />
+        android:orientation="vertical"
+        >
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/lisJob"
+            android:layout_weight="1"
+            >
+        </ListView>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/proBarMainJob"
+            />
+
+    </RelativeLayout>
 
 </FrameLayout>

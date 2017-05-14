@@ -13,6 +13,7 @@ import android.widget.Button;
 import com.example.suythea.hrms.Account.MainEditUpgradeToCom;
 import com.example.suythea.hrms.Account.MainEditUser;
 import com.example.suythea.hrms.Interfaces.Setting_Interface;
+import com.example.suythea.hrms.PostJob.MainPostJob;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
@@ -20,7 +21,7 @@ import com.example.suythea.hrms.Supporting_Files.MySqlite;
 
 public class MainComProfile extends Fragment {
 
-    Button btnSignOut, btnUpdate, btnAccUpdate;
+    Button btnSignOut, btnUpdate, btnAccUpdate, btnPost, btnView;
     Setting_Interface setting_interface;
 
     @Override
@@ -46,6 +47,9 @@ public class MainComProfile extends Fragment {
         btnSignOut = (Button)getActivity().findViewById(R.id.btnSignOutComPro);
         btnUpdate = (Button)getActivity().findViewById(R.id.btnEditProComPro);
         btnAccUpdate = (Button)getActivity().findViewById(R.id.btnEditUserComPro);
+        btnPost = (Button)getActivity().findViewById(R.id.btnPostJobProComPro);
+        btnView = (Button)getActivity().findViewById(R.id.btnViewJobProComPro);
+
     }
 
     void setEvents (){
@@ -75,6 +79,16 @@ public class MainComProfile extends Fragment {
                 startActivity(intent);
             }
         });
+
+        btnPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), MainPostJob.class);
+                i.putExtra("order","POST");
+                startActivity(i);
+            }
+        });
+
     }
 
     void startUp (){

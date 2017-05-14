@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -28,6 +29,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
@@ -147,7 +149,77 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
 
     void loadSpinner(){
 
+        try {
 
+            int i = 0;
+            ArrayList<String> provinces, jobCate, con, carLvl, de;
+
+            provinces = new ArrayList<>();
+            jobCate = new ArrayList<>();
+            con = new ArrayList<>();
+            carLvl = new ArrayList<>();
+            de = new ArrayList<>();
+
+            while (i < pro.length()) {
+
+                provinces.add(pro.getJSONObject(i).getString("proName"));
+                i++;
+            }
+            i = 0;
+
+            while (i < c_lvl.length()) {
+
+                carLvl.add(c_lvl.getJSONObject(i).getString("clName"));
+                i++;
+            }
+            i = 0;
+
+            while (i < jCate.length()) {
+
+                jobCate.add(jCate.getJSONObject(i).getString("jcName"));
+                i++;
+            }
+            i = 0;
+
+            while (i < conTypes.length()) {
+
+                con.add(conTypes.getJSONObject(i).getString("ctName"));
+                i++;
+            }
+            i = 0;
+
+            while (i < degree.length()) {
+
+                de.add(degree.getJSONObject(i).getString("dName"));
+                i++;
+            }
+            i = 0;
+
+            ArrayAdapter<String> adapter;
+
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, provinces);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinPro.setAdapter(adapter);
+
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, de);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinDegree.setAdapter(adapter);
+
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, carLvl);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinCarLvl.setAdapter(adapter);
+
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, jobCate);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinJobCate.setAdapter(adapter);
+
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, con);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinCon.setAdapter(adapter);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         if (order.equals("EDIT")){
             setOldData();
@@ -156,6 +228,62 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
 
     void setOldData(){
 
+    }
+
+    void volleyPost(){
+
+        MySqlite sqlite = new MySqlite(this);
+        HashMap<String, String> params = new HashMap<>();
+
+        if (!validateControls().equals("OK")){
+            Toast.makeText(this, validateControls(), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        MySupporter.showLoading("Please wait.....");
+
+        try {
+            params.put("appToken", "ThEa331RA369RiTH383thY925");
+            params.put("id", sqlite.getDataFromjsonField(MySqlite.fields.get(0), "id"));
+            params.put("cid", new JSONArray(sqlite.getDataFromjsonField(MySqlite.fields.get(0), "companyInfo")).getJSONObject(0).getString("cID"));
+            params.put("title", eTxtTitle.getText().toString());
+            params.put("des", eTxtDes.getText().toString());
+            params.put("p_req", eTxtPosition.getText().toString());
+            params.put("job_cate", jCate.getJSONObject(spinJobCate.getSelectedItemPosition()).getString("id"));
+            params.put("con_type", conTypes.getJSONObject(spinCon.getSelectedItemPosition()).getString("id"));
+            params.put("salary", eTxtSalary.getText().toString());
+            params.put("pro", pro.getJSONObject(spinPro.getSelectedItemPosition()).getString("id"));
+            params.put("deadline", eTxtDate.getText().toString().substring(eTxtDate.getText().toString().indexOf(':') + 2, eTxtDate.getText().toString().length()));
+            params.put("c_lvl", c_lvl.getJSONObject(spinCarLvl.getSelectedItemPosition()).getString("id"));
+            params.put("degree", degree.getJSONObject(spinDegree.getSelectedItemPosition()).getString("id"));
+            params.put("yearEx", eTxtExp.getText().toString());
+            params.put("proSkill", eTxtSkill.getText().toString());
+            params.put("conPassword", sqlite.getDataFromjsonField(MySqlite.fields.get(0), "password"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (order.equals("POST")){
+            params.put("order", "POST");
+            MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/job/post_job.php", params, this);
+        }
+        else if(order.equals("EDIT")) {
+            params.put("order", "EDIT");
+            MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/job/post_job.php", params, this);
+        }
+    }
+
+    String validateControls(){
+
+        if (eTxtTitle.getText().toString().equals("") || eTxtExp.getText().toString().equals("") || eTxtSalary.getText().toString().equals("") || eTxtPosition.getText().toString().equals("") || eTxtDes.getText().toString().equals("") || eTxtSkill.getText().toString().equals("")){
+            return "Fill all controls required !";
+        }
+        else if (eTxtDate.getText().toString().substring(eTxtDate.getText().toString().indexOf(':') + 2, eTxtDate.getText().toString().length()).equals("NULL")){
+            return "Fill deadline required !";
+        }
+
+        return "OK";
     }
 
     @Override
@@ -206,35 +334,6 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
 
     }
 
-    void volleyPost(){
-
-        if (!validateControls().equals("OK")){
-            Toast.makeText(this, validateControls(), Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        MySupporter.showLoading("Please wait.....");
-
-        if (order.equals("POST")){
-
-        }
-        else if(order.equals("EDIT")) {
-
-        }
-    }
-
-    String validateControls(){
-
-        if (eTxtTitle.getText().toString().equals("") || eTxtExp.getText().toString().equals("") || eTxtSalary.getText().toString().equals("") || eTxtPosition.getText().toString().equals("") || eTxtDes.getText().toString().equals("") || eTxtSkill.getText().toString().equals("")){
-            return "Fill all controls required !";
-        }
-        else if (eTxtDate.getText().toString().substring(eTxtDate.getText().toString().indexOf(':') + 2, eTxtDate.getText().toString().length()).equals("NULL")){
-            return "Fill deadline required !";
-        }
-
-        return "OK";
-    }
-
     @Override
     public void onHttpError(String message) {
         MySupporter.hideLoading();
@@ -248,11 +347,26 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
     @Override
     public void onVolleyFinished(String response) {
 
+        MySupporter.hideLoading();
+
+        try {
+            JSONArray json = new JSONArray(URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"),"UTF-8"));
+
+            if (String.valueOf(json.getJSONObject(0).getString("status")).equals("Success")){
+                finish();
+            }
+            else {
+                Toast.makeText(this, String.valueOf(json.getJSONObject(0).getString("Message")), Toast.LENGTH_LONG).show();
+            }
+
+        } catch (UnsupportedEncodingException e) {e.printStackTrace();} catch (JSONException e) {e.printStackTrace();}
+
     }
 
     @Override
     public void onVolleyError(String message) {
-
+        Toast.makeText(this, MySupporter.checkError(), Toast.LENGTH_LONG).show();
+        MySupporter.hideLoading();
     }
 
     @Override

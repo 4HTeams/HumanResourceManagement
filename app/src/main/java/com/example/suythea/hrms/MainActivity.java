@@ -8,18 +8,15 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.SearchView;
 
 import com.example.suythea.hrms.CV.MainCV;
 import com.example.suythea.hrms.Home.MainHome;
-import com.example.suythea.hrms.PostJob.MainPostJob;
 import com.example.suythea.hrms.SearchJob.MainSearchJob;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Interfaces.Main_Interface;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
-import com.example.suythea.hrms.ViewCV.MainViewCV;
 
 public class MainActivity extends AppCompatActivity implements Main_Interface{
 
@@ -114,8 +111,7 @@ public class MainActivity extends AppCompatActivity implements Main_Interface{
                     if (hasFocus){
                         v.clearFocus();
 
-//                        Intent i = new Intent(getBaseContext(), MainSearchJob.class);
-                        Intent i = new Intent(getBaseContext(), MainPostJob.class);
+                        Intent i = new Intent(getBaseContext(), MainSearchJob.class);
                         i.putExtra("order","POST");
                         startActivity(i);
                     }

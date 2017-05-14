@@ -1,16 +1,9 @@
 package com.example.suythea.hrms.CV;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.MotionEvent;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +13,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.suythea.hrms.Interfaces.ListCV_Interface;
-import com.example.suythea.hrms.Interfaces.Main_Interface;
+import com.example.suythea.hrms.Interfaces.List_CV_And_Job_Interface;
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
@@ -37,7 +29,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainCV extends Fragment implements MySupporter_Interface, ListCV_Interface{
+public class MainCV extends Fragment implements MySupporter_Interface, List_CV_And_Job_Interface {
 
     ListView lisView;
     public static ArrayList<ListCVModel> lisData;
@@ -45,9 +37,7 @@ public class MainCV extends Fragment implements MySupporter_Interface, ListCV_In
     public static MainCV context;
     ListCVAdp adp;
     ProgressBar proBarLoading;
-    ProgressBar proBarMore;
     boolean gettable = true;
-    SearchView searchView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,8 +67,6 @@ public class MainCV extends Fragment implements MySupporter_Interface, ListCV_In
     void setControls(){
         lisView = (ListView)getActivity().findViewById(R.id.lisCV);
         proBarLoading = (ProgressBar)getActivity().findViewById(R.id.proBarMainCV);
-        proBarMore = (ProgressBar)getActivity().findViewById(R.id.proBarMoreMainCV);
-        searchView = (SearchView)getActivity().findViewById(R.id.mySearch);
     }
 
     void setEvents(){
@@ -130,8 +118,6 @@ public class MainCV extends Fragment implements MySupporter_Interface, ListCV_In
         try {
             firstGetData = false;
 
-            Log.d("result", "my firstGetData");
-
             JSONArray jsonArray = new JSONArray(URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"), "UTF-8"));
             jsonArray = new JSONArray(new JSONObject(String.valueOf(jsonArray.getJSONObject(0))).getString("data"));
             JSONObject object;
@@ -144,13 +130,13 @@ public class MainCV extends Fragment implements MySupporter_Interface, ListCV_In
                 lisData.add(model);
             }
 
-            lisView.setVisibility(View.VISIBLE);
-            proBarLoading.setVisibility(View.GONE);
-            adp.notifyDataSetChanged();
-
             if (jsonArray.length() < 10){
                 gettable = false;
             }
+
+            lisView.setVisibility(View.VISIBLE);
+            proBarLoading.setVisibility(View.GONE);
+            adp.notifyDataSetChanged();
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -163,7 +149,7 @@ public class MainCV extends Fragment implements MySupporter_Interface, ListCV_In
     public void onVolleyError(String message) {
 
         firstGetData = true;
-        proBarMore.setVisibility(View.GONE);
+        proBarLoading.setVisibility(View.GONE);
         Toast.makeText(getActivity(), MySupporter.checkError(), Toast.LENGTH_LONG).show();
     }
 

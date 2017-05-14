@@ -1,25 +1,18 @@
 package com.example.suythea.hrms.CV;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.suythea.hrms.Interfaces.ListCV_Interface;
+import com.example.suythea.hrms.Interfaces.List_CV_And_Job_Interface;
 import com.example.suythea.hrms.R;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by lolzzlolzz on 6/28/16.
@@ -29,7 +22,7 @@ public class ListCVAdp extends ArrayAdapter<ListCVModel> {
     Context context;
     int resource;
     LayoutInflater layoutInflater;
-    ListCV_Interface listCV_interface;
+    List_CV_And_Job_Interface listCV_AndJob_interface;
 
     public ListCVAdp(Context _con, int _res, ArrayList<ListCVModel>listModels, MainCV _me){
 
@@ -38,7 +31,7 @@ public class ListCVAdp extends ArrayAdapter<ListCVModel> {
         context = _con;
         resource = _res;
         layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        listCV_interface = (ListCV_Interface) _me;
+        listCV_AndJob_interface = (List_CV_And_Job_Interface) _me;
     }
 
     @Override
@@ -83,7 +76,7 @@ public class ListCVAdp extends ArrayAdapter<ListCVModel> {
                 });
 
         if (position == MainCV.lisData.size() - 1){
-            listCV_interface.cameLastIndex();
+            listCV_AndJob_interface.cameLastIndex();
         }
 
         return convertView;
