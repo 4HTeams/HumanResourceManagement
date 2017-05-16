@@ -81,25 +81,11 @@ public class MainCreateUser extends AppCompatActivity implements MySupporter_Int
 
     private void dataVolley(){
 
-        String  username="",
-                password="",
-                email="";
-
-        try {
-
-            username = URLEncoder.encode(etUsername.getText().toString(), "utf-8");
-            password = URLEncoder.encode(etPassword.getText().toString(), "utf-8");
-            email = URLEncoder.encode(etEmail.getText().toString(), "utf-8");
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
         Map<String, String> params = new HashMap<>();
         params.put("appToken","ThEa331RA369RiTH383thY925");
-        params.put("username",username);
-        params.put("password",password);
-        params.put("email",email);
+        params.put("username",etUsername.getText().toString());
+        params.put("password",etPassword.getText().toString());
+        params.put("email",etEmail.getText().toString());
 
         // Pass params to verify if it is okay result will be OK, or it will be a message from that method
         String result = MySupporter.verifyControls(params);

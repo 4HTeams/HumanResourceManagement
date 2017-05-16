@@ -230,27 +230,27 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
             params.put("conPassword",sqlite.getDataFromjsonField(MySqlite.fields.get(0),"password"));
 
             if (!eTCName.getText().toString().equals(jsonCompanyInfo.getString("cName"))){
-                params.put("cName", URLEncoder.encode(eTCName.getText().toString()));
+                params.put("cName", eTCName.getText().toString());
                 result = "OK";
             }
             if (!eTCEmail.getText().toString().equals(jsonCompanyInfo.getString("cEmail"))){
-                params.put("cEmail", URLEncoder.encode(eTCEmail.getText().toString()));
+                params.put("cEmail", eTCEmail.getText().toString());
                 result = "OK";
             }
             if (!eTCEmpAmount.getText().toString().equals(jsonCompanyInfo.getString("empAmount"))){
-                params.put("empAmount", URLEncoder.encode(eTCEmpAmount.getText().toString()));
+                params.put("empAmount", eTCEmpAmount.getText().toString());
                 result = "OK";
             }
             if (!eTCAddress.getText().toString().equals(jsonCompanyInfo.getString("address"))){
-                params.put("address", URLEncoder.encode(eTCAddress.getText().toString()));
+                params.put("address", eTCAddress.getText().toString());
                 result = "OK";
             }
             if (!eTCContact.getText().toString().equals(jsonCompanyInfo.getString("contact"))){
-                params.put("contact", URLEncoder.encode(eTCContact.getText().toString()));
+                params.put("contact", eTCContact.getText().toString());
                 result = "OK";
             }
             if (!eTCAbout.getText().toString().equals(jsonCompanyInfo.getString("about"))){
-                params.put("about", URLEncoder.encode(eTCAbout.getText().toString()));
+                params.put("about", eTCAbout.getText().toString());
                 result = "OK";
             }
             if (!spiIndustry.getSelectedItem().toString().toUpperCase().equals(jsonCompanyInfo.getString("industry").toUpperCase())){
@@ -295,32 +295,19 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
             MySqlite sqlite = new MySqlite(this);
             String industryID = "", cTypeID = "", _eTCName = "", _eTCEmail = "", _eTCEmpAmount = "", _eTCContact = "", _eTCAbout = "", _eTCAddress = "";
 
-            try {
-
-                industryID = String.valueOf(industries.getJSONObject((Integer) spiIndustry.getSelectedItemPosition()).getString("id"));
-                cTypeID = String.valueOf(cTypes.getJSONObject((Integer) spiCType.getSelectedItemPosition()).getString("id"));
-
-                _eTCName = URLEncoder.encode(eTCName.getText().toString(), "utf-8");
-                _eTCEmail = URLEncoder.encode(eTCEmail.getText().toString(), "utf-8");
-                _eTCEmpAmount = URLEncoder.encode(eTCEmpAmount.getText().toString(), "utf-8");
-                _eTCContact = URLEncoder.encode(eTCContact.getText().toString(), "utf-8");
-                _eTCAbout = URLEncoder.encode(eTCAbout.getText().toString(), "utf-8");
-                _eTCAddress = URLEncoder.encode(eTCAddress.getText().toString(), "utf-8");
-
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            industryID = String.valueOf(industries.getJSONObject((Integer) spiIndustry.getSelectedItemPosition()).getString("id"));
+            cTypeID = String.valueOf(cTypes.getJSONObject((Integer) spiCType.getSelectedItemPosition()).getString("id"));
 
             params.put("appToken","ThEa331RA369RiTH383thY925");
             params.put("id",sqlite.getDataFromjsonField(MySqlite.fields.get(0),"id"));
-            params.put("cName",_eTCName);
-            params.put("cEmail",_eTCEmail);
+            params.put("cName",eTCName.getText().toString());
+            params.put("cEmail",eTCEmail.getText().toString());
             params.put("industry",industryID);
             params.put("cType",cTypeID);
-            params.put("empAmount",_eTCEmpAmount);
-            params.put("address",_eTCAddress);
-            params.put("contact",_eTCContact);
-            params.put("about",_eTCAbout);
+            params.put("empAmount",eTCEmpAmount.getText().toString());
+            params.put("address",eTCAddress.getText().toString());
+            params.put("contact",eTCContact.getText().toString());
+            params.put("about",eTCAbout.getText().toString());
             params.put("orderToDo",order);
             params.put("conPassword",sqlite.getDataFromjsonField(MySqlite.fields.get(0),"password"));
 
@@ -371,45 +358,45 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
             jsonComInfo.put("cType", spiCType.getSelectedItem());
 
             if (params.containsKey("cName")){
-                jsonComInfo.put("cName", URLDecoder.decode(params.get("cName")));
+                jsonComInfo.put("cName", params.get("cName"));
             }
             else {
-                jsonComInfo.put("cName", URLDecoder.decode(jsonCompanyInfo.getString("cName")));
+                jsonComInfo.put("cName", jsonCompanyInfo.getString("cName"));
             }
 
             if (params.containsKey("cEmail")){
-                jsonComInfo.put("cEmail", URLDecoder.decode(params.get("cEmail")));
+                jsonComInfo.put("cEmail", params.get("cEmail"));
             }
             else {
-                jsonComInfo.put("cEmail", URLDecoder.decode(jsonCompanyInfo.getString("cEmail")));
+                jsonComInfo.put("cEmail", jsonCompanyInfo.getString("cEmail"));
             }
 
             if (params.containsKey("empAmount")){
-                jsonComInfo.put("empAmount", URLDecoder.decode(params.get("empAmount")));
+                jsonComInfo.put("empAmount", params.get("empAmount"));
             }
             else {
-                jsonComInfo.put("empAmount", URLDecoder.decode(jsonCompanyInfo.getString("empAmount")));
+                jsonComInfo.put("empAmount", jsonCompanyInfo.getString("empAmount"));
             }
 
             if (params.containsKey("address")){
-                jsonComInfo.put("address", URLDecoder.decode(params.get("address")));
+                jsonComInfo.put("address", params.get("address"));
             }
             else {
-                jsonComInfo.put("address", URLDecoder.decode(jsonCompanyInfo.getString("address")));
+                jsonComInfo.put("address", jsonCompanyInfo.getString("address"));
             }
 
             if (params.containsKey("contact")){
-                jsonComInfo.put("contact", URLDecoder.decode(params.get("contact")));
+                jsonComInfo.put("contact", params.get("contact"));
             }
             else {
-                jsonComInfo.put("contact", URLDecoder.decode(jsonCompanyInfo.getString("contact")));
+                jsonComInfo.put("contact", jsonCompanyInfo.getString("contact"));
             }
 
             if (params.containsKey("about")){
-                jsonComInfo.put("about", URLDecoder.decode(params.get("about")));
+                jsonComInfo.put("about", params.get("about"));
             }
             else {
-                jsonComInfo.put("about", URLDecoder.decode(jsonCompanyInfo.getString("about")));
+                jsonComInfo.put("about", jsonCompanyInfo.getString("about"));
             }
 
             JSONArray jsonArray = new JSONArray();
@@ -455,14 +442,14 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
             jsonObject.put("approval", oldData.getString("approval"));
 
             jsonComInfo.put("cID", cID);
-            jsonComInfo.put("cName", URLDecoder.decode(params.get("cName")));
-            jsonComInfo.put("cEmail", URLDecoder.decode(params.get("cEmail")));
+            jsonComInfo.put("cName", params.get("cName"));
+            jsonComInfo.put("cEmail", params.get("cEmail"));
             jsonComInfo.put("industry", industry);
             jsonComInfo.put("cType", cType);
-            jsonComInfo.put("empAmount", URLDecoder.decode(params.get("empAmount")));
-            jsonComInfo.put("address", URLDecoder.decode(params.get("address")));
-            jsonComInfo.put("contact", URLDecoder.decode(params.get("contact")));
-            jsonComInfo.put("about", URLDecoder.decode(params.get("about")));
+            jsonComInfo.put("empAmount", params.get("empAmount"));
+            jsonComInfo.put("address", params.get("address"));
+            jsonComInfo.put("contact", params.get("contact"));
+            jsonComInfo.put("about", params.get("about"));
 
             JSONArray jsonArray = new JSONArray();
             jsonArray.put(jsonComInfo);

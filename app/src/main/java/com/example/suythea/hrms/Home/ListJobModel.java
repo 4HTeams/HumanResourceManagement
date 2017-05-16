@@ -11,14 +11,16 @@ public class ListJobModel {
     private String yearEx;
     private String cName;
     private String salary;
+    private String id;
 
-    public ListJobModel(String imgUrl, String title, String deadline, String yearEx, String cName, String salary) {
+    public ListJobModel(String imgUrl, String title, String deadline, String yearEx, String cName, String salary, String id) {
         this.imgUrl = imgUrl;
         this.title = title;
         this.deadline = deadline;
         this.yearEx = yearEx;
         this.cName = cName;
         this.salary = salary;
+        this.id = id;
     }
 
     public String getImgUrl() {
@@ -43,5 +45,9 @@ public class ListJobModel {
 
     public String getSalary() {
         return salary;
+    }
+
+    public String getId() {
+        return id;
     }
 }

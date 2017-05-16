@@ -53,6 +53,10 @@ public class MainActivity extends AppCompatActivity implements Main_Interface{
                 if (tab.getPosition() == 0){
                     searchView.setQueryHint("ស្វែងរក ការងារ.....");
                     searchView.setVisibility(View.VISIBLE);
+
+                    if(MainHome.context != null){
+                        MainHome.startGettingData();
+                    }
                 }
                 else if (tab.getPosition() == 1){
                     searchView.setVisibility(View.GONE);

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Base64;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.android.volley.AuthFailureError;
@@ -67,19 +68,60 @@ public class MySupporter {
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                return params;
+
+                String key = "", value = "";
+                HashMap<String, String> maps = new HashMap<>();
+
+                for (Map.Entry<String, String> entry : params.entrySet()) {
+
+                    key = entry.getKey();
+
+                    try {
+                        value = URLEncoder.encode(entry.getValue(), "utf-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
+                    maps.put(key, value);
+                }
+
+                return maps;
             }
         };
 
         MyVolley.getMyInstance().addToRequestQueue(stringRequest);
     }
 
+    public static HashMap<String, String> myEncoder (Map<String, String> params){
+
+        String key = "", value = "";
+        HashMap<String, String> maps = new HashMap<>();
+
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+
+            key = entry.getKey();
+
+            try {
+                value = URLEncoder.encode(entry.getValue(), "utf-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            maps.put(key, value);
+        }
+
+        Log.d("result", String.valueOf(maps));
+
+        return maps;
+    }
+
+
     public static void Http (String url, Map<String,String> params, Context context){
 
         MyVolley.cancelOldPandingRequest();
         mySupporter_interface = (MySupporter_Interface) context;
 
-        MyHttp myTask = new MyHttp(context, (HashMap<String, String>) params, new AsyncResponse() {
+        MyHttp myTask = new MyHttp(context, myEncoder(params), new AsyncResponse() {
             @Override
             public void processFinish(String response) {
                 mySupporter_interface.onHttpFinished(response);
@@ -115,7 +157,7 @@ public class MySupporter {
         MyVolley.cancelOldPandingRequest();
         mySupporter_interface = _mySupporter_interface;
 
-        MyHttp myTask = new MyHttp(context, (HashMap<String, String>) params, new AsyncResponse() {
+        MyHttp myTask = new MyHttp(context,  myEncoder(params), new AsyncResponse() {
             @Override
             public void processFinish(String response) {
                 mySupporter_interface.onHttpFinished(response);
@@ -182,12 +224,13 @@ public class MySupporter {
         for (Map.Entry<String, String> entry : maps.entrySet()) {
 
             key = entry.getKey().toUpperCase();
+            value = entry.getValue();
 
-            try {
-                value = URLDecoder.decode(entry.getValue(), "utf-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                value = URLDecoder.decode(entry.getValue(), "utf-8");
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
 
             switch (key) {
                 case "EMAIL" :

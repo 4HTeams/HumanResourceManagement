@@ -25,7 +25,7 @@ public class ListJobAdp extends ArrayAdapter<ListJobModel> {
     LayoutInflater layoutInflater;
     List_CV_And_Job_Interface listCV_AndJob_interface;
 
-    public ListJobAdp(Context _con, int _res, ArrayList<ListJobModel>listModels, MainCV _me){
+    public ListJobAdp(Context _con, int _res, ArrayList<ListJobModel>listModels, MainHome _me){
 
         super(_con,_res,listModels);
 
@@ -61,9 +61,9 @@ public class ListJobAdp extends ArrayAdapter<ListJobModel> {
 
         listJobHolder.txtCName.setText(listJobModel.getcName());
         listJobHolder.txtTitle.setText(listJobModel.getTitle());
-        listJobHolder.txtExp.setText(listJobModel.getYearEx());
-        listJobHolder.txtSalary.setText(listJobModel.getSalary());
-        listJobHolder.txtDeadline.setText(listJobModel.getDeadline());
+        listJobHolder.txtExp.setText("Experience : " + listJobModel.getYearEx());
+        listJobHolder.txtSalary.setText("Salary : " + listJobModel.getSalary());
+        listJobHolder.txtDeadline.setText("Deadline : " + listJobModel.getDeadline());
 
         Picasso.with(context)
                 .load("http://bongnu.khmerlabs.com/profile_images/" + listJobModel.getImgUrl() + ".jpg")
@@ -78,7 +78,7 @@ public class ListJobAdp extends ArrayAdapter<ListJobModel> {
                     }
                 });
 
-        if (position == MainCV.lisData.size() - 1){
+        if (position == MainHome.lisData.size() - 1){
             listCV_AndJob_interface.cameLastIndex();
         }
 

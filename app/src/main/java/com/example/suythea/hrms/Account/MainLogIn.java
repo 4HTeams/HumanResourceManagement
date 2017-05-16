@@ -80,22 +80,10 @@ public class MainLogIn extends AppCompatActivity implements MySupporter_Interfac
 
     private void dataVolley(){
 
-        String  password="",
-                username="";
-
-        try {
-            username = URLEncoder.encode(etUsername.getText().toString(), "utf-8");
-            password = URLEncoder.encode(etPassword.getText().toString(), "utf-8");
-
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
         Map<String, String> params = new HashMap<>();
         params.put("appToken","ThEa331RA369RiTH383thY925");
-        params.put("username",username);
-        params.put("password",password);
+        params.put("username",etUsername.getText().toString());
+        params.put("password",etPassword.getText().toString());
 
         String result = MySupporter.verifyControls(params);
 
