@@ -36,7 +36,7 @@ public class MainCV extends Fragment implements MySupporter_Interface, List_CV_A
     static boolean firstGetData = true;
     public static MainCV context;
     ListCVAdp adp;
-    ProgressBar proBarLoading;
+    static ProgressBar proBarLoading;
     boolean gettable = true;
 
     @Override
@@ -90,6 +90,7 @@ public class MainCV extends Fragment implements MySupporter_Interface, List_CV_A
 
     public static void startGettingData(){
         if (firstGetData){
+            proBarLoading.setVisibility(View.VISIBLE);
             MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/cv/get_all_cv.php?appToken=ThEa331RA369RiTH383thY925&offset=0",new HashMap<String, String>(), context);
         }
     }

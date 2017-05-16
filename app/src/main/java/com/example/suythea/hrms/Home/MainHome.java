@@ -25,6 +25,7 @@ import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Interfaces.Main_Interface;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
 import com.example.suythea.hrms.ViewCV.MainViewCV;
+import com.example.suythea.hrms.ViewJob.MainViewJob;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,7 +45,7 @@ public class MainHome extends Fragment implements MySupporter_Interface, List_CV
     static boolean firstGetData = true;
     public static MainHome context;
     ListJobAdp adp;
-    ProgressBar proBarLoading;
+    static ProgressBar proBarLoading;
     boolean gettable = true;
 
     @Override
@@ -86,8 +87,8 @@ public class MainHome extends Fragment implements MySupporter_Interface, List_CV
         lisView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                MySupporter.showLoading("Please wait.....");
-//                MySupporter.Http2("http://bongnu.khmerlabs.com/bongnu/cv/get_one_cv.php?appToken=ThEa331RA369RiTH383thY925&id=" + lisData.get(position).getId(), new HashMap<String, String>(), getActivity(), (MySupporter_Interface)_c);
+                MySupporter.showLoading("Please wait.....");
+                MySupporter.Http2("http://bongnu.khmerlabs.com/bongnu/job/get_one_job.php?appToken=ThEa331RA369RiTH383thY925&jid=" + lisData.get(position).getId() + "&cid=" + lisData.get(position).getCid(), new HashMap<String, String>(), getActivity(), (MySupporter_Interface)_c);
             }
         });
     }
@@ -100,6 +101,7 @@ public class MainHome extends Fragment implements MySupporter_Interface, List_CV
 
     public static void startGettingData(){
         if (firstGetData){
+            proBarLoading.setVisibility(View.VISIBLE);
             MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/job/get_all_jobs.php?appToken=ThEa331RA369RiTH383thY925&offset=0",new HashMap<String, String>(), context);
         }
     }
@@ -108,7 +110,7 @@ public class MainHome extends Fragment implements MySupporter_Interface, List_CV
     public void onHttpFinished(String response) {
         try{
             MySupporter.hideLoading();
-            Intent intent = new Intent(getActivity(), MainViewCV.class);
+            Intent intent = new Intent(getActivity(), MainViewJob.class);
             intent.putExtra("response", response);
             startActivity(intent);
         }
@@ -136,7 +138,7 @@ public class MainHome extends Fragment implements MySupporter_Interface, List_CV
 
             for (int i = 0; i < jsonArray.length(); i++){
                 object = new JSONObject(String.valueOf(jsonArray.get(i)));
-                model = new ListJobModel(object.getString("uid"), object.getString("title"), object.getString("deadline"), object.getString("yearEx"), object.getString("cName"), object.getString("salary"), object.getString("uid"));
+                model = new ListJobModel(object.getString("uid"), object.getString("title"), object.getString("deadline"), object.getString("yearEx"), object.getString("cName"), object.getString("salary"), object.getString("jid"), object.getString("cid"));
                 lisData.add(model);
             }
 

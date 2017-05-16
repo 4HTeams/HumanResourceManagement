@@ -62,7 +62,9 @@
         <activity
             android:name=".SearchJob.MainSearchJob"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".PostJob.MainPostJob"></activity>
+        <activity android:name=".PostJob.MainPostJob" />
+        <activity android:name=".ViewOwnJob.MainViewOwnJob" />
+        <activity android:name=".ViewJob.MainViewJob"></activity>
     </application>
 
 </manifest>
