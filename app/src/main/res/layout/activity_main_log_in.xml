@@ -13,21 +13,48 @@
         layout="@layout/main_toolbar_no_search"
         />
 
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username"
-        android:id="@+id/etLogInUsername"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:id="@+id/etLogInPassword"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnLogIn"
-        android:text="Log In"/>
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:text="Bong Norton"
+            android:textSize="34sp"
+            android:textColor="#ff0000"
+            android:textStyle="bold"
+            android:fontFamily="Aileron"
+            android:textAlignment="center"
+            android:tint="@android:color/white" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username"
+            android:drawableLeft="@drawable/ic_person_outline_black_24dp"
+            android:drawablePadding="16dp"
+            android:id="@+id/etLogInUsername"
+            android:layout_marginTop="8dp"
+            android:padding="12sp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:drawableLeft="@drawable/ic_vpn_key_black_24dp"
+            android:drawablePadding="16dp"
+            android:inputType="textPassword"
+            android:id="@+id/etLogInPassword"
+            android:layout_marginTop="8dp"
+            android:padding="12sp"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnLogIn"
+            android:layout_marginTop="16dp"
+            android:text="Log In"/>
+    </LinearLayout>
 
 </LinearLayout>
