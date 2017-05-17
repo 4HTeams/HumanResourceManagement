@@ -29,7 +29,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
-import com.example.suythea.hrms.Interfaces.ViewCV_Interface;
+import com.example.suythea.hrms.Interfaces.ViewOwn_Job_CV_Interface;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
@@ -1254,7 +1254,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
 
             if (jsonObj.getString("status").equals("Success")){
                 if (order.equals("EDIT")){
-                    ViewCV_Interface viewCVInterface = (ViewCV_Interface) MainViewOwnCV.context;
+                    ViewOwn_Job_CV_Interface viewCVInterface = (ViewOwn_Job_CV_Interface) MainViewOwnCV.context;
                     JSONArray data = new JSONArray(URLDecoder.decode(URLEncoder.encode(MainViewOwnCV.oldCVData, "iso8859-1"),"UTF-8"));
                     JSONObject CV = new JSONArray(data.getJSONObject(0).getString("CV")).getJSONObject(0);
                     JSONObject object = new JSONObject();
@@ -1265,7 +1265,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
                     object.put("posted_date", CV.getString("posted_date"));
                     object.put("title", eTxtTitle.getText().toString());
 
-                    viewCVInterface.regetOwnCV(object);
+                    viewCVInterface.reloadChangedData(object);
                 }
 
                 finish();

@@ -18,12 +18,17 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
+import com.example.suythea.hrms.Interfaces.ViewOwn_Job_CV_Interface;
+import com.example.suythea.hrms.PostCV.ListPostCVModel;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
+import com.example.suythea.hrms.ViewOwnCV.MainViewOwnCV;
+import com.example.suythea.hrms.ViewOwnJob.MainViewOwnJob;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -41,13 +46,17 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
     JSONArray pro;
     JSONArray degree;
 
-    String order;
+    String order, oldJID;
 
     Toolbar toolbar;
+
 
     EditText eTxtTitle, eTxtDes, eTxtPosition, eTxtSalary, eTxtDate, eTxtExp, eTxtSkill;
     Spinner spinJobCate, spinCon, spinPro, spinCarLvl, spinDegree;
     Button btnAddDate;
+
+    ArrayList<String> provinces, jobCate, con, carLvl, de;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,7 +161,6 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
         try {
 
             int i = 0;
-            ArrayList<String> provinces, jobCate, con, carLvl, de;
 
             provinces = new ArrayList<>();
             jobCate = new ArrayList<>();
@@ -221,13 +229,72 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
             e.printStackTrace();
         }
 
-        if (order.equals("EDIT")){
-            setOldData();
-        }
+        setOldData();
     }
 
     void setOldData(){
 
+        try {
+
+            if (!order.equals("EDIT")){
+                return;
+            }
+
+            JSONObject data = new JSONObject(URLDecoder.decode(URLEncoder.encode(MainViewOwnJob.oldJobData, "iso8859-1"),"UTF-8"));
+
+            oldJID = data.getString("jid");
+
+            eTxtDate.setText("Deadline : " + data.getString("application_deadline"));
+            eTxtTitle.setText(data.getString("job_title"));
+            eTxtSkill.setText(data.getString("professional_skill"));
+            eTxtExp.setText(data.getString("year_experience"));
+            eTxtSalary.setText(data.getString("salary"));
+            eTxtDes.setText(data.getString("job_description"));
+            eTxtPosition.setText(data.getString("position_requirement"));
+
+            for (int i=0; i<pro.length(); i++){
+
+                if (pro.getJSONObject(i).getString("id").equals(data.getString("province"))){
+                    spinPro.setSelection(i);
+                    break;
+                }
+            }
+
+            for (int i=0; i<conTypes.length(); i++){
+
+                if (conTypes.getJSONObject(i).getString("id").equals(data.getString("contract_type"))){
+                    spinCon.setSelection(i);
+                    break;
+                }
+            }
+
+            for (int i=0; i<jCate.length(); i++){
+
+                if (jCate.getJSONObject(i).getString("id").equals(data.getString("job_category"))){
+                    spinJobCate.setSelection(i);
+                    break;
+                }
+            }
+
+            for (int i=0; i<c_lvl.length(); i++){
+
+                if (c_lvl.getJSONObject(i).getString("id").equals(data.getString("career_level"))){
+                    spinCarLvl.setSelection(i);
+                    break;
+                }
+            }
+
+            for (int i=0; i<degree.length(); i++){
+
+                if (degree.getJSONObject(i).getString("id").equals(data.getString("degree"))){
+                    spinDegree.setSelection(i);
+                    break;
+                }
+            }
+
+            Log.d("result", String.valueOf(data));
+
+        } catch (JSONException e) {e.printStackTrace();} catch (UnsupportedEncodingException e) {e.printStackTrace();}
     }
 
     void volleyPost(){
@@ -270,6 +337,7 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
         }
         else if(order.equals("EDIT")) {
             params.put("order", "EDIT");
+            params.put("jid", oldJID);
             MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/job/post_job.php", params, this);
         }
     }
@@ -353,6 +421,11 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
             JSONArray json = new JSONArray(URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"),"UTF-8"));
 
             if (String.valueOf(json.getJSONObject(0).getString("status")).equals("Success")){
+
+                if (order.equals("EDIT")){
+                    prepareNewJsonRow(response);
+                }
+
                 finish();
             }
             else {
@@ -361,6 +434,32 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
 
         } catch (UnsupportedEncodingException e) {e.printStackTrace();} catch (JSONException e) {e.printStackTrace();}
 
+    }
+
+    void prepareNewJsonRow (String response) throws UnsupportedEncodingException, JSONException {
+
+        ViewOwn_Job_CV_Interface _interface = (ViewOwn_Job_CV_Interface) MainViewOwnJob.context;
+        JSONObject data = new JSONObject(URLDecoder.decode(URLEncoder.encode(MainViewOwnJob.oldJobData, "iso8859-1"),"UTF-8"));
+
+        JSONObject object = new JSONObject();
+
+        object.put("cid", data.getString("cid"));
+        object.put("uid", data.getString("uid"));
+        object.put("job_title", eTxtTitle.getText().toString());
+        object.put("job_description", eTxtDes.getText().toString());
+        object.put("position_requirement", eTxtPosition.getText().toString());
+        object.put("job_category", jCate.getJSONObject(spinJobCate.getSelectedItemPosition()).getString("id"));
+        object.put("contract_type", conTypes.getJSONObject(spinCon.getSelectedItemPosition()).getString("id"));
+        object.put("salary", eTxtSalary.getText().toString());
+        object.put("province", pro.getJSONObject(spinPro.getSelectedItemPosition()).getString("id"));
+        object.put("application_deadline", eTxtDate.getText().toString().substring(eTxtDate.getText().toString().indexOf(':') + 2, eTxtDate.getText().toString().length()));
+        object.put("career_level", c_lvl.getJSONObject(spinCarLvl.getSelectedItemPosition()).getString("id"));
+        object.put("degree", degree.getJSONObject(spinDegree.getSelectedItemPosition()).getString("id"));
+        object.put("year_experience", eTxtExp.getText().toString());
+        object.put("professional_skill", eTxtSkill.getText().toString());
+        object.put("jid", data.getString("jid"));
+
+        _interface.reloadChangedData(object);
     }
 
     @Override

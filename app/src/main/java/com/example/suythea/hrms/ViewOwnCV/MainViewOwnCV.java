@@ -17,7 +17,7 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
-import com.example.suythea.hrms.Interfaces.ViewCV_Interface;
+import com.example.suythea.hrms.Interfaces.ViewOwn_Job_CV_Interface;
 import com.example.suythea.hrms.PostCV.MainPostCV;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
@@ -33,7 +33,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainViewOwnCV extends AppCompatActivity implements MySupporter_Interface, ViewCV_Interface{
+public class MainViewOwnCV extends AppCompatActivity implements MySupporter_Interface, ViewOwn_Job_CV_Interface {
 
     ListViewOwnCVAdp adp;
     ListView lisViewCV;
@@ -250,7 +250,7 @@ public class MainViewOwnCV extends AppCompatActivity implements MySupporter_Inte
     }
 
     @Override
-    public void regetOwnCV(Object object) {
+    public void reloadChangedData(Object object) {
         try {
 
             JSONArray jsonArray = new JSONArray();

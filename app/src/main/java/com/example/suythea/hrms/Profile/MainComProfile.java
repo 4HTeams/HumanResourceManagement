@@ -17,6 +17,7 @@ import com.example.suythea.hrms.PostJob.MainPostJob;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
+import com.example.suythea.hrms.ViewOwnJob.MainViewOwnJob;
 
 
 public class MainComProfile extends Fragment {
@@ -84,6 +85,15 @@ public class MainComProfile extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), MainPostJob.class);
+                i.putExtra("order","POST");
+                startActivity(i);
+            }
+        });
+
+        btnView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), MainViewOwnJob.class);
                 i.putExtra("order","POST");
                 startActivity(i);
             }

@@ -17,6 +17,7 @@ import com.example.suythea.hrms.SearchJob.MainSearchJob;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Interfaces.Main_Interface;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
+import com.example.suythea.hrms.ViewOwnJob.MainViewOwnJob;
 
 public class MainActivity extends AppCompatActivity implements Main_Interface{
 
