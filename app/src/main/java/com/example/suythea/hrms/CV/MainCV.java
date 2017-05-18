@@ -100,7 +100,7 @@ public class MainCV extends Fragment implements MySupporter_Interface, List_CV_A
         try{
             MySupporter.hideLoading();
             Intent intent = new Intent(getActivity(), MainViewCV.class);
-            intent.putExtra("response", response);
+            intent.putExtra("response", URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"), "UTF-8"));
             startActivity(intent);
         }
         catch (Exception e){
