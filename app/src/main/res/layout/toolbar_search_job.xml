@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
+    android:id="@+id/toolBarSearchJob"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    android:minHeight="?attr/actionBarSize"
+    android:background="?attr/colorPrimary"
+    >
+
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchBarJob"
+        android:queryHint="ស្វែងរក"
+        android:iconifiedByDefault="false"
+        android:focusable="true"
+        android:background="#af0003"
+        >
+    </SearchView>
+
+</android.support.v7.widget.Toolbar>

@@ -12,19 +12,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.example.suythea.hrms.CV.ListCVAdp;
-import com.example.suythea.hrms.CV.ListCVModel;
-import com.example.suythea.hrms.CV.MainCV;
 import com.example.suythea.hrms.Interfaces.List_CV_And_Job_Interface;
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
-import com.example.suythea.hrms.MainActivity;
 import com.example.suythea.hrms.R;
-import com.example.suythea.hrms.Interfaces.Main_Interface;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
-import com.example.suythea.hrms.ViewCV.MainViewCV;
 import com.example.suythea.hrms.ViewJob.MainViewJob;
 
 import org.json.JSONArray;
@@ -111,7 +104,7 @@ public class MainHome extends Fragment implements MySupporter_Interface, List_CV
         try{
             MySupporter.hideLoading();
             Intent intent = new Intent(getActivity(), MainViewJob.class);
-            intent.putExtra("response", response);
+            intent.putExtra("response", URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"), "UTF-8"));
             startActivity(intent);
         }
         catch (Exception e){

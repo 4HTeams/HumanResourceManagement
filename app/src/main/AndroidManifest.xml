@@ -30,12 +30,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Home.MainHome"
-            android:configChanges="orientation|screenSize" />
-        <activity
-            android:name=".Setting.MainSetting"
-            android:configChanges="orientation|screenSize" />
-        <activity
             android:name=".Account.MainCreateUser"
             android:configChanges="orientation|screenSize" />
         <activity
@@ -57,14 +51,14 @@
             android:name=".ViewCV.MainViewCV"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name=".SearchCV.MainSearchCV"
-            android:configChanges="orientation|screenSize" />
-        <activity
             android:name=".SearchJob.MainSearchJob"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".PostJob.MainPostJob" />
-        <activity android:name=".ViewOwnJob.MainViewOwnJob" />
-        <activity android:name=".ViewJob.MainViewJob"></activity>
+        <activity android:name=".PostJob.MainPostJob"
+            android:configChanges="orientation|screenSize" />
+        <activity android:name=".ViewOwnJob.MainViewOwnJob"
+            android:configChanges="orientation|screenSize" />
+        <activity android:name=".ViewJob.MainViewJob"
+            android:configChanges="orientation|screenSize" />
     </application>
 
 </manifest>
