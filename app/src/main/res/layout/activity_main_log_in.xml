@@ -20,7 +20,7 @@
         android:padding="16dp">
 
         <TextView
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="64dp"
             android:layout_gravity="center"
             android:text="Bong Norton"
@@ -81,7 +81,8 @@
             android:fontFamily="monospace"
             android:id="@+id/tvSignUp"
             android:textColor="#0000ff"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
     </LinearLayout>
 
 </LinearLayout>

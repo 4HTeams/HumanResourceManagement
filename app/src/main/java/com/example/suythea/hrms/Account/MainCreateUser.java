@@ -144,6 +144,12 @@ public class MainCreateUser extends AppCompatActivity implements MySupporter_Int
 
                 alterJson(jsonObj.getString("id"));
                 setting_interface.changeToFragment("SEEKER_PROFILE");
+
+                String fromLogin = getIntent().getStringExtra("fromLogIn");
+                if (fromLogin != null){
+                    MainLogIn.closeMe();
+                }
+
                 finish();
 
             }else{

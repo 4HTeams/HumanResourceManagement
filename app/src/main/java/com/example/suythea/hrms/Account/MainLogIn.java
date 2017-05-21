@@ -1,5 +1,7 @@
 package com.example.suythea.hrms.Account;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -40,18 +43,22 @@ public class MainLogIn extends AppCompatActivity implements MySupporter_Interfac
     Button btnLogIn;
     EditText etUsername,etPassword;
     Setting_Interface setting_interface;
+    TextView txtSignUp;
+    public static MainLogIn context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_log_in);
 
+        context = this;
         MySupporter.runFirstDefault(this);
 
         toolbar = (Toolbar) findViewById(R.id.toolBarNoSearch);
         btnLogIn = (Button) findViewById(R.id.btnLogIn);
         etPassword = (EditText) findViewById(R.id.etLogInPassword) ;
         etUsername = (EditText) findViewById(R.id.etLogInUsername) ;
+        txtSignUp = (TextView)findViewById(R.id.tvSignUp);
 
         toolbar.setTitle("LogIn");
 
@@ -71,12 +78,24 @@ public class MainLogIn extends AppCompatActivity implements MySupporter_Interfac
             }
         });
 
+        txtSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), MainCreateUser.class);
+                intent.putExtra("fromLogIn", "1");
+                startActivity(intent);
+            }
+        });
 
     }
+
+    public static void closeMe(){
+        context.finish();
+    }
+
     public MainLogIn(){
         this.setting_interface = MainSetting.context;
     }
-
 
     private void dataVolley(){
 
