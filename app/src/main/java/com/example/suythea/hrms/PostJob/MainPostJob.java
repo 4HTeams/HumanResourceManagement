@@ -14,6 +14,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ import com.example.suythea.hrms.Supporting_Files.MySqlite;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
 import com.example.suythea.hrms.ViewOwnCV.MainViewOwnCV;
 import com.example.suythea.hrms.ViewOwnJob.MainViewOwnJob;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,6 +53,9 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
 
     Toolbar toolbar;
 
+    ImageView img;
+
+    ScrollView scrollView;
 
     EditText eTxtTitle, eTxtDes, eTxtPosition, eTxtSalary, eTxtDate, eTxtExp, eTxtSkill;
     Spinner spinJobCate, spinCon, spinPro, spinCarLvl, spinDegree;
@@ -85,6 +91,8 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
         spinPro = (Spinner)findViewById(R.id.spinProPostJob);
         spinCarLvl = (Spinner)findViewById(R.id.spinCarLvlPostJob);
         spinDegree = (Spinner)findViewById(R.id.spinDegreePostJob);
+        img = (ImageView)findViewById(R.id.imgProfileMainPostJob);
+        scrollView = (ScrollView)findViewById(R.id.scrollMainPostJob);
     }
 
     void setEvents(){
@@ -150,6 +158,19 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
         }
 
         dataVolleyForFields();
+
+        Picasso.with(this)
+                .load("http://bongnu.khmerlabs.com/profile_images/" + new MySqlite(this).getDataFromjsonField(MySqlite.fields.get(0),"id") + ".jpg")
+                .placeholder(this.getResources().getIdentifier("no_profile","mipmap",this.getPackageName()))
+                .into(img, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                    }
+
+                    @Override
+                    public void onError() {
+                    }
+                });
     }
 
     void dataVolleyForFields(){
@@ -157,6 +178,8 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
     }
 
     void loadSpinner(){
+
+        scrollView.setVisibility(View.VISIBLE);
 
         try {
 

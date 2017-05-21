@@ -156,14 +156,11 @@ public class MainSearchJob extends AppCompatActivity implements MySupporter_Inte
         MySupporter.hideLoading();
 
         lisData = new ArrayList<>();
-        adp = new ListSearchAdp(this, R.layout.list_job_item, lisData);
-        listView.setAdapter(adp);
 
         try {
 
             if (new JSONArray(response).getJSONObject(0).getString("status").equals("NoData")){
                 Toast.makeText(this, new JSONArray(response).getJSONObject(0).getString("Message"), Toast.LENGTH_LONG).show();
-                adp.notifyDataSetChanged();
                 return;
             }
 
@@ -176,11 +173,12 @@ public class MainSearchJob extends AppCompatActivity implements MySupporter_Inte
                 lisData.add(model);
             }
 
-            adp.notifyDataSetChanged();
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        adp = new ListSearchAdp(this, R.layout.list_job_item, lisData);
+        listView.setAdapter(adp);
     }
 
     @Override

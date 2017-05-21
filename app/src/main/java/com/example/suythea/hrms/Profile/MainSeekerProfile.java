@@ -4,11 +4,13 @@ package com.example.suythea.hrms.Profile;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.suythea.hrms.Account.MainEditUpgradeToCom;
 import com.example.suythea.hrms.Account.MainEditUser;
@@ -18,12 +20,14 @@ import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
 import com.example.suythea.hrms.ViewOwnCV.MainViewOwnCV;
+import com.squareup.picasso.Picasso;
 
 
 public class MainSeekerProfile extends Fragment {
 
     Button btnUpgradeToCom, btnSignOut, btnChangeInfo, btnPostCV, btnViewCV;
     Setting_Interface setting_interface;
+    ImageView img;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,6 +54,7 @@ public class MainSeekerProfile extends Fragment {
         btnChangeInfo = (Button)getActivity().findViewById(R.id.btnChangeInfoSeekerPro);
         btnPostCV = (Button)getActivity().findViewById(R.id.btnPostCVInfoSeekerPro);
         btnViewCV = (Button)getActivity().findViewById(R.id.btnViewCVInfoSeekerPro);
+        img = (ImageView)getActivity().findViewById(R.id.imgProfileMainSeeker);
 
     }
 
@@ -101,7 +106,18 @@ public class MainSeekerProfile extends Fragment {
     }
 
     void startUp (){
+        Picasso.with(getActivity())
+                .load("http://bongnu.khmerlabs.com/profile_images/" + new MySqlite(getActivity()).getDataFromjsonField(MySqlite.fields.get(0),"id") + ".jpg")
+                .placeholder(getActivity().getResources().getIdentifier("no_profile","mipmap",getActivity().getPackageName()))
+                .into(img, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                    }
 
+                    @Override
+                    public void onError() {
+                    }
+                });
     }
 
 

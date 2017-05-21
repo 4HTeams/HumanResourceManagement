@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupMenu;
@@ -34,6 +35,7 @@ import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
 import com.example.suythea.hrms.ViewOwnCV.MainViewOwnCV;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,6 +71,8 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
     ScrollView scrollView;
 
     String oldCVID;
+
+    ImageView img;
 
     ArrayList<ListPostCVModel> lisACCCModels;
     ArrayList<ListPostCVModel> lisExpModels;
@@ -126,6 +130,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         eTxtPhone = (EditText)findViewById(R.id.eTxtPhonePostCV);
         eTxtAbout = (EditText)findViewById(R.id.eTxtAboutPostCV);
         scrollView = (ScrollView)findViewById(R.id.scrVPostCV);
+        img = (ImageView)findViewById(R.id.imgProfileMainPostCV);
     }
 
     void setEvents(){
@@ -398,6 +403,19 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         }
 
         getSpinnerDB();
+
+        Picasso.with(this)
+                .load("http://bongnu.khmerlabs.com/profile_images/" + new MySqlite(this).getDataFromjsonField(MySqlite.fields.get(0),"id") + ".jpg")
+                .placeholder(this.getResources().getIdentifier("no_profile","mipmap",this.getPackageName()))
+                .into(img, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                    }
+
+                    @Override
+                    public void onError() {
+                    }
+                });
     }
 
     void loadFormSchool(final String order, final int index){
@@ -1496,6 +1514,5 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         else if (view.getTag().equals("2")){
             eTxtEndDate.setText("Date : " + strDate);
         }
-
     }
 }
