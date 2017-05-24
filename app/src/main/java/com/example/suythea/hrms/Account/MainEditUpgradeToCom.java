@@ -1,5 +1,6 @@
 package com.example.suythea.hrms.Account;
 
+import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v7.widget.Toolbar;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -197,6 +199,9 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
 
         switch (item.getItemId()){
             case R.id.icSave :
+
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(toolbar.getWindowToken(), 0);
 
                 params = new HashMap<>();
 

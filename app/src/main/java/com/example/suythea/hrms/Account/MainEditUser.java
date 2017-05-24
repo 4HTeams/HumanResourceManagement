@@ -1,5 +1,6 @@
 package com.example.suythea.hrms.Account;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -79,6 +82,7 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
         setEvents();
         startUp();
 
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     void setControls (){
@@ -237,6 +241,9 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
 
         switch (item.getItemId()){
             case R.id.icSave :
+
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(toolbar.getWindowToken(), 0);
 
                 String checkResult = check_ChangeOrNot_SendOrNot();
 

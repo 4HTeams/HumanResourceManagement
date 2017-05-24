@@ -1,11 +1,14 @@
 package com.example.suythea.hrms.Account;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -58,6 +61,9 @@ public class MainCreateUser extends AppCompatActivity implements MySupporter_Int
             @Override
             public void onClick(View v) {
 
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(toolbar.getWindowToken(), 0);
+
                 if(!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())){
                     Toast.makeText(getBaseContext(),"Password does not match",Toast.LENGTH_LONG).show();
                 }
@@ -76,6 +82,8 @@ public class MainCreateUser extends AppCompatActivity implements MySupporter_Int
                 onBackPressed(); // Implemented by activity
             }
         });
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
     }
 

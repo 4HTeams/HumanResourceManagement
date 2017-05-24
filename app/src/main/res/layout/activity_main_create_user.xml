@@ -13,67 +13,77 @@
     android:layout_width="match_parent"
     layout="@layout/main_toolbar_no_search"
     />
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center"
-            android:text="Bong Norton"
-            android:textSize="40sp"
-            android:textColor="#ff0000"
-            android:textStyle="bold"
-            android:fontFamily="cursive"
-            android:textAlignment="center"
-            android:tint="@android:color/white" />
+        android:layout_height="match_parent">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12sp"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:fontFamily="monospace"
-            android:text="Register"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Username"
-            android:layout_marginTop="8dp"
-            android:padding="12sp"
-            android:id="@+id/etUsername"/>
+            android:orientation="vertical"
+            android:padding="10dp">
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                android:text="Bong Norton"
+                android:textSize="30sp"
+                android:textColor="#ff0000"
+                android:textStyle="bold"
+                android:fontFamily="cursive"
+                android:textAlignment="center"
+                android:tint="@android:color/white"
+                android:lines="1"
+                />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:id="@+id/etPassword"
-            android:layout_marginTop="8dp"
-            android:padding="12sp"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Confirm Password"
-            android:inputType="textPassword"
-            android:id="@+id/etConfirmPassword"
-            android:layout_marginTop="8dp"
-            android:padding="12sp"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:id="@+id/etEmail"
-            android:layout_marginTop="8dp"
-            android:padding="12sp"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Create"
-            android:id="@+id/btnCreate"
-            android:layout_marginTop="16dp"/>
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12sp"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:fontFamily="monospace"
+                android:text="Register"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username"
+                android:layout_marginTop="8dp"
+                android:padding="12sp"
+                android:id="@+id/etUsername"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:id="@+id/etPassword"
+                android:layout_marginTop="8dp"
+                android:padding="12sp"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                android:id="@+id/etConfirmPassword"
+                android:layout_marginTop="8dp"
+                android:padding="12sp"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:id="@+id/etEmail"
+                android:layout_marginTop="8dp"
+                android:padding="12sp"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Create"
+                android:id="@+id/btnCreate"
+                android:layout_marginTop="16dp"/>
+        </LinearLayout>
+
+    </ScrollView>
+
 </LinearLayout>

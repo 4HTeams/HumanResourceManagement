@@ -16,6 +16,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -138,6 +140,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             @Override
             public void onClick(View v) {
                 loadFormAccc("add", -1);
+                hideKeyboard();
             }
         });
 
@@ -145,6 +148,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             @Override
             public void onClick(View v) {
                 loadFormExp("add", -1);
+                hideKeyboard();
             }
         });
 
@@ -152,6 +156,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             @Override
             public void onClick(View v) {
                 loadFormLan("add", -1);
+                hideKeyboard();
             }
         });
 
@@ -159,6 +164,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             @Override
             public void onClick(View v) {
                 loadFormRef("add", -1);
+                hideKeyboard();
             }
         });
 
@@ -166,6 +172,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             @Override
             public void onClick(View v) {
                 loadFormSchool("add", -1);
+                hideKeyboard();
             }
         });
 
@@ -418,6 +425,11 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
                 });
     }
 
+    void hideKeyboard(){
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(toolbar.getWindowToken(), 0);
+    }
+
     void loadFormSchool(final String order, final int index){
 
         int i = 0;
@@ -555,8 +567,18 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             }
         });
 
+        alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
         alert.setView(view2);
         alert.show();
+
+        alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                hideKeyboard();
+            }
+        });
+
     }
 
     void loadFormRef(final String order, final int index){
@@ -642,8 +664,18 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             }
         });
 
+        alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
         alert.setView(view2);
         alert.show();
+
+        alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                hideKeyboard();
+            }
+        });
+
     }
 
     void loadFormLan(final String order, final int index){
@@ -754,8 +786,18 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             }
         });
 
+        alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
         alert.setView(view2);
         alert.show();
+
+        alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                hideKeyboard();
+            }
+        });
+
     }
 
     void loadFormExp(final String order, final int index){
@@ -937,8 +979,17 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             }
         });
 
+        alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
         alert.setView(view2);
         alert.show();
+
+        alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                hideKeyboard();
+            }
+        });
 
     }
 
@@ -1037,8 +1088,17 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
             }
         });
 
+        alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
         alert.setView(view2);
         alert.show();
+
+        alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                hideKeyboard();
+            }
+        });
 
     }
 
@@ -1370,6 +1430,8 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
                 break;
 
             case R.id.icSend :
+                hideKeyboard();
+
                 if (eTxtTitle.getText().toString().equals("") || eTxtFName.getText().toString().equals("") || eTxtLName.getText().toString().equals("") || eTxtPhone.getText().toString().equals("") || eTxtAbout.getText().toString().equals("")){
                     Toast.makeText(getBaseContext(), "Fill all textboxes !", Toast.LENGTH_LONG).show();
                     break;
