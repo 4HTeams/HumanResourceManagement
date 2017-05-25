@@ -59,6 +59,19 @@
             android:configChanges="orientation|screenSize" />
         <activity android:name=".ViewJob.MainViewJob"
             android:configChanges="orientation|screenSize" />
+
+        <service android:name=".Firebase_Notification.MyFirebaseIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"></action>
+            </intent-filter>
+        </service>
+
+        <service android:name=".Firebase_Notification.MyFirebaseMessageService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"></action>
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>
