@@ -93,6 +93,13 @@ public class MainLogIn extends AppCompatActivity implements MySupporter_Interfac
 
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        MySupporter.runFirstDefault(this);
+    }
+
     public static void closeMe(){
         context.finish();
     }
