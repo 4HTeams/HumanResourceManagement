@@ -9,6 +9,10 @@
         android:layout_weight="1"
         android:textAlignment="center"
         android:id="@+id/txtLNameLan"
+        android:textStyle="bold"
+        android:textSize="35px"
+        android:layout_margin="10px"
+        android:lines="1"
         />
 
     <TextView
@@ -17,6 +21,10 @@
         android:layout_weight="1"
         android:textAlignment="center"
         android:id="@+id/txtLLvLan"
+        android:textStyle="bold"
+        android:textSize="35px"
+        android:layout_margin="10px"
+        android:lines="1"
         />
 
 </LinearLayout>

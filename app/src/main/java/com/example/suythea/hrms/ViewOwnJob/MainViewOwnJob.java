@@ -115,7 +115,7 @@ public class MainViewOwnJob extends AppCompatActivity implements MySupporter_Int
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         setSupportActionBar(toolbar);
 
-        setTitle("View Own CV");
+        setTitle("View Own Job");
 
         listJobModels = new ArrayList<>();
         adp = new ListViewOwnJobAdp(this, R.layout.list_own_job_item, listJobModels);

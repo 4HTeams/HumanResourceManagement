@@ -1,13 +1,17 @@
 package com.example.suythea.hrms;
 
+import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.SearchView;
 
@@ -91,7 +95,17 @@ public class MainActivity extends AppCompatActivity implements Main_Interface{
 
             }
         });
+
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            System.exit(1);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
     void startUp(){
         setTitle("ស្វាគមន៍មកកាន់ បងន័រតុន");

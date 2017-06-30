@@ -223,7 +223,8 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
 
             } catch (FileNotFoundException e) {
                 Toast.makeText(getBaseContext(),e.getMessage(),Toast.LENGTH_LONG).show();
-                e.printStackTrace();
+            }catch (SecurityException se){
+                Toast.makeText(getBaseContext(),se.getMessage(),Toast.LENGTH_LONG).show();
             }
         }
     }
