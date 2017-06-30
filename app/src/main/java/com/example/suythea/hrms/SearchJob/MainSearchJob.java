@@ -71,7 +71,10 @@ public class MainSearchJob extends AppCompatActivity implements MySupporter_Inte
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchView.clearFocus();
-
+                if (query.length() < 2){
+                    Toast.makeText(getBaseContext(), "Search Query must be more than 1 character !", Toast.LENGTH_LONG).show();
+                    return false;
+                }
                 searchJobs(query);
                 return false;
             }

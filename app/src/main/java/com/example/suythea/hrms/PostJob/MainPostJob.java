@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -104,6 +105,47 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
                 showDatePicker();
             }
         });
+
+        spinPro.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideKeyboard();
+                return false;
+            }
+        });
+
+        spinCarLvl.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideKeyboard();
+                return false;
+            }
+        });
+
+        spinCon.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideKeyboard();
+                return false;
+            }
+        });
+
+        spinDegree.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideKeyboard();
+                return false;
+            }
+        });
+
+        spinJobCate.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideKeyboard();
+                return false;
+            }
+        });
+
     }
 
     void showDatePicker(){
@@ -119,6 +161,7 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
 
     void startUp(){
 
+        scrollView.setVisibility(View.GONE);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         setSupportActionBar(toolbar);
 
@@ -255,6 +298,11 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
         }
 
         setOldData();
+    }
+
+    void hideKeyboard(){
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(toolbar.getWindowToken(), 0);
     }
 
     void setOldData(){

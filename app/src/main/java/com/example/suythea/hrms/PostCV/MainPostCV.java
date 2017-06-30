@@ -390,6 +390,8 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         String contract_type = sqlite.getDataFromjsonField(MySqlite.fields.get(6), "_all_db");
         String job_cate = sqlite.getDataFromjsonField(MySqlite.fields.get(7), "_all_db");
 
+        scrollView.setVisibility(View.GONE);
+
         if (pro.equals("") || l_lvl.equals("") || degree.equals("") || contract_type.equals("") || job_cate.equals("")){
             MySupporter.showLoading("Please Wait.....");
         }

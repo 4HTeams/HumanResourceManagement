@@ -17,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/scrollMainPostJob"
-        android:visibility="gone"
         >
 
         <LinearLayout
@@ -25,13 +24,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:id="@+id/linPostJob"
-
+            android:layout_marginLeft="25px"
+            android:layout_marginRight="25px"
+            android:paddingBottom="35px"
             >
 
             <ImageView
                 android:layout_width="250px"
                 android:layout_height="250px"
                 android:id="@+id/imgProfileMainPostJob"
+                android:layout_gravity="center"
+                android:layout_margin="35px"
                 />
 
             <EditText
@@ -103,45 +106,130 @@
                 android:id="@+id/eTxtSkillsPostJob"
                 />
 
-            <Spinner
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinJobCatePostJob"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
                 >
 
-            </Spinner>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Job Category : "
+                    android:layout_weight="2"
+                    android:layout_gravity="center"
+                    android:paddingLeft="10px"
+                    />
 
-            <Spinner
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinJobCatePostJob"
+                    android:layout_weight="1"
+                    >
+
+                </Spinner>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinConTypePostJob"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
                 >
 
-            </Spinner>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Contract Type : "
+                    android:layout_weight="2"
+                    android:layout_gravity="center"
+                    android:paddingLeft="10px"
+                    />
 
-            <Spinner
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinConTypePostJob"
+                    android:layout_weight="1"
+                    >
+
+                </Spinner>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinProPostJob"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
                 >
 
-            </Spinner>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Province : "
+                    android:layout_weight="2"
+                    android:layout_gravity="center"
+                    android:paddingLeft="10px"
+                    />
 
-            <Spinner
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinProPostJob"
+                    android:layout_weight="1"
+                    >
+
+                </Spinner>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinCarLvlPostJob"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
                 >
 
-            </Spinner>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Career Level : "
+                    android:layout_weight="2"
+                    android:layout_gravity="center"
+                    android:paddingLeft="10px"
+                    />
 
-            <Spinner
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinCarLvlPostJob"
+                    android:layout_weight="1"
+                    >
+
+                </Spinner>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinDegreePostJob"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
                 >
 
-            </Spinner>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Degree : "
+                    android:layout_weight="2"
+                    android:layout_gravity="center"
+                    android:paddingLeft="10px"
+                    />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinDegreePostJob"
+                    android:layout_weight="1"
+                    >
+
+                </Spinner>
+            </LinearLayout>
 
         </LinearLayout>
 
