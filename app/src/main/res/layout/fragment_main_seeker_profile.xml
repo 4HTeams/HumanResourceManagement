@@ -82,7 +82,7 @@
             </LinearLayout>
 
             <Button
-                android:layout_width="250px"
+                android:layout_width="350px"
                 android:layout_height="wrap_content"
                 android:text="Sign Out"
                 android:background="#da0000"

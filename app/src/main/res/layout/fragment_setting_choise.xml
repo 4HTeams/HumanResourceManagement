@@ -20,7 +20,7 @@
             />
 
         <Button
-            android:layout_width="250px"
+            android:layout_width="350px"
             android:layout_height="wrap_content"
             android:text="Log In"
             android:id="@+id/btnLogIn"
@@ -28,7 +28,7 @@
             android:layout_marginTop="50px"
             />
         <Button
-            android:layout_width="450px"
+            android:layout_width="550px"
             android:layout_height="wrap_content"
             android:text="Create A User"
             android:id="@+id/btnCreateUser"
