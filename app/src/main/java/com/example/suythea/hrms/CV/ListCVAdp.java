@@ -57,10 +57,10 @@ public class ListCVAdp extends ArrayAdapter<ListCVModel> {
 
         ListCVModel listCVModel = getItem(position);
 
-        listCVHolder.txtFName.setText(listCVModel.getfName());
-        listCVHolder.txtLName.setText(listCVModel.getlName());
+        listCVHolder.txtFName.setText("First Name : " + listCVModel.getfName());
+        listCVHolder.txtLName.setText("Last Name : " + listCVModel.getlName());
         listCVHolder.txtTitle.setText(listCVModel.getTitle());
-        listCVHolder.txtPostedDate.setText(listCVModel.getPostedDate());
+        listCVHolder.txtPostedDate.setText("Posted Date : " + listCVModel.getPostedDate());
 
         Picasso.with(context)
                 .load("http://bongnu.khmerlabs.com/profile_images/" + listCVModel.getUid() + ".jpg")
