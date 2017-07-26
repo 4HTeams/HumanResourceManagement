@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.example.suythea.hrms.Interfaces.List_CV_And_Job_Interface;
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
 import com.example.suythea.hrms.R;
@@ -28,6 +29,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 
@@ -40,6 +42,7 @@ public class MainHome extends Fragment implements MySupporter_Interface, List_CV
     ListJobAdp adp;
     static ProgressBar proBarLoading;
     boolean gettable = true;
+    PullRefreshLayout pullToRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,6 +74,7 @@ public class MainHome extends Fragment implements MySupporter_Interface, List_CV
     void setControls(){
         lisView = (ListView)getActivity().findViewById(R.id.lisJob);
         proBarLoading = (ProgressBar)getActivity().findViewById(R.id.proBarMainJob);
+        pullToRefreshLayout = (PullRefreshLayout)getActivity().findViewById(R.id.pullToRerefreshJob);
     }
 
     void setEvents(){
@@ -82,6 +86,17 @@ public class MainHome extends Fragment implements MySupporter_Interface, List_CV
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MySupporter.showLoading("Please wait.....");
                 MySupporter.Http2("http://bongnu.khmerlabs.com/bongnu/job/get_one_job.php?appToken=ThEa331RA369RiTH383thY925&jid=" + lisData.get(position).getId() + "&cid=" + lisData.get(position).getCid(), new HashMap<String, String>(), getActivity(), (MySupporter_Interface)_c);
+            }
+        });
+
+        pullToRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pullToRefreshLayout.setRefreshing(false);
+
+                startUp();
+                proBarLoading.setVisibility(View.VISIBLE);
+                MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/job/get_all_jobs.php?appToken=ThEa331RA369RiTH383thY925&offset=0",new HashMap<String, String>(), context);
             }
         });
     }

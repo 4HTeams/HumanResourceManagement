@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.example.suythea.hrms.Interfaces.List_CV_And_Job_Interface;
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
 import com.example.suythea.hrms.R;
@@ -38,6 +39,7 @@ public class MainCV extends Fragment implements MySupporter_Interface, List_CV_A
     ListCVAdp adp;
     static ProgressBar proBarLoading;
     boolean gettable = true;
+    PullRefreshLayout pullToRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,6 +69,7 @@ public class MainCV extends Fragment implements MySupporter_Interface, List_CV_A
     void setControls(){
         lisView = (ListView)getActivity().findViewById(R.id.lisCV);
         proBarLoading = (ProgressBar)getActivity().findViewById(R.id.proBarMainCV);
+        pullToRefreshLayout = (PullRefreshLayout)getActivity().findViewById(R.id.pullToRerefreshJCV);
     }
 
     void setEvents(){
@@ -78,6 +81,17 @@ public class MainCV extends Fragment implements MySupporter_Interface, List_CV_A
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MySupporter.showLoading("Please wait.....");
                 MySupporter.Http2("http://bongnu.khmerlabs.com/bongnu/cv/get_one_cv.php?appToken=ThEa331RA369RiTH383thY925&id=" + lisData.get(position).getId(), new HashMap<String, String>(), getActivity(), (MySupporter_Interface)_c);
+            }
+        });
+
+        pullToRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pullToRefreshLayout.setRefreshing(false);
+
+                startUp();
+                proBarLoading.setVisibility(View.VISIBLE);
+                MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/cv/get_all_cv.php?appToken=ThEa331RA369RiTH383thY925&offset=0",new HashMap<String, String>(), context);
             }
         });
     }
