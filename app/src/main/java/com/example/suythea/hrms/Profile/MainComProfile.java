@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Setting.MainSetting;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
 import com.example.suythea.hrms.ViewOwnJob.MainViewOwnJob;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 
@@ -45,6 +48,12 @@ public class MainComProfile extends Fragment {
         setEvents();
         startUp();
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startUp();
     }
 
     void setControls (){
@@ -107,9 +116,14 @@ public class MainComProfile extends Fragment {
     }
 
     void startUp (){
+
+        img.setImageResource(getActivity().getResources().getIdentifier("no_profile","mipmap",getActivity().getPackageName()));
+
         Picasso.with(getActivity())
                 .load("http://bongnu.khmerlabs.com/profile_images/" + new MySqlite(getActivity()).getDataFromjsonField(MySqlite.fields.get(0),"id") + ".jpg")
                 .placeholder(getActivity().getResources().getIdentifier("no_profile","mipmap",getActivity().getPackageName()))
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .networkPolicy(NetworkPolicy.NO_CACHE)
                 .into(img, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {
