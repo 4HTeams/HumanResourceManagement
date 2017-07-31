@@ -120,7 +120,7 @@ public class MainComProfile extends Fragment {
         img.setImageResource(getActivity().getResources().getIdentifier("no_profile","mipmap",getActivity().getPackageName()));
 
         Picasso.with(getActivity())
-                .load("http://bongnu.khmerlabs.com/profile_images/" + new MySqlite(getActivity()).getDataFromjsonField(MySqlite.fields.get(0),"id") + ".jpg")
+                .load("http://bongnu.myreading.xyz/profile_images/" + new MySqlite(getActivity()).getDataFromjsonField(MySqlite.fields.get(0),"id") + ".jpg")
                 .placeholder(getActivity().getResources().getIdentifier("no_profile","mipmap",getActivity().getPackageName()))
                 .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                 .networkPolicy(NetworkPolicy.NO_CACHE)
