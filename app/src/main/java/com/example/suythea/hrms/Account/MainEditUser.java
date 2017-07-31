@@ -175,7 +175,7 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
                 proBarProfile.setVisibility(View.VISIBLE);
                 txtRemove.setTextColor(Color.parseColor("gray"));
                 Picasso.with(getBaseContext())
-                        .load("http://bongnu.khmerlabs.com/profile_images/" + jsonData.getString("id") + ".jpg")
+                        .load("http://bongnu.myreading.xyz/profile_images/" + jsonData.getString("id") + ".jpg")
                         .placeholder(getBaseContext().getResources().getIdentifier("no_profile","mipmap",getBaseContext().getPackageName()))
                         .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                         .networkPolicy(NetworkPolicy.NO_CACHE)
@@ -307,7 +307,7 @@ public class MainEditUser extends AppCompatActivity implements MySupporter_Inter
 
         Log.d("result", String.valueOf(params));
 
-        MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/account/edit_user.php", params, this);
+        MySupporter.Http("http://bongnu.myreading.xyz/bongnu/account/edit_user.php", params, this);
         MySupporter.showLoading("Please Wait.....");
     }
 

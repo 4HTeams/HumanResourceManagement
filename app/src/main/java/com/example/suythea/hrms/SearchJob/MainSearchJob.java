@@ -90,7 +90,7 @@ public class MainSearchJob extends AppCompatActivity implements MySupporter_Inte
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MySupporter.showLoading("Please wait.....");
-                MySupporter.Http2("http://bongnu.khmerlabs.com/bongnu/job/get_one_job.php?appToken=ThEa331RA369RiTH383thY925&jid=" + lisData.get(position).getId() + "&cid=" + lisData.get(position).getCid(), new HashMap<String, String>(), getBaseContext(), (MySupporter_Interface)_c);
+                MySupporter.Http2("http://bongnu.myreading.xyz/bongnu/job/get_one_job.php?appToken=ThEa331RA369RiTH383thY925&jid=" + lisData.get(position).getId() + "&cid=" + lisData.get(position).getCid(), new HashMap<String, String>(), getBaseContext(), (MySupporter_Interface)_c);
             }
         });
     }
@@ -102,7 +102,7 @@ public class MainSearchJob extends AppCompatActivity implements MySupporter_Inte
         map.put("appToken", "ThEa331RA369RiTH383thY925");
         map.put("searchStr", search);
 
-        MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/search/search_job.php", map, this);
+        MySupporter.Volley("http://bongnu.myreading.xyz/bongnu/search/search_job.php", map, this);
     }
 
     void startUp(){

@@ -104,7 +104,7 @@ public class MainCreateUser extends AppCompatActivity implements MySupporter_Int
             return;
         }
 
-        MySupporter.Volley("http://bongNU.khmerlabs.com/bongNU/Account/create.php", params, this);
+        MySupporter.Volley("http://bongnu.myreading.xyz/bongnu/account/create.php", params, this);
         MySupporter.showLoading("Please wait.....");
     }
 

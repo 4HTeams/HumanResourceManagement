@@ -134,7 +134,7 @@ public class MainViewOwnJob extends AppCompatActivity implements MySupporter_Int
         params.put("id", new MySqlite(this).getDataFromjsonField(MySqlite.fields.get(0),"id"));
         params.put("conPassword", new MySqlite(this).getDataFromjsonField(MySqlite.fields.get(0),"password"));
 
-        MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/job/delete_job.php", params, this);
+        MySupporter.Http("http://bongnu.myreading.xyz/bongnu/job/delete_job.php", params, this);
     }
 
     void showEditingJob(String id, int selectedID) throws JSONException {
@@ -151,7 +151,7 @@ public class MainViewOwnJob extends AppCompatActivity implements MySupporter_Int
         try {
 
             MySupporter.showLoading("Please Wait.....");
-            MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/job/get_own_jobs.php?appToken=ThEa331RA369RiTH383thY925&cid=" + new JSONArray(new MySqlite(this).getDataFromjsonField(MySqlite.fields.get(0), "companyInfo")).getJSONObject(0).getString("cID"),new HashMap<String, String>(),this);
+            MySupporter.Volley("http://bongnu.myreading.xyz/bongnu/job/get_own_jobs.php?appToken=ThEa331RA369RiTH383thY925&cid=" + new JSONArray(new MySqlite(this).getDataFromjsonField(MySqlite.fields.get(0), "companyInfo")).getJSONObject(0).getString("cID"),new HashMap<String, String>(),this);
 
         } catch (JSONException e) {
             e.printStackTrace();

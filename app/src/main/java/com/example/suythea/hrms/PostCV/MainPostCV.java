@@ -414,7 +414,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         getSpinnerDB();
 
         Picasso.with(this)
-                .load("http://bongnu.khmerlabs.com/profile_images/" + new MySqlite(this).getDataFromjsonField(MySqlite.fields.get(0),"id") + ".jpg")
+                .load("http://bongnu.myreading.xyz/profile_images/" + new MySqlite(this).getDataFromjsonField(MySqlite.fields.get(0),"id") + ".jpg")
                 .placeholder(this.getResources().getIdentifier("no_profile","mipmap",this.getPackageName()))
                 .into(img, new com.squareup.picasso.Callback() {
                     @Override
@@ -1293,7 +1293,7 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
     }
 
     void getSpinnerDB(){
-        MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/get_data_tbl.php?appToken=ThEa331RA369RiTH383thY925&province=1&lan_lvl=1&degree=1&contractType=1&job_cate=1",new HashMap<String, String>(),this);
+        MySupporter.Volley("http://bongnu.myreading.xyz/bongnu/get_data_tbl.php?appToken=ThEa331RA369RiTH383thY925&province=1&lan_lvl=1&degree=1&contractType=1&job_cate=1",new HashMap<String, String>(),this);
     }
 
     void setFullHeightListView (ListView listView){
@@ -1547,12 +1547,12 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
 
         if (order.equals("POST")){
             map.put("order", "POST");
-            MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/cv/post_cv.php", map, this);
+            MySupporter.Http("http://bongnu.myreading.xyz/bongnu/cv/post_cv.php", map, this);
         }
         else {
             map.put("order", "EDIT");
             map.put("emp_id", oldCVID);
-            MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/cv/post_cv.php", map, this);
+            MySupporter.Http("http://bongnu.myreading.xyz/bongnu/cv/post_cv.php", map, this);
         }
     }
 

@@ -80,7 +80,7 @@ public class MainCV extends Fragment implements MySupporter_Interface, List_CV_A
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MySupporter.showLoading("Please wait.....");
-                MySupporter.Http2("http://bongnu.khmerlabs.com/bongnu/cv/get_one_cv.php?appToken=ThEa331RA369RiTH383thY925&id=" + lisData.get(position).getId(), new HashMap<String, String>(), getActivity(), (MySupporter_Interface)_c);
+                MySupporter.Http2("http://bongnu.myreading.xyz/bongnu/cv/get_one_cv.php?appToken=ThEa331RA369RiTH383thY925&id=" + lisData.get(position).getId(), new HashMap<String, String>(), getActivity(), (MySupporter_Interface)_c);
             }
         });
 
@@ -91,7 +91,7 @@ public class MainCV extends Fragment implements MySupporter_Interface, List_CV_A
 
                 startUp();
                 proBarLoading.setVisibility(View.VISIBLE);
-                MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/cv/get_all_cv.php?appToken=ThEa331RA369RiTH383thY925&offset=0",new HashMap<String, String>(), context);
+                MySupporter.Volley("http://bongnu.myreading.xyz/bongnu/cv/get_all_cv.php?appToken=ThEa331RA369RiTH383thY925&offset=0",new HashMap<String, String>(), context);
             }
         });
     }
@@ -105,7 +105,7 @@ public class MainCV extends Fragment implements MySupporter_Interface, List_CV_A
     public static void startGettingData(){
         if (firstGetData){
             proBarLoading.setVisibility(View.VISIBLE);
-            MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/cv/get_all_cv.php?appToken=ThEa331RA369RiTH383thY925&offset=0",new HashMap<String, String>(), context);
+            MySupporter.Volley("http://bongnu.myreading.xyz/bongnu/cv/get_all_cv.php?appToken=ThEa331RA369RiTH383thY925&offset=0",new HashMap<String, String>(), context);
         }
     }
 
@@ -172,7 +172,7 @@ public class MainCV extends Fragment implements MySupporter_Interface, List_CV_A
     public void cameLastIndex() {
         if (gettable){
             proBarLoading.setVisibility(View.VISIBLE);
-            MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/cv/get_all_cv.php?appToken=ThEa331RA369RiTH383thY925&offset=" + lisData.size(),new HashMap<String, String>(), context);
+            MySupporter.Volley("http://bongnu.myreading.xyz/bongnu/cv/get_all_cv.php?appToken=ThEa331RA369RiTH383thY925&offset=" + lisData.size(),new HashMap<String, String>(), context);
         }
     }
 }

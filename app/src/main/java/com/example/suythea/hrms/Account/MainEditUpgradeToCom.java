@@ -289,7 +289,7 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
             return;
         }
 
-        MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/account/edit_com.php", params, this);
+        MySupporter.Http("http://bongnu.myreading.xyz/bongnu/account/edit_com.php", params, this);
         MySupporter.showLoading("Please wait.....");
     }
 
@@ -323,7 +323,7 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
                 return;
             }
 
-            MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/account/edit_com.php", params, this);
+            MySupporter.Http("http://bongnu.myreading.xyz/bongnu/account/edit_com.php", params, this);
             MySupporter.showLoading("Please wait.....");
 
         } catch (JSONException e) {
@@ -337,7 +337,7 @@ public class MainEditUpgradeToCom extends AppCompatActivity implements MySupport
         params.put("industry","1");
         params.put("cType","1");
 
-        MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/get_data_tbl.php", params, (MySupporter_Interface) this);
+        MySupporter.Volley("http://bongnu.myreading.xyz/bongnu/get_data_tbl.php", params, (MySupporter_Interface) this);
     }
 
     private void alterJsonUpdate (String response){

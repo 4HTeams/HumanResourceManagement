@@ -134,7 +134,7 @@ public class MainSetting extends Fragment implements Setting_Interface, MySuppor
         params.put("username",username);
         params.put("password",password);
 
-        MySupporter.Volley("http://bongNU.khmerlabs.com/bongNU/Account/login.php", params, context);
+        MySupporter.Volley("http://bongnu.myreading.xyz/bongnu/account/login.php", params, context);
     }
 
     @Override

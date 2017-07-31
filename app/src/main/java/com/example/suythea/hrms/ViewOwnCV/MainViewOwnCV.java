@@ -135,20 +135,20 @@ public class MainViewOwnCV extends AppCompatActivity implements MySupporter_Inte
         params.put("id", new MySqlite(this).getDataFromjsonField(MySqlite.fields.get(0),"id"));
         params.put("conPassword", new MySqlite(this).getDataFromjsonField(MySqlite.fields.get(0),"password"));
 
-        MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/cv/delete_cv.php", params, this);
+        MySupporter.Http("http://bongnu.myreading.xyz/bongnu/cv/delete_cv.php", params, this);
     }
 
     void httpGetOneCV(String id, int selectedID){
         this.selectedID = selectedID;
         httpTag = "ONECV";
         MySupporter.showLoading("Please Wait.....");
-        MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/cv/get_one_cv.php?appToken=ThEa331RA369RiTH383thY925&id=" + id, new HashMap<String, String>(), this);
+        MySupporter.Http("http://bongnu.myreading.xyz/bongnu/cv/get_one_cv.php?appToken=ThEa331RA369RiTH383thY925&id=" + id, new HashMap<String, String>(), this);
     }
 
     void volleyGetOwnCV(){
         MySupporter.showLoading("Please Wait.....");
         String id = new MySqlite(this).getDataFromjsonField(MySqlite.fields.get(0),"id");
-        MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/cv/get_own_cv.php?appToken=ThEa331RA369RiTH383thY925&id=" + id,new HashMap<String, String>(),this);
+        MySupporter.Volley("http://bongnu.myreading.xyz/bongnu/cv/get_own_cv.php?appToken=ThEa331RA369RiTH383thY925&id=" + id,new HashMap<String, String>(),this);
     }
 
     @Override

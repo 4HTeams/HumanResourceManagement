@@ -63,7 +63,7 @@ public class ListCVAdp extends ArrayAdapter<ListCVModel> {
         listCVHolder.txtPostedDate.setText("Posted Date : " + listCVModel.getPostedDate());
 
         Picasso.with(context)
-                .load("http://bongnu.khmerlabs.com/profile_images/" + listCVModel.getUid() + ".jpg")
+                .load("http://bongnu.myreading.xyz/profile_images/" + listCVModel.getUid() + ".jpg")
                 .placeholder(context.getResources().getIdentifier("no_profile","mipmap",context.getPackageName()))
                 .into(listCVHolder.imgProfile, new com.squareup.picasso.Callback() {
                     @Override

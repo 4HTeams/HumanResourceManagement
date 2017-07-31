@@ -205,7 +205,7 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
         dataVolleyForFields();
 
         Picasso.with(this)
-                .load("http://bongnu.khmerlabs.com/profile_images/" + new MySqlite(this).getDataFromjsonField(MySqlite.fields.get(0),"id") + ".jpg")
+                .load("http://bongnu.myreading.xyz/profile_images/" + new MySqlite(this).getDataFromjsonField(MySqlite.fields.get(0),"id") + ".jpg")
                 .placeholder(this.getResources().getIdentifier("no_profile","mipmap",this.getPackageName()))
                 .into(img, new com.squareup.picasso.Callback() {
                     @Override
@@ -219,7 +219,7 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
     }
 
     void dataVolleyForFields(){
-        MySupporter.Http("http://bongnu.khmerlabs.com/bongnu/get_data_tbl.php?appToken=ThEa331RA369RiTH383thY925&career_lvl=1&province=1&degree=1&job_cate=1&contractType=1", new HashMap<String, String>(), this);
+        MySupporter.Http("http://bongnu.myreading.xyz/bongnu/get_data_tbl.php?appToken=ThEa331RA369RiTH383thY925&career_lvl=1&province=1&degree=1&job_cate=1&contractType=1", new HashMap<String, String>(), this);
     }
 
     void loadSpinner(){
@@ -406,12 +406,12 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
 
         if (order.equals("POST")){
             params.put("order", "POST");
-            MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/job/post_job.php", params, this);
+            MySupporter.Volley("http://bongnu.myreading.xyz/bongnu/job/post_job.php", params, this);
         }
         else if(order.equals("EDIT")) {
             params.put("order", "EDIT");
             params.put("jid", oldJID);
-            MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/job/post_job.php", params, this);
+            MySupporter.Volley("http://bongnu.myreading.xyz/bongnu/job/post_job.php", params, this);
         }
     }
 

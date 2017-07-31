@@ -66,7 +66,7 @@ public class ListJobAdp extends ArrayAdapter<ListJobModel> {
         listJobHolder.txtDeadline.setText("Deadline : " + listJobModel.getDeadline());
 
         Picasso.with(context)
-                .load("http://bongnu.khmerlabs.com/profile_images/" + listJobModel.getImgUrl() + ".jpg")
+                .load("http://bongnu.myreading.xyz/profile_images/" + listJobModel.getImgUrl() + ".jpg")
                 .placeholder(context.getResources().getIdentifier("no_profile","mipmap",context.getPackageName()))
                 .into(listJobHolder.imgProfile, new com.squareup.picasso.Callback() {
                     @Override

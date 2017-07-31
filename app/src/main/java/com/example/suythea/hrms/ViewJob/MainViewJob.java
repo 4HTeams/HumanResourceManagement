@@ -111,7 +111,7 @@ public class MainViewJob extends AppCompatActivity {
 
     void setProfileImage(String url) {
         Picasso.with(getBaseContext())
-                .load("http://bongnu.khmerlabs.com/profile_images/" + url + ".jpg")
+                .load("http://bongnu.myreading.xyz/bong/profile_images/" + url + ".jpg")
                 .placeholder(R.drawable.ic_person_black_24dp)
                 .error(R.drawable.ic_person_black_24dp)
                 .into(this.profileImage);

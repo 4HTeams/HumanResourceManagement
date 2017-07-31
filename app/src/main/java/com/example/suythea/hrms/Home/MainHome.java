@@ -85,7 +85,7 @@ public class MainHome extends Fragment implements MySupporter_Interface, List_CV
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MySupporter.showLoading("Please wait.....");
-                MySupporter.Http2("http://bongnu.khmerlabs.com/bongnu/job/get_one_job.php?appToken=ThEa331RA369RiTH383thY925&jid=" + lisData.get(position).getId() + "&cid=" + lisData.get(position).getCid(), new HashMap<String, String>(), getActivity(), (MySupporter_Interface)_c);
+                MySupporter.Http2("http://bongnu.myreading.xyz/bongnu/job/get_one_job.php?appToken=ThEa331RA369RiTH383thY925&jid=" + lisData.get(position).getId() + "&cid=" + lisData.get(position).getCid(), new HashMap<String, String>(), getActivity(), (MySupporter_Interface)_c);
             }
         });
 
@@ -96,7 +96,7 @@ public class MainHome extends Fragment implements MySupporter_Interface, List_CV
 
                 startUp();
                 proBarLoading.setVisibility(View.VISIBLE);
-                MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/job/get_all_jobs.php?appToken=ThEa331RA369RiTH383thY925&offset=0",new HashMap<String, String>(), context);
+                MySupporter.Volley("http://bongnu.myreading.xyz/bongnu/job/get_all_jobs.php?appToken=ThEa331RA369RiTH383thY925&offset=0",new HashMap<String, String>(), context);
             }
         });
     }
@@ -110,7 +110,7 @@ public class MainHome extends Fragment implements MySupporter_Interface, List_CV
     public static void startGettingData(){
         if (firstGetData){
             proBarLoading.setVisibility(View.VISIBLE);
-            MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/job/get_all_jobs.php?appToken=ThEa331RA369RiTH383thY925&offset=0",new HashMap<String, String>(), context);
+            MySupporter.Volley("http://bongnu.myreading.xyz/bongnu/job/get_all_jobs.php?appToken=ThEa331RA369RiTH383thY925&offset=0",new HashMap<String, String>(), context);
         }
     }
 
@@ -177,7 +177,7 @@ public class MainHome extends Fragment implements MySupporter_Interface, List_CV
     public void cameLastIndex() {
         if (gettable){
             proBarLoading.setVisibility(View.VISIBLE);
-            MySupporter.Volley("http://bongnu.khmerlabs.com/bongnu/job/get_all_jobs.php?appToken=ThEa331RA369RiTH383thY925&offset=" + lisData.size(),new HashMap<String, String>(), context);
+            MySupporter.Volley("http://bongnu.myreading.xyz/bongnu/job/get_all_jobs.php?appToken=ThEa331RA369RiTH383thY925&offset=" + lisData.size(),new HashMap<String, String>(), context);
         }
     }
 }

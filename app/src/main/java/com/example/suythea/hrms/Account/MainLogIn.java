@@ -122,7 +122,7 @@ public class MainLogIn extends AppCompatActivity implements MySupporter_Interfac
             return;
         }
 
-        MySupporter.Volley("http://bongNU.khmerlabs.com/bongNU/Account/login.php", params, this);
+        MySupporter.Volley("http://bongNU.myreading.xyz/bongnu/account/login.php", params, this);
         MySupporter.showLoading("Please wait.....");
     }
 
