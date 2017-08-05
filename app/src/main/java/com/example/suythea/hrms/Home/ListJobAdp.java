@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.example.suythea.hrms.CV.MainCV;
 import com.example.suythea.hrms.Interfaces.List_CV_And_Job_Interface;
 import com.example.suythea.hrms.R;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -68,6 +70,8 @@ public class ListJobAdp extends ArrayAdapter<ListJobModel> {
         Picasso.with(context)
                 .load("http://bongnu.myreading.xyz/profile_images/" + listJobModel.getImgUrl() + ".jpg")
                 .placeholder(context.getResources().getIdentifier("no_profile","mipmap",context.getPackageName()))
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .networkPolicy(NetworkPolicy.NO_CACHE)
                 .into(listJobHolder.imgProfile, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {
