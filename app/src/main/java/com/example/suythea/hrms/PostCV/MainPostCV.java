@@ -37,6 +37,8 @@ import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
 import com.example.suythea.hrms.ViewOwnCV.MainViewOwnCV;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -416,6 +418,8 @@ public class MainPostCV extends AppCompatActivity implements MySupporter_Interfa
         Picasso.with(this)
                 .load("http://bongnu.myreading.xyz/profile_images/" + new MySqlite(this).getDataFromjsonField(MySqlite.fields.get(0),"id") + ".jpg")
                 .placeholder(this.getResources().getIdentifier("no_profile","mipmap",this.getPackageName()))
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .networkPolicy(NetworkPolicy.NO_CACHE)
                 .into(img, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {
