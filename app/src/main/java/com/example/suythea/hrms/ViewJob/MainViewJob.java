@@ -23,6 +23,8 @@ public class MainViewJob extends AppCompatActivity {
     TextView txtTitle,txtDesc,txtPosition,txtSalary,txtDeadline,txtExperience,txtconType,txtProvince,txtCarlvl,txtDegree;
     ImageView profileImage;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,8 @@ public class MainViewJob extends AppCompatActivity {
         txtDegree= (TextView)findViewById(R.id.txtDegree);
         profileImage= (ImageView)findViewById(R.id.profileImage);
 
+
+
         setControls();
         setEvents();
         startUp();
@@ -57,16 +61,16 @@ public class MainViewJob extends AppCompatActivity {
             JSONArray jArray = new JSONArray(dataCV);
             JSONObject jObject = jArray.getJSONObject(0);
             this.setProfileImage(jObject.getString("uid"));
-            txtTitle.setText("Title: " + jObject.getString("title"));
-            txtDesc.setText("Description: \n    " + jObject.getString("des"));
-            txtPosition.setText("Position: \n   " + jObject.getString("position"));
-            txtSalary.setText("Salary: " + jObject.getString("salary"));
-            txtDeadline.setText("Deadline: " + jObject.getString("deadline"));
-            txtExperience.setText("Experience: " + jObject.getString("yearEx") + "years");
-            txtconType.setText("Type: " + jObject.getString("conType"));
-            txtProvince.setText("Location: \n   " + jObject.getString("province"));
-            txtCarlvl.setText("CarLvl: " + jObject.getString("carLvl"));
-            txtDegree.setText("Degree: \n   " + jObject.getString("degree"));
+            txtTitle.setText(jObject.getString("title"));
+            txtDesc.setText(jObject.getString("des"));
+            txtPosition.setText(jObject.getString("position"));
+            txtSalary.setText(jObject.getString("salary"));
+            txtDeadline.setText(jObject.getString("deadline"));
+            txtExperience.setText(jObject.getString("yearEx") + "years");
+            txtconType.setText(jObject.getString("conType"));
+            txtProvince.setText(jObject.getString("province"));
+            txtCarlvl.setText(jObject.getString("carLvl"));
+            txtDegree.setText(jObject.getString("degree"));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -111,10 +115,12 @@ public class MainViewJob extends AppCompatActivity {
 
     void setProfileImage(String url) {
         Picasso.with(getBaseContext())
-                .load("http://bongnu.myreading.xyz/bong/profile_images/" + url + ".jpg")
+                .load("http://bongnu.myreading.xyz/profile_images/" + url + ".jpg")
                 .placeholder(R.drawable.ic_person_black_24dp)
                 .error(R.drawable.ic_person_black_24dp)
                 .into(this.profileImage);
     }
 
 }
+
+
