@@ -67,12 +67,15 @@ public class MainViewCV extends AppCompatActivity {
 
             // CV
             this.setProfileImage(jCVObject.getString("uid"));
-            txtFirstName.setText(jCVObject.getString("fName"));
-            txtLastName.setText(jCVObject.getString("lName"));
-            txtGender.setText(jCVObject.getString("gender"));
-            txtPhone.setText(jCVObject.getString("phone"));
-            txtProvince.setText(jCVObject.getString("pName"));
-            txtAbout.setText(jCVObject.getString("about"));
+            txtFirstName.setText((jCVObject.getString("fName") == "") ? "មិនមាន" : jCVObject.getString("fName"));
+            txtLastName.setText((jCVObject.getString("lName") == "") ? "មិនមាន" : jCVObject.getString("lName"));
+            txtGender.setText((jCVObject.getString("gender") == "") ? "មិនមាន" : jCVObject.getString("gender"));
+            txtPhone.setText((jCVObject.getString("phone") == "") ? "មិនមាន" : jCVObject.getString("phone"));
+            txtProvince.setText((jCVObject.getString("pName") == "") ? "មិនមាន" : jCVObject.getString("pName"));
+            txtAbout.setText((jCVObject.getString("about") == "") ? "មិនមាន" : jCVObject.getString("about"));
+            txtTitle.setText((jCVObject.getString("title") == "") ? "មិនមាន" : jCVObject.getString("title"));
+            toolbar.setTitle((jCVObject.getString("title") == "") ? "មិនមាន" : jCVObject.getString("title"));
+            txtPostDate.setText((jCVObject.getString("posted_date") == "") ? "មិនមាន" : jCVObject.getString("posted_date"));
 
             // ACC
             dataAcc = jsonObject.getString("Accc");
@@ -80,9 +83,9 @@ public class MainViewCV extends AppCompatActivity {
 
             for (int i = 0; i < jACCArray.length(); i++) {
                 AccomplishModel modelAccomplist = new AccomplishModel();
-                modelAccomplist.title = jACCArray.getJSONObject(i).getString("title");
-                modelAccomplist.date = jACCArray.getJSONObject(i).getString("date");
-                modelAccomplist.des = jACCArray.getJSONObject(i).getString("des");
+                modelAccomplist.title = (jACCArray.getJSONObject(i).getString("title") == "") ? "មិនមាន" : jACCArray.getJSONObject(i).getString("title");
+                modelAccomplist.date = (jACCArray.getJSONObject(i).getString("date") == "") ? "មិនមាន" : jACCArray.getJSONObject(i).getString("date");
+                modelAccomplist.des = (jACCArray.getJSONObject(i).getString("des") == "") ? "មិនមាន" : jACCArray.getJSONObject(i).getString("des");
 
                 arrayAccomplist.add(modelAccomplist);
             }
@@ -94,13 +97,13 @@ public class MainViewCV extends AppCompatActivity {
             dataExp = jsonObject.getString("Exp");
             JSONArray jExpArray = new JSONArray(dataExp);
             JSONObject jExpObject = jExpArray.getJSONObject(0);
-            txtJobTitle.setText(jExpObject.getString("jTitle"));
-            txtCompanyName.setText(jExpObject.getString("comName"));
-            txtStartDate.setText(jExpObject.getString("sDate"));
-            txtEndDate.setText(jExpObject.getString("eDate"));
-            txtJcName.setText(jExpObject.getString("jcName"));
-            txtCtName.setText(jExpObject.getString("ctName"));
-            txtActivity.setText(jExpObject.getString("activity"));
+            txtJobTitle.setText((jExpObject.getString("jTitle") == "") ? "មិនមាន" : jExpObject.getString("jTitle"));
+            txtCompanyName.setText((jExpObject.getString("comName") == "") ? "មិនមាន" : jExpObject.getString("comName"));
+            txtStartDate.setText((jExpObject.getString("sDate") == "") ? "មិនមាន" : jExpObject.getString("sDate"));
+            txtEndDate.setText((jExpObject.getString("eDate") == "") ? "មិនមាន" : jExpObject.getString("eDate"));
+            txtJcName.setText((jExpObject.getString("jcName") == "") ? "មិនមាន" : jExpObject.getString("jcName"));
+            txtCtName.setText((jExpObject.getString("ctName") == "") ? "មិនមាន" : jExpObject.getString("ctName"));
+            txtActivity.setText((jExpObject.getString("activity") == "") ? "មិនមាន" : jExpObject.getString("activity"));
 
             //Reference
             dataRef = jsonObject.getString("Ref");
@@ -108,11 +111,11 @@ public class MainViewCV extends AppCompatActivity {
 
             for (int i = 0; i < jRefArray.length(); i++) {
                 ReferenceModel referenceModel = new ReferenceModel();
-                referenceModel.name = jRefArray.getJSONObject(i).getString("name");
-                referenceModel.title = jRefArray.getJSONObject(i).getString("title");
-                referenceModel.tel = jRefArray.getJSONObject(i).getString("tel");
-                referenceModel.email = jRefArray.getJSONObject(i).getString("email");
-                referenceModel.com = jRefArray.getJSONObject(i).getString("com");
+                referenceModel.name = (jRefArray.getJSONObject(i).getString("name") == "") ? "មិនមាន" : jRefArray.getJSONObject(i).getString("name");
+                referenceModel.title = (jRefArray.getJSONObject(i).getString("title") == "") ? "មិនមាន" : jRefArray.getJSONObject(i).getString("title");
+                referenceModel.tel = (jRefArray.getJSONObject(i).getString("tel") == "") ? "មិនមាន" : jRefArray.getJSONObject(i).getString("tel");
+                referenceModel.email = (jRefArray.getJSONObject(i).getString("email") == "") ? "មិនមាន" : jRefArray.getJSONObject(i).getString("email");
+                referenceModel.com = (jRefArray.getJSONObject(i).getString("com") == "") ? "មិនមាន" : jRefArray.getJSONObject(i).getString("com");
 
 
                 arrayRef.add(referenceModel);
@@ -127,8 +130,8 @@ public class MainViewCV extends AppCompatActivity {
 
             for (int i = 0; i < jLangArray.length(); i++) {
                 LanguageModel languageModel = new LanguageModel();
-                languageModel.name = jLangArray.getJSONObject(i).getString("lName");
-                languageModel.level = jLangArray.getJSONObject(i).getString("l_level");
+                languageModel.name = (jLangArray.getJSONObject(i).getString("lName") == "") ? "មិនមាន" : jLangArray.getJSONObject(i).getString("lName");
+                languageModel.level = (jLangArray.getJSONObject(i).getString("l_level") == "") ? "មិនមាន" : jLangArray.getJSONObject(i).getString("l_level");
 
                 arrayLang.add(languageModel);
             }
@@ -143,11 +146,11 @@ public class MainViewCV extends AppCompatActivity {
 
             for (int i = 0; i < jSchoolArray.length(); i++) {
                 SchoolModel schoolModel = new SchoolModel();
-                schoolModel.sName = jSchoolArray.getJSONObject(i).getString("sName");
-                schoolModel.sDate = jSchoolArray.getJSONObject(i).getString("sDate");
-                schoolModel.study = jSchoolArray.getJSONObject(i).getString("study");
-                schoolModel.grade = jSchoolArray.getJSONObject(i).getString("grade");
-                schoolModel.degree = jSchoolArray.getJSONObject(i).getString("degree");
+                schoolModel.sName = (jSchoolArray.getJSONObject(i).getString("sName") == "") ? "មិនមាន" : jSchoolArray.getJSONObject(i).getString("sName");
+                schoolModel.sDate = (jSchoolArray.getJSONObject(i).getString("sDate") == "") ? "មិនមាន" : jSchoolArray.getJSONObject(i).getString("sDate");
+                schoolModel.study = (jSchoolArray.getJSONObject(i).getString("study") == "") ? "មិនមាន" : jSchoolArray.getJSONObject(i).getString("study");
+                schoolModel.grade = (jSchoolArray.getJSONObject(i).getString("grade") == "") ? "មិនមាន" : jSchoolArray.getJSONObject(i).getString("grade");
+                schoolModel.degree = (jSchoolArray.getJSONObject(i).getString("degree") == "") ? "មិនមាន" : jSchoolArray.getJSONObject(i).getString("degree");
                 arraySchool.add(schoolModel);
             }
             lsSchool.setLayoutManager(new LinearLayoutManager(this));
@@ -168,6 +171,7 @@ public class MainViewCV extends AppCompatActivity {
 
     void setControls(){
         toolbar = (Toolbar)findViewById(R.id.toolBarNoSearch);
+        setSupportActionBar(toolbar);
     }
 
     void setEvents(){
@@ -334,7 +338,7 @@ public class MainViewCV extends AppCompatActivity {
 
     private class schoolHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvSName,tvStart,tvEnd,tvStudy,tvGrade,tvDegree;
+        private TextView tvSName,tvStart,tvStudy,tvGrade,tvDegree;
 
 
         public schoolHolder(View itemView) {
@@ -342,7 +346,6 @@ public class MainViewCV extends AppCompatActivity {
 
             tvSName = (TextView) itemView.findViewById(R.id.txtSchoolName);
             tvStart = (TextView) itemView.findViewById(R.id.txtSchoolStart);
-            tvEnd = (TextView) itemView.findViewById(R.id.txtSchoolEnd);
             tvStudy = (TextView) itemView.findViewById(R.id.txtSchoolStudy);
             tvGrade = (TextView) itemView.findViewById(R.id.txtSchoolGrade);
             tvDegree = (TextView) itemView.findViewById(R.id.txtSchoolDegree);
