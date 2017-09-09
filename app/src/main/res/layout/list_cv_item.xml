@@ -4,8 +4,8 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="320px"
-        android:layout_height="350px"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_gravity="center"
         android:src="@mipmap/no_profile"
         android:scaleType="centerInside"
@@ -27,7 +27,6 @@
             android:layout_height="wrap_content"
             android:text="Title"
             android:id="@+id/txtTitleListCV"
-            android:textAlignment="center"
             android:textStyle="bold"
             />
 

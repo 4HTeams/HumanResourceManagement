@@ -20,7 +20,8 @@ public class MainViewJob extends AppCompatActivity {
     Toolbar toolbar;
     String dataCV;
 
-    TextView txtTitle,txtDesc,txtPosition,txtSalary,txtDeadline,txtExperience,txtconType,txtProvince,txtCarlvl,txtDegree;
+    TextView txtTitle,txtDesc,txtPosition,txtSalary,txtDeadline,txtExperience,txtconType,txtProvince,txtCarlvl,txtDegree,
+    txtProSkill,txtJobCat,txtName,txtEmail,txtEmployeeAmount,txtAddress,txtContact,txtCAbout,txtIdustry,txtCompanyType;
     ImageView profileImage;
 
 
@@ -42,6 +43,16 @@ public class MainViewJob extends AppCompatActivity {
         txtProvince= (TextView)findViewById(R.id.txtProvince);
         txtCarlvl= (TextView)findViewById(R.id.txtCarlvl);
         txtDegree= (TextView)findViewById(R.id.txtDegree);
+        txtProSkill= (TextView)findViewById(R.id.txtProSkill);
+        txtJobCat= (TextView)findViewById(R.id.txtJobCat);
+        txtName= (TextView)findViewById(R.id.txtName);
+        txtEmail= (TextView)findViewById(R.id.txtEmail);
+        txtEmployeeAmount= (TextView)findViewById(R.id.txtEmployee);
+        txtAddress= (TextView)findViewById(R.id.txtAddress);
+        txtContact= (TextView)findViewById(R.id.txtContact);
+        txtCAbout= (TextView)findViewById(R.id.txtCAbout);
+        txtIdustry= (TextView)findViewById(R.id.txtIndustry);
+        txtCompanyType= (TextView)findViewById(R.id.txtCompanyType);
         profileImage= (ImageView)findViewById(R.id.profileImage);
 
 
@@ -55,10 +66,11 @@ public class MainViewJob extends AppCompatActivity {
     void setupData(){
 
         try {
-            JSONArray jsonArray = new JSONArray(dataCV);
+            String JobData = dataCV;
+            JSONArray jsonArray = new JSONArray(JobData);
             JSONObject jsonObject = jsonArray.getJSONObject(0);
-            dataCV = jsonObject.getString("job");
-            JSONArray jArray = new JSONArray(dataCV);
+            JobData = jsonObject.getString("job");
+            JSONArray jArray = new JSONArray(JobData);
             JSONObject jObject = jArray.getJSONObject(0);
             this.setProfileImage(jObject.getString("uid"));
             txtTitle.setText(jObject.getString("title"));
@@ -71,6 +83,22 @@ public class MainViewJob extends AppCompatActivity {
             txtProvince.setText(jObject.getString("province"));
             txtCarlvl.setText(jObject.getString("carLvl"));
             txtDegree.setText(jObject.getString("degree"));
+            txtProSkill.setText(jObject.getString("proSkill"));
+            txtJobCat.setText(jObject.getString("jCate"));
+
+            //Company Information
+            String ComData = dataCV;
+            ComData = jsonObject.getString("com");
+            JSONArray jComArray = new JSONArray(ComData);
+            JSONObject jComObject = jComArray.getJSONObject(0);
+            txtName.setText(jComObject.getString("name"));
+            txtEmail.setText(jComObject.getString("email"));
+            txtEmployeeAmount.setText(jComObject.getString("empAmount"));
+            txtAddress.setText(jComObject.getString("address"));
+            txtContact.setText(jComObject.getString("contact"));
+            txtCAbout.setText(jComObject.getString("about"));
+            txtIdustry.setText(jComObject.getString("iName"));
+            txtCompanyType.setText(jComObject.getString("conType"));
 
         } catch (JSONException e) {
             e.printStackTrace();
