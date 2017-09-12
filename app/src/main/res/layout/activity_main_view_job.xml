@@ -275,12 +275,13 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:text="Professional Skill: "
+                    android:gravity="left"
                     android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
+                    android:gravity="left"
                     android:paddingRight="16dp"
                     android:id="@+id/txtProSkill"
                     android:textSize="16sp" />
@@ -366,6 +367,7 @@
                 android:id="@+id/txtDescription"
                 android:textSize="16sp"
                 android:paddingBottom="16dp"
+                android:gravity="left"
                 />
 
             <TextView
@@ -498,28 +500,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
-                    android:text="About: "
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:paddingRight="16dp"
-                    android:id="@+id/txtCAbout"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="16dp"
                     android:text="Industry: "
                     android:textSize="16sp" />
 
@@ -551,6 +531,28 @@
                     android:gravity="right"
                     android:paddingRight="16dp"
                     android:id="@+id/txtCompanyType"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:text="About: "
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:paddingRight="16dp"
+                    android:id="@+id/txtCAbout"
                     android:textSize="16sp" />
             </LinearLayout>
 
