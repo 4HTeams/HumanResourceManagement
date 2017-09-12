@@ -3,8 +3,8 @@ package com.example.suythea.hrms.PostJob;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -24,11 +24,9 @@ import android.widget.Toast;
 
 import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
 import com.example.suythea.hrms.Interfaces.ViewOwn_Job_CV_Interface;
-import com.example.suythea.hrms.PostCV.ListPostCVModel;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Supporting_Files.MySqlite;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
-import com.example.suythea.hrms.ViewOwnCV.MainViewOwnCV;
 import com.example.suythea.hrms.ViewOwnJob.MainViewOwnJob;
 import com.squareup.picasso.Picasso;
 
@@ -313,7 +311,7 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
                 return;
             }
 
-            JSONObject data = new JSONObject(URLDecoder.decode(URLEncoder.encode(MainViewOwnJob.oldJobData, "iso8859-1"),"UTF-8"));
+            JSONObject data = new JSONObject(MainViewOwnJob.oldJobData);
 
             oldJID = data.getString("jid");
 
@@ -367,7 +365,7 @@ public class MainPostJob extends AppCompatActivity implements MySupporter_Interf
 
             Log.d("result", String.valueOf(data));
 
-        } catch (JSONException e) {e.printStackTrace();} catch (UnsupportedEncodingException e) {e.printStackTrace();}
+        } catch (JSONException e) {e.printStackTrace();}
     }
 
     void volleyPost(){
