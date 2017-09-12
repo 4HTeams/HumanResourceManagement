@@ -105,6 +105,7 @@ public class MainHome extends Fragment implements MySupporter_Interface, List_CV
         lisData = new ArrayList<>();
         adp = new ListJobAdp(getActivity(), R.layout.list_job_item, lisData , this);
         lisView.setAdapter(adp);
+        gettable = true;
     }
 
     public static void startGettingData(){
@@ -150,7 +151,7 @@ public class MainHome extends Fragment implements MySupporter_Interface, List_CV
                 lisData.add(model);
             }
 
-            if (jsonArray.length() < 10){
+            if (jsonArray.length() < 5){
                 gettable = false;
             }
 

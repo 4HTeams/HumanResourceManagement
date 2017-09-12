@@ -100,6 +100,7 @@ public class MainCV extends Fragment implements MySupporter_Interface, List_CV_A
         lisData = new ArrayList<>();
         adp = new ListCVAdp(getActivity(), R.layout.list_cv_item, lisData , this);
         lisView.setAdapter(adp);
+        gettable = true;
     }
 
     public static void startGettingData(){
@@ -145,7 +146,7 @@ public class MainCV extends Fragment implements MySupporter_Interface, List_CV_A
                 lisData.add(model);
             }
 
-            if (jsonArray.length() < 10){
+            if (jsonArray.length() < 5){
                 gettable = false;
             }
 

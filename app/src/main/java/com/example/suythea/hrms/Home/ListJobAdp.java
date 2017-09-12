@@ -70,8 +70,6 @@ public class ListJobAdp extends ArrayAdapter<ListJobModel> {
         Picasso.with(context)
                 .load("http://bongnu.myreading.xyz/profile_images/" + listJobModel.getImgUrl() + ".jpg")
                 .placeholder(context.getResources().getIdentifier("no_profile","mipmap",context.getPackageName()))
-                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                .networkPolicy(NetworkPolicy.NO_CACHE)
                 .into(listJobHolder.imgProfile, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {

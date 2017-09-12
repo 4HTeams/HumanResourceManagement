@@ -67,8 +67,6 @@ public class ListCVAdp extends ArrayAdapter<ListCVModel> {
         Picasso.with(context)
                 .load("http://bongnu.myreading.xyz/profile_images/" + listCVModel.getUid() + ".jpg")
                 .placeholder(context.getResources().getIdentifier("no_profile","mipmap",context.getPackageName()))
-                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                .networkPolicy(NetworkPolicy.NO_CACHE)
                 .into(listCVHolder.imgProfile, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {

@@ -275,13 +275,12 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:text="Professional Skill: "
-                    android:gravity="left"
                     android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="left"
+                    android:gravity="right"
                     android:paddingRight="16dp"
                     android:id="@+id/txtProSkill"
                     android:textSize="16sp" />
