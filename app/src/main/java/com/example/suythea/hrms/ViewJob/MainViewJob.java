@@ -78,7 +78,7 @@ public class MainViewJob extends AppCompatActivity {
             txtPosition.setText(jObject.getString("position"));
             txtSalary.setText(jObject.getString("salary"));
             txtDeadline.setText(jObject.getString("deadline"));
-            txtExperience.setText(jObject.getString("yearEx") + "years");
+            txtExperience.setText(jObject.getString("yearEx"));
             txtconType.setText(jObject.getString("conType"));
             txtProvince.setText(jObject.getString("province"));
             txtCarlvl.setText(jObject.getString("carLvl"));
