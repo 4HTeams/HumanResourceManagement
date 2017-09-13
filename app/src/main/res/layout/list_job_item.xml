@@ -19,6 +19,7 @@
             android:src="@mipmap/no_profile"
             android:id="@+id/imgProfileMainJob"
             android:layout_gravity="center"
+            android:scaleType="centerInside"
             />
 
         <TextView
