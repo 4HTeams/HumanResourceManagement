@@ -12,13 +12,14 @@ import android.widget.Button;
 import com.example.suythea.hrms.Account.MainCreateUser;
 import com.example.suythea.hrms.Account.MainLogIn;
 import com.example.suythea.hrms.R;
+import com.example.suythea.hrms.Reset_Password.Main_ResetPassword;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Setting_Choice extends Fragment {
 
-    Button btnCreateUser,btnLogIn;
+    Button btnCreateUser, btnLogIn, btnReset;
 
     public Setting_Choice() {
         // Required empty public constructor
@@ -38,9 +39,12 @@ public class Setting_Choice extends Fragment {
 
         btnCreateUser = (Button) getActivity().findViewById(R.id.btnCreateUser);
         btnLogIn=(Button) getActivity().findViewById(R.id.btnLogIn);
+        btnReset = (Button) getActivity().findViewById(R.id.btnReset);
+
         btnCreateUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent=new Intent(getActivity(), MainCreateUser.class);
                 startActivity(intent);
             }
@@ -52,7 +56,15 @@ public class Setting_Choice extends Fragment {
 
                 Intent intent = new Intent(getActivity(), MainLogIn.class);
                 startActivity(intent);
+            }
+        });
 
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getActivity(), Main_ResetPassword.class);
+                startActivity(intent);
             }
         });
     }

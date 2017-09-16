@@ -12,7 +12,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
     <application
         android:name=".Supporting_Files.MyVolley"
         android:allowBackup="true"
@@ -54,24 +53,30 @@
         <activity
             android:name=".SearchJob.MainSearchJob"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".PostJob.MainPostJob"
+        <activity
+            android:name=".PostJob.MainPostJob"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".ViewOwnJob.MainViewOwnJob"
+        <activity
+            android:name=".ViewOwnJob.MainViewOwnJob"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".ViewJob.MainViewJob"
+        <activity
+            android:name=".ViewJob.MainViewJob"
             android:configChanges="orientation|screenSize" />
 
         <service android:name=".Firebase_Notification.MyFirebaseIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"></action>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".Firebase_Notification.MyFirebaseMessageService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <service android:name=".Firebase_Notification.MyFirebaseMessageService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"></action>
-            </intent-filter>
-        </service>
+        <activity android:name=".Reset_Password.Main_ResetPassword" />
+        <activity android:name=".Reset_Password.Main_VerifyCode" />
+        <activity android:name=".Reset_Password.Main_New_Password"></activity>
     </application>
 
 </manifest>
