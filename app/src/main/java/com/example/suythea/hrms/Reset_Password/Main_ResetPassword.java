@@ -1,12 +1,15 @@
 package com.example.suythea.hrms.Reset_Password;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -14,6 +17,12 @@ import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 public class Main_ResetPassword extends AppCompatActivity implements MySupporter_Interface{
@@ -42,7 +51,8 @@ public class Main_ResetPassword extends AppCompatActivity implements MySupporter
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(toolbar.getWindowToken(), 0);
                 resetPassword();
             }
         });
@@ -71,11 +81,26 @@ public class Main_ResetPassword extends AppCompatActivity implements MySupporter
     public void onVolleyFinished(String response) {
         MySupporter.hideLoading();
 
-        Intent intent = new Intent(this, Main_VerifyCode.class);
-        intent.putExtra("username", eTxtUsername.getText().toString());
-        startActivity(intent);
+        try {
+            String data = URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"),"UTF-8");
+            String status = new JSONArray(data).getJSONObject(0).getString("status");
 
-        finish();
+            if (status.equals("Success")){
+
+                Intent intent = new Intent(this, Main_VerifyCode.class);
+                intent.putExtra("username", eTxtUsername.getText().toString());
+                startActivity(intent);
+
+                finish();
+            } else {
+                Snackbar.make(toolbar, "Username does not exist !", Snackbar.LENGTH_LONG).show();
+            }
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

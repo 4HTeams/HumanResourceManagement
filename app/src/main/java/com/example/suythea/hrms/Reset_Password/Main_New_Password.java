@@ -1,11 +1,14 @@
 package com.example.suythea.hrms.Reset_Password;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -14,13 +17,19 @@ import com.example.suythea.hrms.Interfaces.MySupporter_Interface;
 import com.example.suythea.hrms.R;
 import com.example.suythea.hrms.Supporting_Files.MySupporter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 public class Main_New_Password extends AppCompatActivity implements MySupporter_Interface{
 
     Toolbar toolbar;
     String username;
-    EditText eTxtPassword;
+    EditText eTxtPassword, eTxtConPassword;
     Button btnResetPass;
 
     @Override
@@ -40,13 +49,22 @@ public class Main_New_Password extends AppCompatActivity implements MySupporter_
         username = getIntent().getExtras().getString("username");
 
         eTxtPassword = (EditText)findViewById(R.id.eTxtConP1);
+        eTxtConPassword = (EditText)findViewById(R.id.eTxtConP2);
         btnResetPass = (Button)findViewById(R.id.btnResetNewPassword);
 
         btnResetPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(toolbar.getWindowToken(), 0);
 
-                changePassword();
+                if (eTxtPassword.getText().toString().length() < 6 || eTxtConPassword.getText().toString().length() < 6) {
+                    Snackbar.make(toolbar, "Password must be greater than 5 digits !", Snackbar.LENGTH_LONG).show();
+                } else if (!eTxtPassword.getText().toString().equals(eTxtConPassword.getText().toString())) {
+                    Snackbar.make(toolbar, "Password does not match each other !", Snackbar.LENGTH_LONG).show();
+                } else {
+                    changePassword();
+                }
             }
         });
     }
@@ -75,21 +93,31 @@ public class Main_New_Password extends AppCompatActivity implements MySupporter_
     public void onVolleyFinished(String response) {
         MySupporter.hideLoading();
 
-        Intent intent = new Intent(this, MainLogIn.class);
-        startActivity(intent);
+        try {
+            String data = URLDecoder.decode(URLEncoder.encode(response, "iso8859-1"),"UTF-8");
+            String status = new JSONArray(data).getJSONObject(0).getString("status");
 
-        finish();
+            if (status.equals("Success")){
+
+                Intent intent = new Intent(this, MainLogIn.class);
+                startActivity(intent);
+
+                finish();
+            } else {
+                Snackbar.make(toolbar, "Something went wrong. Try again later !", Snackbar.LENGTH_LONG).show();
+            }
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onVolleyError(String message) {
 
     }
-
-
-
-
-
 
 
 
